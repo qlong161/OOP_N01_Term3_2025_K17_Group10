@@ -1,2 +1,15 @@
-# OOP_N01_Term3_2025_K17_Group10
-Group10
+online-sales-management/
+│
+├── src/
+│   ├── models/
+│   │   ├── product.py
+│   │   ├── customer.py
+│   │   └── order.py
+│   └── main.py
+│
+├── tests/
+│   └── test_models.py
+│
+├── README.md
+└── requirements.txt
+
