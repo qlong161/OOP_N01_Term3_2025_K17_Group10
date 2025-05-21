@@ -172,6 +172,7 @@ sequenceDiagram
     FileLuuTru-->>HeThong: Xác nhận lưu
     HeThong-->>GiaoDien: Hiển thị thông báo thành công
 2. Activity Diagram – Thêm sản phẩm
+
 graph TD
     A[Bắt đầu] --> B[Nhập thông tin sản phẩm]
     B --> C[Kiểm tra dữ liệu]
@@ -181,6 +182,7 @@ graph TD
     F --> G[Kết thúc]
     E --> B
 3. Sequence Diagram – Xem đơn hàng theo khách hàng
+
 sequenceDiagram
     participant NguoiDung
     participant GiaoDien
