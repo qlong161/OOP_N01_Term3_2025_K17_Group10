@@ -52,6 +52,7 @@ Câu 2:
 3. Order 
 - Mã đơn hàng
 - Khách hàng
+
   NỘI DUNG 1:
 *  Chức năng chính:
 1. Quản lý Sản phẩm (Đối tượng 01)
@@ -123,6 +124,7 @@ Quản lý tồn kho
 Gửi email xác nhận đơn hàng (nếu có thời gian tích hợp)
 
 Tìm kiếm nâng cao
+
 NỘI DUNG 2:
 classDiagram
     class SanPham {
@@ -157,6 +159,7 @@ classDiagram
     SanPham --> ChiTietDonHang
     DonHang --> ChiTietDonHang
     DonHang --> KhachHang
+
   NỘI DUNG 3:
   1. Sequence Diagram – Đặt hàng
 sequenceDiagram
