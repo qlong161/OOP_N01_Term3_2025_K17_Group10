@@ -27,84 +27,172 @@ Câu 2:
 - Ngày đặt
 - Tổng tiền
 - Trạng thái
--  Đề tài gợi ý: Ứng dụng quản lý sinh viên và ký túc xá
-📝 Yêu cầu chức năng
-Giao diện: Spring Boot (REST API hoặc kết hợp với Thymeleaf cho giao diện web MVC).
+- Group 10
+1. Nguyễn Hữu Quang Long
+2. Bùi Việt Long
+3. Lê Đức Thương
 
-Chức năng quản lý sinh viên (Đối tượng 01):
+Project: Quản lý bán hàng Online
+Câu 1: Tiêu đề
+Hệ thống quản lý bán hàng online
 
-Thêm, sửa, xóa sinh viên
+Câu 2: 
+3 đối tượng chính:
+1. Product 
+- Mã sản phẩm
+- Tên sản phẩm
+- Giá bán
+- Số lượng tồn
 
-Liệt kê thông tin sinh viên, lọc theo: lớp, giới tính, quê quán,...
+2. Customer 
+- Mã khách hàng
+- Họ tên
+- Email
 
-Chức năng quản lý phòng ký túc xá (Đối tượng 02):
+3. Order 
+- Mã đơn hàng
+- Khách hàng
+  NỘI DUNG 1:
+*  Chức năng chính:
+1. Quản lý Sản phẩm (Đối tượng 01)
+ +Thêm sản phẩm mới
 
-Thêm, sửa, xóa phòng
+ +Sửa thông tin sản phẩm
 
-Chức năng gán sinh viên vào phòng:
+ +Xóa sản phẩm
 
-Ví dụ: Gán sinh viên A vào phòng 101
+ +Liệt kê toàn bộ sản phẩm
 
-Lưu trữ dữ liệu vào file nhị phân:
+ +Lọc sản phẩm theo danh mục, giá, tên, nhà sản xuất,…
 
-Sử dụng Java ObjectOutputStream và ObjectInputStream để đọc/ghi các đối tượng vào file.
+2. Quản lý Đơn hàng (Đối tượng 02)
+ +Thêm đơn hàng
 
-Lưu dữ liệu trong bộ nhớ:
+ +Sửa đơn hàng (trước khi giao hàng)
 
-Sử dụng ArrayList để lưu danh sách sinh viên
+ +Xóa đơn hàng
+ 
+ +Liệt kê các đơn hàng
 
-Sử dụng HashMap<Integer, List<SinhVien>> để quản lý sinh viên theo phòng
+ +Lọc đơn hàng theo ngày, trạng thái, khách hàng,...
 
-🧾 Các đối tượng chính cần xây dựng (Class):
-SinhVien: mã sinh viên, tên, giới tính, lớp, ngày sinh,...
+3. Gán Sản phẩm vào Đơn hàng
+ +Chọn sản phẩm để thêm vào đơn hàng
 
-Phong: mã phòng, tên phòng, sức chứa,...
+ +Tính tổng tiền đơn hàng
 
-QuanLyKTX: thực hiện thêm/sửa/xóa sinh viên và phòng, gán sinh viên vào phòng.
+ +Kiểm tra tồn kho trước khi thêm vào đơn hàng
 
-FileHandler: đọc/ghi danh sách sinh viên và phòng xuống file nhị phân.
+4. Quản lý Khách hàng (Đối tượng 03)
+ +Thêm, sửa, xóa thông tin khách hàng
 
-✅ Các chức năng mở rộng (gợi ý tùy chọn):
-Xuất báo cáo số sinh viên trong mỗi phòng
+ +Xem lịch sử mua hàng của từng khách hàng
+- Danh sách sản phẩm
+- Ngày đặt
+- Tổng tiền
+- Trạng thái
+* Lưu trữ dữ liệu:
+Dữ liệu được lưu xuống file nhị phân:
 
-Lọc phòng chưa đủ sinh viên
+sanpham.dat
 
-Sắp xếp sinh viên theo tên hoặc mã
-+------------------+           +-------------------+
-|    SinhVien      |           |      Phong        |
-+------------------+           +-------------------+
-| - maSV: String   |           | - maPhong: String |
-| - ten: String    |           | - sucChua: int    |
-| - lop: String    |           | - tenPhong: String|
-| - gioiTinh: String|          +-------------------+
-| - ngaySinh: Date |
-+------------------+
+donhang.dat
 
-+--------------------------------+
-|        QuanLyKTX               |
-+--------------------------------+
-| - dsSinhVien: List<SinhVien>  |
-| - dsPhong: List<Phong>        |
-| - phanBo: Map<String, List<SinhVien>> |
-+--------------------------------+
-| + themSinhVien()              |
-| + xoaSinhVien()               |
-| + ganSinhVienVaoPhong()       |
-| + timKiemSinhVien()           |
-+--------------------------------+
+khachhang.dat
 
-+-------------------------------+
-|         FileHandler           |
-+-------------------------------+
-| + docFileSinhVien()           |
-| + ghiFileSinhVien()           |
-| + docFilePhong()              |
-| + ghiFilePhong()              |
-+-------------------------------+
-User -> QuanLyKTX : ganSinhVienVaoPhong(maSV, maPhong)
-QuanLyKTX -> dsSinhVien : timSinhVien(maSV)
-QuanLyKTX -> dsPhong : timPhong(maPhong)
-QuanLyKTX -> phanBo : themSVVaoDanhSachPhong()
+Sử dụng các lớp xử lý lưu trữ:
+
+SanPhamIO.java
+
+DonHangIO.java
+
+KhachHangIO.java
+* Xử lý dữ liệu trong bộ nhớ:
+-Dữ liệu được lưu trữ tạm thời trong các Collection:
+
+ArrayList<SanPham>
+
+ArrayList<DonHang>
+
+Map<String, KhachHang>
+* Tính năng mở rộng (Tuỳ chọn):
+-Thống kê doanh thu theo ngày/tháng
+
+Quản lý tồn kho
+
+Gửi email xác nhận đơn hàng (nếu có thời gian tích hợp)
+
+Tìm kiếm nâng cao
+NỘI DUNG 2:
+classDiagram
+    class SanPham {
+        -String maSP
+        -String tenSP
+        -double gia
+        -int soLuong
+        -String danhMuc
+    }
+
+    class DonHang {
+        -String maDH
+        -Date ngayDat
+        -KhachHang khachHang
+        -List<ChiTietDonHang> danhSachSP
+        -String trangThai
+    }
+
+
+    class ChiTietDonHang {
+        -SanPham sanPham
+        -int soLuong
+    }
+
+    class KhachHang {
+        -String maKH
+        -String tenKH
+        -String diaChi
+        -String soDienThoai
+    }
+
+    SanPham --> ChiTietDonHang
+    DonHang --> ChiTietDonHang
+    DonHang --> KhachHang
+  NỘI DUNG 3:
+  1. Sequence Diagram – Đặt hàng
+sequenceDiagram
+    participant KhachHang
+    participant GiaoDien
+    participant HeThong
+    participant FileLuuTru
+
+    KhachHang->>GiaoDien: Chọn sản phẩm + số lượng
+    GiaoDien->>HeThong: Tạo đơn hàng
+    HeThong->>HeThong: Kiểm tra tồn kho
+    HeThong->>FileLuuTru: Ghi đơn hàng mới
+    FileLuuTru-->>HeThong: Xác nhận lưu
+    HeThong-->>GiaoDien: Hiển thị thông báo thành công
+2. Activity Diagram – Thêm sản phẩm
+graph TD
+    A[Bắt đầu] --> B[Nhập thông tin sản phẩm]
+    B --> C[Kiểm tra dữ liệu]
+    C -- Hợp lệ --> D[Lưu vào danh sách]
+    C -- Không hợp lệ --> E[Thông báo lỗi]
+    D --> F[Lưu xuống file]
+    F --> G[Kết thúc]
+    E --> B
+3. Sequence Diagram – Xem đơn hàng theo khách hàng
+sequenceDiagram
+    participant NguoiDung
+    participant GiaoDien
+    participant HeThong
+    participant FileLuuTru
+
+    NguoiDung->>GiaoDien: Nhập mã khách hàng
+    GiaoDien->>HeThong: Tìm đơn hàng theo khách
+    HeThong->>FileLuuTru: Đọc đơn hàng
+    FileLuuTru-->>HeThong: Trả về danh sách
+    HeThong-->>GiaoDien: Hiển thị danh sách đơn hàng
+
 
 
 
