@@ -11,32 +11,32 @@ public class Customer {
         this.type = type;
     }
 
-    public getId(){
+    public String getId(){
         return id;
     }
-    public setId(string id){
+    public void setId(String id){
         this.id = id;
     }
 
-    public getName(){
+    public String getName(){
         return name;
     }
-    public setName(string name){
+    public void setName(String name){
         this.name = name;
     }
-    public getEmail(){
+    public String getEmail(){
         return email;
     }
-    public setEmail(string email){
+    public void setEmail(String email){
         this.email = email;
     }
-    public getType(){
+    public String getType(){
         return type;
     }
-    public setType(string type){
+    public void setType(String type){
         this.type = type;
     }
-    
+
     public void displayInfo(){
         System.out.println("Ma khach hang: " + id);
         System.out.println("Ten khach hang: " + name);
