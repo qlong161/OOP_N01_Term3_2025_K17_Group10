@@ -7,7 +7,7 @@ public class CustomerListTest{
     cm.printCustomerList();
     cm.editCustomer("C001", "Nguyen Van B", "b@gmail.com", "dat hang");
     cm.printCustomerList();
-
+    cm.getDeleteCustomer("C001");
 
     }
 }
