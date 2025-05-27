@@ -3,13 +3,11 @@ import java.util.ArrayList;
 public class CustomerList {
     private ArrayList<Customer> cl = new ArrayList<Customer>();
 
-    // Thêm khách hàng
     public ArrayList<Customer> addCustomers(Customer customer) {
         cl.add(customer);
         return cl;
     }
 
-    // Sửa thông tin khách hàng
     public boolean editCustomer(String customerID, String newName, String newEmail, String newType) {
         for (Customer c : cl) {
             if (c.getId().equals(customerID)) {
@@ -24,7 +22,19 @@ public class CustomerList {
         return false;
     }
 
-    // In danh sách khách hàng
+    public ArrayList<Customer> getDeleteCustomer(String id){
+        for (int i = 0; i < cl.size() ; i++){
+             if (cl.get(i).getId().equals(id)) {
+
+                cl.remove(i);
+                System.out.println("Đã xóa khách hàng có ID: " + id);
+            }
+        }
+        System.out.println("Không tìm thấy khách hàng với ID: " + id);
+        return cl;
+    }
+
+
     public void printCustomerList() {
         for (Customer c : cl) {
             System.out.println("Customer ID: " + c.getId());
