@@ -5,8 +5,8 @@ public class CustomerListTest{
 
     cm.addCustomers(c1);
     cm.printCustomerList();
-
-
+    cm.editCustomer("C001", "Nguyen Van B", "b@gmail.com", "dat hang");
+    cm.printCustomerList();
 
 
     }
