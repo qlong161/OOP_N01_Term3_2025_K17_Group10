@@ -25,8 +25,8 @@ Quản lý người dùng (người bán):
   + Hiển thị thông tin người dùng.
 
 Quản lý khách hàng:
-  +Thêm, xóa, sửa khách hàng.
-  +Hiển thị thông tin khách hàng.
+  + Thêm, xóa, sửa khách hàng.
+  + Hiển thị thông tin khách hàng.
 
 
 
