@@ -58,6 +58,8 @@ Khi xử lý trong bộ nhớ, dữ liệu cần lưu bằng các Collection nh�
   + ArrayList cho các lớp Customer, Order.
   + Map cho Product.
 
+![Sơ đồ Class Diagram](images/ClassDia.jpg)
+
 
 
 
