@@ -58,7 +58,7 @@ Khi xử lý trong bộ nhớ, dữ liệu cần lưu bằng các Collection nh�
   + ArrayList cho các lớp Customer, Order.
   + Map cho Product.
 
-Sơ đồ Class Diagram:
+# Sơ đồ Class Diagram:
 ![Sơ đồ Class Diagram](https://github.com/user-attachments/assets/7dd3bc0b-8b56-4eea-a83b-9099b460a9c0)
 
 
