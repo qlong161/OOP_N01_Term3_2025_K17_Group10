@@ -4,11 +4,16 @@ public class CustomerList {
     private ArrayList<Customer> cl = new ArrayList<Customer>();
 
     public ArrayList<Customer> addCustomers(Customer customer) {
+    try {
         cl.add(customer);
-        return cl;
+    } catch (Exception e) {
+        System.err.println("Lỗi khi thêm khách hàng: " + e.getMessage());
     }
+    return cl;
+}
 
     public boolean editCustomer(String customerID, String newName, String newEmail, String newType) {
+        try {
         for (Customer c : cl) {
             if (c.getId().equals(customerID)) {
                 c.setName(newName);
@@ -21,8 +26,14 @@ public class CustomerList {
         System.out.println("Không tìm thấy khách hàng với ID: " + customerID);
         return false;
     }
+      catch (Exception e) {
+        System.out.println("Lỗi khi cập nhật thông tin khách hàng: " + e.getMessage());
+        return false;
+    }
+}
 
     public ArrayList<Customer> getDeleteCustomer(String id){
+        try {
         for (int i = 0; i < cl.size() ; i++){
              if (cl.get(i).getId().equals(id)) {
 
@@ -31,6 +42,9 @@ public class CustomerList {
             }
         }
         System.out.println("Không tìm thấy khách hàng với ID: " + id);
+         } catch (Exception e) {
+        System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+    }
         return cl;
     }
 
