@@ -1,28 +1,29 @@
-public class CustomerListTest{
-    public static void main(String[] args) {
-    CustomerList cm = new CustomerList();
-    try {
-            Customer c1 = new Customer("C001", "Nguyen Van A", "a@gmail.com", "mua truc tiep");
-            cm.addCustomers(c1);
-            System.out.println("Thêm khách hàng thành công.");
-        } catch (Exception e) {
-            System.err.println("Lỗi khi thêm khách hàng: " + e.getMessage());
-        }
-    cm.printCustomerList();
-    try {
-            cm.editCustomer("C001", "Nguyen Van B", "b@gmail.com", "dat hang");
-            System.out.println("Cập nhật khách hàng thành công.");
-        } catch (Exception e) {
-            System.err.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
-        }
-    cm.printCustomerList();
-    cm.getDeleteCustomer("C001");
-     try {
-            cm.getDeleteCustomer("C001");  // Thử xóa lại xem xử lý lỗi thế nào khi khách hàng đã bị xóa trước đó
-            System.out.println("Xóa khách hàng thành công (hoặc không tìm thấy).");
-        } catch (Exception e) {
-            System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
-        }
+public class CustomerListTest {
+    public static void test() {
+        try {
+            CustomerList customerList = new CustomerList();
+            Customer c1 = new Customer("C001", "Nguyễn Văn A", "a@gmail.com", "Mua trực tiếp");
+            Customer c2 = new Customer("C002", "Trần Thị B", "b@gmail.com", "Đặt Online");
+            Customer c3 = new Customer("C003", "Lê Văn C", "c@gmail.com", "Mua trực tiếp");
 
+            customerList.addCustomer(c1);
+            customerList.addCustomer(c2);
+            customerList.addCustomer(c3);
+            customerList.printCustomerList();
+            System.out.println("\n");
+
+            customerList.editCustomer("C002", "Trần Thị Bích", "bich@gmail.com", "Mua trực tiếp");
+            customerList.printCustomerList();
+
+            System.out.println("\n xóa C001");
+            customerList.deleteCustomer("C001");
+            customerList.printCustomerList();
+
+            customerList.deleteCustomer("C999");
+            customerList.printCustomerList();
+
+        } catch (Exception e) {
+            System.out.println("Đã xảy ra lỗi trong quá trình chạy test: " + e.getMessage());
+        }
     }
 }

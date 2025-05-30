@@ -1,61 +1,72 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerList {
-    private ArrayList<Customer> cl = new ArrayList<Customer>();
+    private Map<String, Customer> cl = new HashMap<>();
 
-    public ArrayList<Customer> addCustomers(Customer customer) {
-    try {
-        cl.add(customer);
-    } catch (Exception e) {
-        System.err.println("Lỗi khi thêm khách hàng: " + e.getMessage());
+    public void addCustomer(Customer customer) {
+        try {
+            cl.put(customer.getId(), customer);
+            System.out.println("Đã thêm khách hàng với ID: " + customer.getId());
+        } catch (Exception e) {
+            System.out.println("Lỗi khi thêm khách hàng: " + e.getMessage());
+        }
     }
-    return cl;
-}
 
     public boolean editCustomer(String customerID, String newName, String newEmail, String newType) {
         try {
-        for (Customer c : cl) {
-            if (c.getId().equals(customerID)) {
+            Customer c = cl.get(customerID);
+            if (c != null) {
                 c.setName(newName);
                 c.setEmail(newEmail);
                 c.setType(newType);
                 System.out.println("Cập nhật thông tin khách hàng thành công.");
                 return true;
+            } else {
+                System.out.println("Không tìm thấy khách hàng với ID: " + customerID);
+                return false;
             }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
+            return false;
         }
-        System.out.println("Không tìm thấy khách hàng với ID: " + customerID);
-        return false;
     }
-      catch (Exception e) {
-        System.out.println("Lỗi khi cập nhật thông tin khách hàng: " + e.getMessage());
-        return false;
-    }
-}
 
-    public ArrayList<Customer> getDeleteCustomer(String id){
+    public boolean deleteCustomer(String id) {
         try {
-        for (int i = 0; i < cl.size() ; i++){
-             if (cl.get(i).getId().equals(id)) {
-
-                cl.remove(i);
+            if (cl.containsKey(id)) {
+                cl.remove(id);
                 System.out.println("Đã xóa khách hàng có ID: " + id);
+                return true;
+            } else {
+                System.out.println("Không tìm thấy khách hàng với ID: " + id);
+                return false;
             }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+            return false;
         }
-        System.out.println("Không tìm thấy khách hàng với ID: " + id);
-         } catch (Exception e) {
-        System.err.println("Lỗi khi xóa khách hàng: " + e.getMessage());
     }
-        return cl;
-    }
-
 
     public void printCustomerList() {
-        for (Customer c : cl) {
-            System.out.println("Customer ID: " + c.getId());
-            System.out.println("Fullname: " + c.getName());
-            System.out.println("Email: " + c.getEmail());
-            System.out.println("Kiểu khách: " + c.getType());
-            System.out.println("----------------------");
+        try {
+            if (cl.isEmpty()) {
+                System.out.println("Danh sách khách hàng trống.");
+                return;
+            }
+            for (Customer c : cl.values()) {
+                System.out.println("Customer ID: " + c.getId());
+                System.out.println("Fullname: " + c.getName());
+                System.out.println("Email: " + c.getEmail());
+                System.out.println("Kiểu khách: " + c.getType());
+                System.out.println("----------------------");
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi in danh sách khách hàng: " + e.getMessage());
         }
+    }
+
+    public Map<String, Customer> getCustomers() {
+        return cl;
     }
 }

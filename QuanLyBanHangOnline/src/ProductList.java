@@ -1,25 +1,36 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 public class ProductList {
-    ArrayList<Product> prdt = new ArrayList<Product>();
-
-    public ArrayList<Product> addProduct(Product p){
-        prdt.add(p);
-        return prdt;
-    }
-
-    public ArrayList<Product> getEditProducts(String id, String name, double price, int quantity){
-        for(int i = 0; i < prdt.size(); i++){
-            if(prdt.get(i).getId().equals(id)){
-                System.out.print("true");
-                prdt.get(i).setName(name);
-                prdt.get(i).setPrice(price);
-                prdt.get(i).setQuantity(quantity);
-            }
-
+    private Map<String, Product> products = new HashMap<>();
+    public boolean addProduct(Product p) {
+        if (products.containsKey(p.getId())) {
+            System.out.println("Sản phẩm với ID " + p.getId() + " đã tồn tại.");
+            return false;
         }
-        return prdt;
+        products.put(p.getId(), p);
+        return true;
     }
       
 
+    public boolean removeProduct(String id) {
+        if (products.containsKey(id)) {
+            products.remove(id);
+            return true;
+        }
+        System.out.println("Không tìm thấy sản phẩm để xóa với ID: " + id);
+        return false;
+    }
+    public Product getProductById(String id) {
+        return products.get(id);
+    }
 
+    public void displayAllProducts() {
+        if (products.isEmpty()) {
+            System.out.println("Danh sách sản phẩm rỗng.");
+        } else {
+            for (Product p : products.values()) {
+                p.displayInfo();  
+            }
+        }
+    }
 }

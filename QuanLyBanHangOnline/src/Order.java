@@ -13,6 +13,42 @@ public class Order {
         this.status = "chua xu ly";
     }
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void displayOrder() {
         System.out.println("Ma don hang: " + orderId);
         customer.displayInfo();
@@ -20,7 +56,8 @@ public class Order {
         System.out.println("So luong hang dat: " + quantity);
         System.out.println("Tinh trang don hang: " + status);
     }
-    public double calculateTotalPrice(){
-        return quantity*product.getPrice();
+
+    public double calculateTotalPrice() {
+        return quantity * product.getPrice();
     }
 }
