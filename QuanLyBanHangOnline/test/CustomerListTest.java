@@ -1,5 +1,6 @@
 public class CustomerListTest {
     public static void main(String[] args) {
+        try {
         CustomerList customerList = new CustomerList();
         Customer c1 = new Customer("C001", "Nguyễn Văn A", "a@gmail.com", "Mua trực tiếp");
         Customer c2 = new Customer("C002", "Trần Thị B", "b@gmail.com", "Đặt Online");
@@ -19,5 +20,9 @@ public class CustomerListTest {
 
         customerList.deleteCustomer("C999");
         customerList.printCustomerList();
+    }
+    catch (Exception e) {
+            System.out.println("Đã xảy ra lỗi trong quá trình chạy test: " + e.getMessage());
+}
     }
 }

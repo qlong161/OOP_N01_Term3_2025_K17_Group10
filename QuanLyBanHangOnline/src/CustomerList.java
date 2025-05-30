@@ -4,12 +4,17 @@ import java.util.Map;
 public class CustomerList {
     private Map<String, Customer> cl = new HashMap<>();
     public void addCustomer(Customer customer) {
-        cl.put(customer.getId(), customer);
-        System.out.println("Đã thêm khách hàng với ID: " + customer.getId());
+        try {
+            cl.put(customer.getId(), customer);
+            System.out.println("Đã thêm khách hàng với ID: " + customer.getId());
+        } catch (Exception e) {
+            System.out.println("Lỗi khi thêm khách hàng: " + e.getMessage());
+        }
     }
 
     public boolean editCustomer(String customerID, String newName, String newEmail, String newType) {
         Customer c = cl.get(customerID);
+        try {
         if (c != null) {
             c.setName(newName);
             c.setEmail(newEmail);
@@ -21,8 +26,14 @@ public class CustomerList {
             return false;
         }
     }
+    catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
+            return false;
+        }
+    }
 
     public boolean deleteCustomer(String id) {
+        try{
         if (cl.containsKey(id)) {
             cl.remove(id);
             System.out.println("Đã xóa khách hàng có ID: " + id);
@@ -32,8 +43,14 @@ public class CustomerList {
             return false;
         }
     }
+    catch (Exception e) {
+            System.out.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+            return false;
+        }
+    }
 
     public void printCustomerList() {
+        try {
         if (cl.isEmpty()) {
             System.out.println("Danh sách khách hàng trống.");
             return;
@@ -44,6 +61,10 @@ public class CustomerList {
             System.out.println("Email: " + c.getEmail());
             System.out.println("Kiểu khách: " + c.getType());
             System.out.println("----------------------");
+        }
+    }
+     catch (Exception e) {
+            System.out.println("Lỗi khi in danh sách khách hàng: " + e.getMessage());
         }
     }
 
