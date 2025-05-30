@@ -1,5 +1,5 @@
 public class TestProduct {
-    public static void main(String[] args) {
+    public static void test() {
         // Tạo đối tượng Product
         Product product = new Product("P001", "Laptop", 1500.00, 10);
 

@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 public class ProductList {
     private Map<String, Product> products = new HashMap<>();
+    
     public boolean addProduct(Product p) {
         if (products.containsKey(p.getId())) {
             System.out.println("Sản phẩm với ID " + p.getId() + " đã tồn tại.");

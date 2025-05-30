@@ -1,5 +1,5 @@
 public class OrderListTest {
-    public static void main(String[] args) {
+    public static void test() {
         Product p1 = new Product("P001", "Iphone 13", 20000000, 10);
         Product p2 = new Product("P002", "Laptop Dell", 15000000, 5);
         Customer c1 = new Customer("C001", "Nguyen Van A", "a@gmail.com", "VIP");

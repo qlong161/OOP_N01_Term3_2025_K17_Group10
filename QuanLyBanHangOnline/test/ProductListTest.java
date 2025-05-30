@@ -1,5 +1,7 @@
 public class ProductListTest {
-    public static void main(String[] args) {
+
+    
+    public static void test() {
         ProductList productList = new ProductList();
 
         productList.addProduct(new Product("P01", "Iphone", 1500.0, 10));
