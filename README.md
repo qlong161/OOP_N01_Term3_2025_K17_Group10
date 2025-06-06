@@ -61,7 +61,7 @@ Khi xử lý trong bộ nhớ, dữ liệu cần lưu bằng các Collection nh�
 # Sơ đồ Class Diagram:
 ![Sơ đồ Class Diagram](https://github.com/user-attachments/assets/7dd3bc0b-8b56-4eea-a83b-9099b460a9c0)
 
-#Lưu đồ thuật toán của chức năng chính:
+# Lưu đồ thuật toán của chức năng chính:
 ![1111](https://github.com/user-attachments/assets/02b78240-e7a5-448e-9f4c-c99adb12b8df)
 
 
