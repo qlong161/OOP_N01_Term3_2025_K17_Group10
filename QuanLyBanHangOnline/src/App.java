@@ -1,4 +1,4 @@
-import QuanLyBanHangOnline.test.TestSequence;
+//import QuanLyBanHangOnline.test.TestSequence;
 
 public class App {
     public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class App {
         System.out.println("Thông tin đơn hàng:");
       //  order.displayOrder();
       */
-        TestSequence.test();
+      //  TestSequence.test();
+        OrderListTest.test();
     }
 }

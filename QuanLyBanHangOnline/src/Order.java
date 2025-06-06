@@ -17,6 +17,22 @@ public class Order {
         this.status = "chua xu ly";
         this.date = LocalDateTime.now();
     }
+     public Order(String orderId, Customer customer, Product product, int quantity, String status) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.product = product;
+        this.quantity = quantity;
+        this.status = "chua xu ly";
+        this.date = LocalDateTime.now();
+    }
+
+    public Order(String orderId, Customer customer, Product product, String status, LocalDateTime date) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.product = product;
+        this.status = "chua xu ly";
+        this.date = LocalDateTime.now();
+    }
 
     public String getOrderId() {
         return orderId;

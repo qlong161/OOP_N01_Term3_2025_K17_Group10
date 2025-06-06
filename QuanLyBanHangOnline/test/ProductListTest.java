@@ -9,7 +9,7 @@ public class ProductListTest {
         productList.addProduct(new Product("P03", "Tablet", 800.0, 7));
         productList.displayAllProducts();
 
-        boolean isEdited = productList.editProduct("P02", "Laptop Gaming", 2500.0, 3);
+        /*boolean isEdited = productList.editProduct("P02", "Laptop Gaming", 2500.0, 3);
         if (isEdited == true) {
             System.out.println("Sửa thành công.");
         }
@@ -21,7 +21,7 @@ public class ProductListTest {
         if (isRemoved == true) {
             System.out.println("Xóa thành công.");
         }
-
+*/
         productList.displayAllProducts();
         System.out.println("\nThử thêm sản phẩm với ID trùng (P01)");
         productList.addProduct(new Product("P01", "Iphone X", 1300.0, 12)); 

@@ -34,6 +34,17 @@ public class OrderList {
         return false;
     }
 
+    public List<Order> getProcessedOrderByDate(String date){
+        List<Order> filtered = new ArrayList<>();
+        for (Order o : ords) {
+            if (o.getStatus().equals("đã xử lý") && o.getDate().equals(date)){
+                filtered.add(o);
+            }
+        }
+        return filtered;
+
+    }
+
     public void displayOrderList() {
         if (ords.isEmpty()) {
             System.out.println("Danh sách đơn hàng trống.");
