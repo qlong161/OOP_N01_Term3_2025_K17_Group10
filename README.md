@@ -65,10 +65,10 @@ Khi xử lý trong bộ nhớ, dữ liệu cần lưu bằng các Collection nh�
 ![1111](https://github.com/user-attachments/assets/02b78240-e7a5-448e-9f4c-c99adb12b8df)
 
 # Phân công công việc cho thành viên:
-Nguyễn Hữu Quang Long: Viết phương thức lọc đơn hàng theo ngày theo trạng thái "Đã xử lý"
-Bùi Việt Long: Viết phương thức tính tổng tiền từ danh sách đơn hàng đã lọc
-Lê Đức Thương: Viết phương thức in danh sách đơn hàng và thực hiện hoàn thiện kiểm thử Chức năng tổng thể.
-Cả nhóm: Gọi các chức năng con tạo thành chức năng chính.
++ Nguyễn Hữu Quang Long: Viết phương thức lọc đơn hàng theo ngày theo trạng thái "Đã xử lý"
++ Bùi Việt Long: Viết phương thức tính tổng tiền từ danh sách đơn hàng đã lọc
++ Lê Đức Thương: Viết phương thức in danh sách đơn hàng và thực hiện hoàn thiện kiểm thử Chức năng tổng thể.
++ Cả nhóm: Gọi các chức năng con tạo thành chức năng chính.
 
 
 
