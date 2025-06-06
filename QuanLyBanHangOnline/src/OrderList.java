@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderList {
     private ArrayList<Order> ords = new ArrayList<>();
@@ -43,6 +44,14 @@ public class OrderList {
         }
         return filtered;
 
+    }
+
+    public double calculateTotalRevenue(List<Order>orders) {
+        double total = 0;
+        for (Order o : orders){
+            total += o.calculateTotalPrice();
+        }
+        return total;
     }
 
     public void displayOrderList() {
