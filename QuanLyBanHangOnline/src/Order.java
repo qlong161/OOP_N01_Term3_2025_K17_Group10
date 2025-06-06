@@ -1,9 +1,13 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Order {
     private String orderId;
     private Customer customer;
     private Product product;
     private int quantity;
     private String status;
+    private LocalDateTime date;
 
     public Order(String orderId, Customer customer, Product product, int quantity) {
         this.orderId = orderId;
@@ -11,6 +15,7 @@ public class Order {
         this.product = product;
         this.quantity = quantity;
         this.status = "chua xu ly";
+        this.date = LocalDateTime.now();
     }
 
     public String getOrderId() {
@@ -49,12 +54,22 @@ public class Order {
         this.status = status;
     }
 
+    public LocalDateTime getDate(){
+        return date;
+    }
+
+    public String getFormattedDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+        return date.format(formatter); // Trả về thời gian đã định dạng
+    }
+
     public void displayOrder() {
         System.out.println("Ma don hang: " + orderId);
         customer.displayInfo();
         product.displayInfo();
         System.out.println("So luong hang dat: " + quantity);
         System.out.println("Tinh trang don hang: " + status);
+        System.out.println("Thoi gian dat hang: " + getFormattedDate());
     }
 
     public double calculateTotalPrice() {
