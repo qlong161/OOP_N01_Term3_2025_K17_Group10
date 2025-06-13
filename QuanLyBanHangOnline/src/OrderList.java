@@ -36,15 +36,15 @@ public class OrderList {
     }
 
     public List<Order> getProcessedOrderByDate(String date){
-        List<Order> filtered = new ArrayList<>();
-        for (Order o : ords) {
-            if (o.getStatus().equals("đã xử lý") && o.getDate().equals(date)){
-                filtered.add(o);
-            }
+    List<Order> filtered = new ArrayList<>();
+    for (Order o : ords) {
+        if (o.getStatus().equalsIgnoreCase("đã xử lý") && o.getFormattedDate().equals(date)) {
+            filtered.add(o);
         }
-        return filtered;
-
     }
+    return filtered;
+}
+
 
     public double calculateTotalRevenue(List<Order>orders) {
         double total = 0;
@@ -52,6 +52,19 @@ public class OrderList {
             total += o.calculateTotalPrice();
         }
         return total;
+    }
+
+    public void printDailySummary(String date) {
+        List<Order> orders = getProcessedOrderByDate(date); // Sửa tên hàm đúng
+        if (orders.isEmpty()) {
+            System.out.println("Không có đơn hàng đã xử lý trong ngày " + date);
+        } else {
+            for (Order o : orders) {
+                o.displayOrder();
+            }
+            double revenue = calculateTotalRevenue(orders); // Sửa tên hàm đúng
+            System.out.println("Tổng doanh thu ngày " + date + ": " + revenue);
+        }
     }
 
     public void displayOrderList() {

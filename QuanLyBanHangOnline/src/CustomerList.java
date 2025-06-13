@@ -48,6 +48,10 @@ public class CustomerList {
         }
     }
 
+    public Customer getCustomerById(String id) {
+            return cl.getOrDefault(id, null); 
+}
+
     public void printCustomerList() {
         try {
             if (cl.isEmpty()) {
