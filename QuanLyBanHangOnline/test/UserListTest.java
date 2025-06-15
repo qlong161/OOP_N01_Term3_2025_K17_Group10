@@ -7,7 +7,7 @@ public class UserListTest {
 
     public static void runUserManagementMenu() {
         Scanner sc = new Scanner(System.in);
-        int choice = -1;  // Fix lỗi: biến choice phải được khởi tạo trước
+        int choice = -1;
 
         do {
             System.out.println("\n===== QUẢN LÝ NGƯỜI DÙNG =====");
@@ -37,7 +37,7 @@ public class UserListTest {
                     deleteUser(sc);
                     break;
                 case 4:
-                    userList.printAllUsers();
+                    userList.displayAllUsers(); // đã sửa tên hàm
                     break;
                 case 5:
                     manageOrdersForUser(sc);
@@ -54,21 +54,21 @@ public class UserListTest {
 
     private static void addUser(Scanner sc) {
         System.out.print("Nhập mã người dùng: ");
-        String id = sc.nextLine();
-        if (userList.getUserById(id) != null) {
+        String maUser = sc.nextLine();
+        if (userList.getUserById(maUser) != null) {
             System.out.println("Người dùng đã tồn tại!");
             return;
         }
         System.out.print("Nhập tên người dùng: ");
-        String name = sc.nextLine();
-        userList.addUser(new User(id, name));
+        String tenUser = sc.nextLine();
+        userList.addUser(new User(maUser, tenUser));
         System.out.println("Đã thêm người dùng.");
     }
 
     private static void editUser(Scanner sc) {
         System.out.print("Nhập mã người dùng cần sửa: ");
-        String id = sc.nextLine();
-        User user = userList.getUserById(id);
+        String maUser = sc.nextLine();
+        User user = userList.getUserById(maUser);
         if (user == null) {
             System.out.println("Không tìm thấy người dùng.");
             return;
@@ -81,19 +81,23 @@ public class UserListTest {
 
     private static void deleteUser(Scanner sc) {
         System.out.print("Nhập mã người dùng cần xóa: ");
-        String id = sc.nextLine();
-        userList.removeUser(id);
+        String maUser = sc.nextLine();
+        if (userList.removeUser(maUser)) {
+            System.out.println("Đã xóa người dùng.");
+        } else {
+            System.out.println("Không tìm thấy người dùng.");
+        }
     }
 
     private static void manageOrdersForUser(Scanner sc) {
         System.out.print("Nhập mã người dùng để quản lý đơn hàng: ");
-        String id = sc.nextLine();
-        User user = userList.getUserById(id);
+        String maUser = sc.nextLine();
+        User user = userList.getUserById(maUser);
         if (user == null) {
             System.out.println("Không tìm thấy người dùng.");
             return;
         }
         System.out.println(">> Đang truy cập đơn hàng của: " + user.getTenUser());
-        OrderListTest.runOrderMenu(user.getOrderList(), customerList, productList); // Dùng order riêng của user
+        OrderListTest.runOrderMenu(user.getOrderList(), customerList, productList);
     }
 }

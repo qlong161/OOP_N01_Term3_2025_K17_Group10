@@ -1,58 +1,66 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UserList {
-    private Map<String, User> users = new HashMap<>();
+    private List<User> users = new ArrayList<>();
+    private static UserList userListStatic;
 
-    public void addUser(User user) {
-        if (users.containsKey(user.getMaUser())) {
-            System.out.println("Người dùng với ID " + user.getMaUser() + " đã tồn tại.");
-            return;
+    public static void setMainUserList(UserList userList) {
+        userListStatic = userList;
+    }
+
+    public boolean addUser(User user) {
+        for (User u : users) {
+            if (u.getMaUser().equals(user.getMaUser())) {
+                System.out.println("Người dùng với mã này đã tồn tại.");
+                return false;
+            }
         }
-        users.put(user.getMaUser(), user);
-        System.out.println("Đã thêm người dùng: " + user.getTenUser());
+        users.add(user);
+        return true;
     }
 
-    public boolean removeUser(String id) {
-        if (users.remove(id) != null) {
-            System.out.println("Đã xóa người dùng có ID: " + id);
-            return true;
-        } else {
-            System.out.println("Không tìm thấy người dùng để xóa.");
-            return false;
+    public boolean removeUser(String maUser) {
+        return users.removeIf(u -> u.getMaUser().equals(maUser));
+    }
+
+    public User getUserById(String maUser) {
+        for (User u : users) {
+            if (u.getMaUser().equals(maUser)) {
+                return u;
+            }
         }
+        return null;
     }
 
-    public User getUserById(String id) {
-        return users.get(id);
+    public List<User> getAllUsers() {
+        return users;
     }
 
-    public double getTotalRevenue() {
-    double total = 0;
-    for (User user : users.values()) {
-        OrderList orders = user.getOrderList();
-        List<Order> processedOrders = orders.getProcessedOrderByDate(""); // truyền "" để lấy toàn bộ đã xử lý
-        total += orders.calculateTotalRevenue(processedOrders);
-    }
-    return total;
-}
-
-    public void printTotalRevenue() {
-    double total = getTotalRevenue();
-    System.out.println("=== TỔNG DOANH THU TOÀN BỘ CỬA HÀNG ===");
-    System.out.println("Tổng doanh thu từ tất cả người bán (đơn đã xử lý): " + total);
-}    
-
-    public void printAllUsers() {
+    public void displayAllUsers() {
         if (users.isEmpty()) {
-            System.out.println("Danh sách người bán trống.");
+            System.out.println("Danh sách người dùng trống.");
             return;
         }
-        for (User user : users.values()) {
-            System.out.println("Mã: " + user.getMaUser());
-            System.out.println("Tên: " + user.getTenUser());
-            System.out.println("----------------------");
+        for (User u : users) {
+            System.out.println("Mã người dùng: " + u.getMaUser());
+            System.out.println("Tên người dùng: " + u.getTenUser());
+            System.out.println("------------------");
         }
+    }
+
+    // ====== HÀM STATIC THỐNG KÊ DOANH THU TRONG NGÀY ======
+    public static void getTotalRevenue() {
+        if (userListStatic == null) {
+            System.out.println("Chưa có danh sách người dùng.");
+            return;
+        }
+
+        double total = 0;
+        for (User u : userListStatic.getAllUsers()) {
+            total += u.getOrderList().getRevenueOfToday();
+        }
+
+        System.out.printf("Tổng doanh thu trong ngày của tất cả người dùng: %.2f VND%n", total);
     }
 }
