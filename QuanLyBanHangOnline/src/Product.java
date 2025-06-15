@@ -4,6 +4,22 @@ public class Product {
     private double price;
     private int quantity;
 
+    public boolean isAvailable(int qty) {
+        return quantity >= qty;
+    }
+
+    public void reduceQuantity(int qty) {
+        if (isAvailable(qty)) {
+            quantity -= qty;
+        } else {
+            System.out.println("Không đủ hàng trong kho!");
+        }
+    }
+
+    public void increaseQuantity(int qty) {
+        quantity += qty;
+    }
+
     public Product(String id, String name, double price, int quantity) {
         this.id = id;
         this.name = name;

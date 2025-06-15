@@ -9,7 +9,6 @@ public class OrderListTest {
         orderList = oList;
         customerList = cList;
         productList = pList;
-
         runOrderMenu();
     }
 
@@ -108,6 +107,12 @@ public class OrderListTest {
             int qty = sc.nextInt();
             sc.nextLine();
 
+            if (!product.isAvailable(qty)) {
+                System.out.println("Không đủ hàng trong kho. Tồn kho hiện tại: " + product.getQuantity());
+                continue;
+            }
+
+            product.reduceQuantity(qty);
             order.addProduct(product, qty);
         }
 
@@ -163,6 +168,12 @@ public class OrderListTest {
                     System.out.print("Nhập số lượng: ");
                     int qty = sc.nextInt(); sc.nextLine();
 
+                    if (!prod.isAvailable(qty)) {
+                        System.out.println("Không đủ hàng trong kho. Tồn kho hiện tại: " + prod.getQuantity());
+                        break;
+                    }
+
+                    prod.reduceQuantity(qty);
                     editOrder.addProduct(prod, qty);
                     System.out.println("Đã thêm sản phẩm vào đơn.");
                     break;

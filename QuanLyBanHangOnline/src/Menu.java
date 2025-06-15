@@ -5,7 +5,7 @@ public class Menu {
     //    CustomerList customerList = new CustomerList();
     //    ProductList productList = new ProductList();
     //   OrderList orderList = new OrderList();
-    //OrderListTest.runOrderMenu(); 
-    UserListTest.runUserManagementMenu();
+    OrderListTest.runOrderMenu(); 
+    //UserListTest.runUserManagementMenu();
 }
 }
