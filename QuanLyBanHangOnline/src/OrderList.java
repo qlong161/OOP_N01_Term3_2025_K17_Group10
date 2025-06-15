@@ -53,6 +53,10 @@ public class OrderList {
         return total;
     }
 
+    public double calculateTotalRevenue() {
+    return calculateTotalRevenue(ords);
+    }
+
     public void printDailySummary(String date) {
         List<Order> orders = getProcessedOrderByDate(date); 
         if (orders.isEmpty()) {

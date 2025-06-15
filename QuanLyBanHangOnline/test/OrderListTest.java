@@ -4,6 +4,16 @@ public class OrderListTest {
     private static CustomerList customerList = new CustomerList();
     private static ProductList productList = new ProductList();
     private static OrderList orderList = new OrderList();
+
+    // ==== OVERLOAD METHOD DÙNG CHO USERLISTTEST GỌI ====
+    public static void runOrderMenu(OrderList oList, CustomerList cList, ProductList pList) {
+        orderList = oList;
+        customerList = cList;
+        productList = pList;
+
+        runOrderMenu(); // gọi lại hàm gốc
+    }
+
     public static void runOrderMenu() {
         Scanner sc = new Scanner(System.in);
         int choice;
@@ -15,6 +25,7 @@ public class OrderListTest {
             System.out.println("3. Xóa đơn hàng");
             System.out.println("4. Hiển thị danh sách đơn hàng");
             System.out.println("5. In đơn hàng theo trạng thái");
+            System.out.println("6. Hiện tổng doanh thu");
             System.out.println("0. Quay lại");
             System.out.print("Chọn chức năng: ");
             choice = sc.nextInt();
@@ -39,6 +50,10 @@ public class OrderListTest {
                     System.out.print("Nhập trạng thái muốn lọc: ");
                     String status = sc.nextLine();
                     orderList.displayOrdersByStatus(status);
+                    break;
+                case 6:
+                    double total = orderList.calculateTotalRevenue();
+                    System.out.printf("Tổng doanh thu: %.2f\n", total);
                     break;
                 case 0:
                     System.out.println("Quay lại menu chính...");
