@@ -82,4 +82,18 @@ public class ProductListTest {
         System.out.print("Giá mới: ");
         product.setPrice(Double.parseDouble(sc.nextLine()));
 
-        System.out.print("Số lư
+        System.out.print("Số lượng mới: ");
+        product.setQuantity(Integer.parseInt(sc.nextLine()));
+
+        System.out.println("Đã cập nhật sản phẩm thành công.");
+    }
+
+    private static void deleteProduct() {
+        System.out.print("Nhập ID sản phẩm cần xoá: ");
+        String id = sc.nextLine();
+
+        if (productList.removeProduct(id)) {
+            System.out.println("Đã xoá sản phẩm thành công.");
+        }
+    }
+}
