@@ -29,7 +29,7 @@ public class App {
                     manageOrders();
                     break;
                 case 4:
-                    showDailyRevenue();
+                    
                     break;
                 case 0:
                     System.out.println("Tam biet!");

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserList {
@@ -26,6 +27,22 @@ public class UserList {
     public User getUserById(String id) {
         return users.get(id);
     }
+
+    public double getTotalRevenue() {
+    double total = 0;
+    for (User user : users.values()) {
+        OrderList orders = user.getOrderList();
+        List<Order> processedOrders = orders.getProcessedOrderByDate(""); // truyền "" để lấy toàn bộ đã xử lý
+        total += orders.calculateTotalRevenue(processedOrders);
+    }
+    return total;
+}
+
+    public void printTotalRevenue() {
+    double total = getTotalRevenue();
+    System.out.println("=== TỔNG DOANH THU TOÀN BỘ CỬA HÀNG ===");
+    System.out.println("Tổng doanh thu từ tất cả người bán (đơn đã xử lý): " + total);
+}    
 
     public void printAllUsers() {
         if (users.isEmpty()) {

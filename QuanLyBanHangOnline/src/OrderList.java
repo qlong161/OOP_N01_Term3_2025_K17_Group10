@@ -35,16 +35,15 @@ public class OrderList {
         return false;
     }
 
-    public List<Order> getProcessedOrderByDate(String date){
+    public List<Order> getProcessedOrderByDate(String date) {
     List<Order> filtered = new ArrayList<>();
     for (Order o : ords) {
-        if (o.getStatus().equalsIgnoreCase("đã xử lý") && o.getFormattedDate().equals(date)) {
+        if (o.getStatus().equalsIgnoreCase("đã xử lý") && (date.isEmpty() || o.getFormattedDate().equals(date))) {
             filtered.add(o);
         }
     }
     return filtered;
 }
-
 
     public double calculateTotalRevenue(List<Order>orders) {
         double total = 0;
