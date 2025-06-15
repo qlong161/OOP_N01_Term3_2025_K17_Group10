@@ -5,13 +5,12 @@ public class OrderListTest {
     private static ProductList productList = new ProductList();
     private static OrderList orderList = new OrderList();
 
-    // ==== OVERLOAD METHOD DÙNG CHO USERLISTTEST GỌI ====
     public static void runOrderMenu(OrderList oList, CustomerList cList, ProductList pList) {
         orderList = oList;
         customerList = cList;
         productList = pList;
 
-        runOrderMenu(); // gọi lại hàm gốc
+        runOrderMenu();
     }
 
     public static void runOrderMenu() {
@@ -84,27 +83,34 @@ public class OrderListTest {
             customerList.addCustomer(customer);
         }
 
-        System.out.print("Nhập mã sản phẩm: ");
-        String productId = sc.nextLine();
-        Product product = productList.getProductById(productId);
-        if (product == null) {
-            System.out.println("Sản phẩm không tồn tại. Tạo mới sản phẩm.");
-            System.out.print("Tên sản phẩm: ");
-            String pname = sc.nextLine();
-            System.out.print("Giá: ");
-            double price = sc.nextDouble();
-            System.out.print("Số lượng tồn: ");
-            int stock = sc.nextInt();
-            sc.nextLine(); 
-            product = new Product(productId, pname, price, stock);
-            productList.addProduct(product);
+        Order order = new Order(orderId, customer);
+        boolean addingProducts = true;
+        while (addingProducts) {
+            System.out.print("Nhập mã sản phẩm (hoặc 'x' để kết thúc): ");
+            String productId = sc.nextLine();
+            if (productId.equalsIgnoreCase("x")) break;
+
+            Product product = productList.getProductById(productId);
+            if (product == null) {
+                System.out.println("Sản phẩm không tồn tại. Tạo mới sản phẩm.");
+                System.out.print("Tên sản phẩm: ");
+                String pname = sc.nextLine();
+                System.out.print("Giá: ");
+                double price = sc.nextDouble();
+                System.out.print("Số lượng tồn: ");
+                int stock = sc.nextInt();
+                sc.nextLine(); 
+                product = new Product(productId, pname, price, stock);
+                productList.addProduct(product);
+            }
+
+            System.out.print("Số lượng đặt: ");
+            int qty = sc.nextInt();
+            sc.nextLine();
+
+            order.addProduct(product, qty);
         }
 
-        System.out.print("Số lượng đặt: ");
-        int qty = sc.nextInt();
-        sc.nextLine();
-
-        Order order = new Order(orderId, customer, product, qty);
         orderList.addOrder(order);
     }
 
@@ -120,63 +126,71 @@ public class OrderListTest {
 
         boolean editing = true;
         while (editing) {
-            System.out.println("\n=== Chọn thông tin cần sửa ===");
-            System.out.println("1. Sửa khách hàng");
-            System.out.println("2. Sửa sản phẩm");
-            System.out.println("3. Sửa số lượng");
-            System.out.println("4. Sửa trạng thái");
-            System.out.println("5. Quay lại");
+            System.out.println("\n=== Chỉnh sửa đơn hàng: " + editId + " ===");
+            System.out.println("1. Xem danh sách sản phẩm trong đơn");
+            System.out.println("2. Thêm sản phẩm mới vào đơn");
+            System.out.println("3. Xoá sản phẩm khỏi đơn");
+            System.out.println("4. Sửa trạng thái đơn hàng");
+            System.out.println("0. Quay lại");
 
-            System.out.print("Lựa chọn: ");
-            String editChoice = sc.nextLine();
+            System.out.print("Chọn: ");
+            String choice = sc.nextLine();
 
-            switch (editChoice) {
+            switch (choice) {
                 case "1":
-                    customerList.printCustomerList();
-                    System.out.print("Nhập ID khách hàng mới: ");
-                    String newCid = sc.nextLine();
-                    Customer newC = customerList.getCustomerById(newCid);
-                    if (newC != null) {
-                        editOrder.setCustomer(newC);
-                        System.out.println("Đã cập nhật khách hàng mới.");
-                    } else {
-                        System.out.println("Không tìm thấy khách hàng.");
+                    for (var entry : editOrder.getItems().entrySet()) {
+                        Product p = entry.getKey();
+                        int qty = entry.getValue();
+                        System.out.printf("- %s | SL: %d | Đơn giá: %.2f\n", p.getName(), qty, p.getPrice());
                     }
                     break;
-
                 case "2":
-                    productList.displayAllProducts();
-                    System.out.print("Nhập ID sản phẩm mới: ");
-                    String newPid = sc.nextLine();
-                    Product newP = productList.getProductById(newPid);
-                    if (newP != null) {
-                        editOrder.setProduct(newP);
-                        System.out.println("Đã cập nhật sản phẩm mới.");
-                    } else {
-                        System.out.println("Không tìm thấy sản phẩm.");
+                    System.out.print("Nhập mã sản phẩm cần thêm: ");
+                    String pid = sc.nextLine();
+                    Product prod = productList.getProductById(pid);
+                    if (prod == null) {
+                        System.out.println("Sản phẩm chưa tồn tại. Nhập thông tin mới.");
+                        System.out.print("Tên sản phẩm: ");
+                        String pname = sc.nextLine();
+                        System.out.print("Giá: ");
+                        double price = sc.nextDouble();
+                        System.out.print("Số lượng tồn: ");
+                        int stock = sc.nextInt(); sc.nextLine();
+                        prod = new Product(pid, pname, price, stock);
+                        productList.addProduct(prod);
                     }
-                    break;
 
+                    System.out.print("Nhập số lượng: ");
+                    int qty = sc.nextInt(); sc.nextLine();
+
+                    editOrder.addProduct(prod, qty);
+                    System.out.println("Đã thêm sản phẩm vào đơn.");
+                    break;
                 case "3":
-                    System.out.print("Nhập số lượng mới: ");
-                    int newQty = Integer.parseInt(sc.nextLine());
-                    editOrder.setQuantity(newQty);
-                    System.out.println("Đã cập nhật số lượng.");
+                    System.out.print("Nhập mã sản phẩm cần xoá khỏi đơn: ");
+                    String removeId = sc.nextLine();
+                    boolean found = false;
+                    for (Product p : editOrder.getItems().keySet()) {
+                        if (p.getId().equals(removeId)) {
+                            editOrder.getItems().remove(p);
+                            System.out.println("Đã xoá sản phẩm khỏi đơn.");
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) System.out.println("Không tìm thấy sản phẩm trong đơn.");
                     break;
-
                 case "4":
                     System.out.print("Nhập trạng thái mới: ");
                     String newStatus = sc.nextLine();
                     editOrder.setStatus(newStatus);
                     System.out.println("Đã cập nhật trạng thái.");
                     break;
-
-                case "5":
+                case "0":
                     editing = false;
                     break;
-
                 default:
-                    System.out.println("Lựa chọn không hợp lệ.");
+                    System.out.println("Lựa chọn không hợp lệ!");
             }
         }
     }

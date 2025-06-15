@@ -3,19 +3,18 @@ import java.util.List;
 
 public class OrderList {
     private ArrayList<Order> ords = new ArrayList<>();
+
     public void addOrder(Order order) {
         ords.add(order);
         System.out.println("Đã thêm đơn hàng với ID: " + order.getOrderId());
     }
 
-    public boolean editOrder(String orderId, Customer customer, Product product, int quantity, String status) {
+    public boolean editOrder(String orderId, Customer customer, String status) {
         for (Order o : ords) {
             if (o.getOrderId().equals(orderId)) {
                 o.setCustomer(customer);
-                o.setProduct(product);
-                o.setQuantity(quantity);
                 o.setStatus(status);
-                System.out.println("Cập nhật đơn hàng thành công với ID: " + orderId);
+                System.out.println("Đã cập nhật đơn hàng với ID: " + orderId);
                 return true;
             }
         }
@@ -36,64 +35,64 @@ public class OrderList {
     }
 
     public List<Order> getProcessedOrderByDate(String date) {
-    List<Order> filtered = new ArrayList<>();
-    for (Order o : ords) {
-        if (o.getStatus().equalsIgnoreCase("đã xử lý") && (date.isEmpty() || o.getFormattedDate().equals(date))) {
-            filtered.add(o);
+        List<Order> filtered = new ArrayList<>();
+        for (Order o : ords) {
+            if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
+                (date.isEmpty() || o.getFormattedDate().equals(date))) {
+                filtered.add(o);
+            }
         }
+        return filtered;
     }
-    return filtered;
-}
 
-    public double calculateTotalRevenue(List<Order>orders) {
+    public double calculateTotalRevenue(List<Order> orders) {
         double total = 0;
-        for (Order o : orders){
+        for (Order o : orders) {
             total += o.calculateTotalPrice();
         }
         return total;
     }
 
     public double calculateTotalRevenue() {
-    return calculateTotalRevenue(ords);
+        return calculateTotalRevenue(ords);
     }
 
     public void printDailySummary(String date) {
-        List<Order> orders = getProcessedOrderByDate(date); 
+        List<Order> orders = getProcessedOrderByDate(date);
         if (orders.isEmpty()) {
             System.out.println("Không có đơn hàng đã xử lý trong ngày " + date);
         } else {
             for (Order o : orders) {
                 o.displayOrder();
             }
-            double revenue = calculateTotalRevenue(orders); 
+            double revenue = calculateTotalRevenue(orders);
             System.out.println("Tổng doanh thu ngày " + date + ": " + revenue);
         }
     }
 
     public Order getOrderById(String id) {
-    for (Order o : ords) {
-        if (o.getOrderId().equals(id)) {
-            return o;
+        for (Order o : ords) {
+            if (o.getOrderId().equals(id)) {
+                return o;
+            }
         }
+        return null;
     }
-    return null;
-}
 
-    // cập nhật chức năng hiển thị đơn hàng lọc theo trạng thái đơn hàng
     public void displayOrdersByStatus(String status) {
-    boolean found = false;
-    for (Order o : ords) {
-        if (o.getStatus().equalsIgnoreCase(status)) {
-            o.displayOrder();
-            System.out.println("Tổng tiền: " + o.calculateTotalPrice());
-            System.out.println("---------------------------");
-            found = true;
+        boolean found = false;
+        for (Order o : ords) {
+            if (o.getStatus().equalsIgnoreCase(status)) {
+                o.displayOrder();
+                System.out.println("Tổng tiền: " + o.calculateTotalPrice());
+                System.out.println("---------------------------");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Không có đơn hàng nào với trạng thái: " + status);
         }
     }
-    if (!found) {
-        System.out.println("Không có đơn hàng nào với trạng thái: " + status);
-    }
-}
 
     public void displayOrderList() {
         if (ords.isEmpty()) {

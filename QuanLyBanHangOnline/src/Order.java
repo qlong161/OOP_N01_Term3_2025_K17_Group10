@@ -1,37 +1,37 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Order {
     private String orderId;
     private Customer customer;
-    private Product product;
-    private int quantity;
+    private Map<Product, Integer> items;
     private String status;
     private LocalDateTime date;
 
-    public Order(String orderId, Customer customer, Product product, int quantity) {
+    public Order(String orderId, Customer customer) {
         this.orderId = orderId;
         this.customer = customer;
-        this.product = product;
-        this.quantity = quantity;
-        this.status = "chưa xử lý";
-        this.date = LocalDateTime.now();
-    }
-     public Order(String orderId, Customer customer, Product product, int quantity, String status) {
-        this.orderId = orderId;
-        this.customer = customer;
-        this.product = product;
-        this.quantity = quantity;
+        this.items = new HashMap<>();
         this.status = "chưa xử lý";
         this.date = LocalDateTime.now();
     }
 
-    public Order(String orderId, Customer customer, Product product, String status, LocalDateTime date) {
+    public Order(String orderId, Customer customer, String status, LocalDateTime date) {
         this.orderId = orderId;
         this.customer = customer;
-        this.product = product;
-        this.status = "chưa xử lý";
-        this.date = LocalDateTime.now();
+        this.items = new HashMap<>();
+        this.status = status;
+        this.date = date;
+    }
+
+    public void addProduct(Product product, int quantity) {
+        if (items.containsKey(product)) {
+            items.put(product, items.get(product) + quantity);
+        } else {
+            items.put(product, quantity);
+        }
     }
 
     public String getOrderId() {
@@ -46,20 +46,12 @@ public class Order {
         this.customer = customer;
     }
 
-    public Product getProduct() {
-        return product;
+    public Map<Product, Integer> getItems() {
+        return items;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setItems(Map<Product, Integer> items) {
+        this.items = items;
     }
 
     public String getStatus() {
@@ -70,25 +62,38 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDateTime getDate(){
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public String getFormattedDate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
-        return date.format(formatter); // Trả về thời gian đã định dạng
-    }
-
-    public void displayOrder() {
-        System.out.println("Ma don hang: " + orderId);
-        customer.displayInfo();
-        product.displayInfo();
-        System.out.println("So luong hang dat: " + quantity);
-        System.out.println("Tinh trang don hang: " + status);
-        System.out.println("Thoi gian dat hang: " + getFormattedDate());
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
     }
 
     public double calculateTotalPrice() {
-        return quantity * product.getPrice();
+        double total = 0;
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            total += entry.getKey().getPrice() * entry.getValue();
+        }
+        return total;
+    }
+
+    public void displayOrder() {
+        System.out.println("Mã đơn hàng: " + orderId);
+        System.out.println("Khách hàng: ");
+        customer.displayInfo();
+
+        System.out.println("Danh sách sản phẩm:");
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            Product p = entry.getKey();
+            int qty = entry.getValue();
+            System.out.printf("- %s | SL: %d | Đơn giá: %.2f | Thành tiền: %.2f\n",
+                    p.getName(), qty, p.getPrice(), p.getPrice() * qty);
+        }
+
+        System.out.println("Tổng tiền: " + calculateTotalPrice());
+        System.out.println("Trạng thái đơn hàng: " + status);
+        System.out.println("Ngày đặt: " + getFormattedDate());
     }
 }
