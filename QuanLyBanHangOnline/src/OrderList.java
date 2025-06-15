@@ -55,17 +55,33 @@ public class OrderList {
     }
 
     public void printDailySummary(String date) {
-        List<Order> orders = getProcessedOrderByDate(date); // Sửa tên hàm đúng
+        List<Order> orders = getProcessedOrderByDate(date); 
         if (orders.isEmpty()) {
             System.out.println("Không có đơn hàng đã xử lý trong ngày " + date);
         } else {
             for (Order o : orders) {
                 o.displayOrder();
             }
-            double revenue = calculateTotalRevenue(orders); // Sửa tên hàm đúng
+            double revenue = calculateTotalRevenue(orders); 
             System.out.println("Tổng doanh thu ngày " + date + ": " + revenue);
         }
     }
+
+    // cập nhật chức năng hiển thị đơn hàng lọc theo trạng thái đơn hàng
+    public void displayOrdersByStatus(String status) {
+    boolean found = false;
+    for (Order o : ords) {
+        if (o.getStatus().equalsIgnoreCase(status)) {
+            o.displayOrder();
+            System.out.println("Tổng tiền: " + o.calculateTotalPrice());
+            System.out.println("---------------------------");
+            found = true;
+        }
+    }
+    if (!found) {
+        System.out.println("Không có đơn hàng nào với trạng thái: " + status);
+    }
+}
 
     public void displayOrderList() {
         if (ords.isEmpty()) {
@@ -80,4 +96,3 @@ public class OrderList {
         }
     }
 }
-

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserList {
@@ -35,8 +36,6 @@ public class UserList {
         for (User user : users.values()) {
             System.out.println("Mã: " + user.getMaUser());
             System.out.println("Tên: " + user.getTenUser());
-            System.out.println("SĐT: " + user.getSdt());
             System.out.println("----------------------");
         }
     }
-}

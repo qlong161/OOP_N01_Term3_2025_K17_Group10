@@ -1,12 +1,12 @@
 public class User {
     private String maUser;
-    private String tenUser;     
-    private String sdt;            
-    
-    public User(String maUser, String tenUser, String sdt) {
+    private String tenUser;
+    private OrderList orderList; 
+
+    public User(String maUser, String tenUser) {
         this.maUser = maUser;
         this.tenUser = tenUser;
-        this.sdt = sdt;
+        this.orderList = new OrderList(); // cập nhật cho mỗi user có danh sách order riêng
     }
 
     public String getMaUser() {
@@ -25,12 +25,11 @@ public class User {
         this.tenUser = tenUser;
     }
 
-    public String getSdt() {
-        return sdt;
+    public OrderList getOrderList() {
+        return orderList;
     }
 
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
+    public void setOrderList(OrderList orderList) {
+        this.orderList = orderList;
     }
-
 }
