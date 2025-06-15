@@ -1,29 +1,86 @@
+import java.util.Scanner;
+
 public class CustomerListTest {
-    public static void test() {
+    private static Scanner sc = new Scanner(System.in);
+    private static CustomerList customerList = new CustomerList();
+
+    public static void runCustomerMenu() {
+        int choice;
+        do {
+            showCustomerMenu();
+            choice = getChoice();
+
+            switch (choice) {
+                case 1:
+                    addCustomer();
+                    break;
+                case 2:
+                    editCustomer();
+                    break;
+                case 3:
+                    deleteCustomer();
+                    break;
+                case 4:
+                    customerList.printCustomerList();
+                    break;
+                case 0:
+                    System.out.println("Quay lại menu trước...");
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        } while (choice != 0);
+    }
+
+    private static void showCustomerMenu() {
+        System.out.println("\n===== QUẢN LÝ KHÁCH HÀNG =====");
+        System.out.println("1. Thêm khách hàng");
+        System.out.println("2. Sửa thông tin khách hàng");
+        System.out.println("3. Xoá khách hàng");
+        System.out.println("4. Hiển thị danh sách khách hàng");
+        System.out.println("0. Quay lại");
+        System.out.print("Nhập lựa chọn: ");
+    }
+
+    private static int getChoice() {
         try {
-            CustomerList customerList = new CustomerList();
-            Customer c1 = new Customer("C001", "Nguyễn Văn A", "a@gmail.com", "Mua trực tiếp");
-            Customer c2 = new Customer("C002", "Trần Thị B", "b@gmail.com", "Đặt Online");
-            Customer c3 = new Customer("C003", "Lê Văn C", "c@gmail.com", "Mua trực tiếp");
-
-            customerList.addCustomer(c1);
-            customerList.addCustomer(c2);
-            customerList.addCustomer(c3);
-            customerList.printCustomerList();
-            System.out.println("\n");
-
-            customerList.editCustomer("C002", "Trần Thị Bích", "bich@gmail.com", "Mua trực tiếp");
-            customerList.printCustomerList();
-
-            System.out.println("\n xóa C001");
-            customerList.deleteCustomer("C001");
-            customerList.printCustomerList();
-
-            customerList.deleteCustomer("C999");
-            customerList.printCustomerList();
-
-        } catch (Exception e) {
-            System.out.println("Đã xảy ra lỗi trong quá trình chạy test: " + e.getMessage());
+            return Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
         }
+    }
+
+    private static void addCustomer() {
+        System.out.print("Nhập ID khách hàng: ");
+        String id = sc.nextLine();
+        System.out.print("Nhập tên khách hàng: ");
+        String name = sc.nextLine();
+        System.out.print("Nhập email khách hàng: ");
+        String email = sc.nextLine();
+        System.out.print("Nhập loại khách hàng (truc tiep/tu xa): ");
+        String type = sc.nextLine();
+
+        Customer customer = new Customer(id, name, email, type);
+        customerList.addCustomer(customer);
+    }
+
+    private static void editCustomer() {
+        System.out.print("Nhập ID khách hàng cần sửa: ");
+        String id = sc.nextLine();
+
+        System.out.print("Tên mới: ");
+        String name = sc.nextLine();
+        System.out.print("Email mới: ");
+        String email = sc.nextLine();
+        System.out.print("Loại khách mới: ");
+        String type = sc.nextLine();
+
+        customerList.editCustomer(id, name, email, type);
+    }
+
+    private static void deleteCustomer() {
+        System.out.print("Nhập ID khách hàng cần xoá: ");
+        String id = sc.nextLine();
+        customerList.deleteCustomer(id);
     }
 }
