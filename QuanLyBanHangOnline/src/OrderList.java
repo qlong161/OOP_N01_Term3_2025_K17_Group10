@@ -67,6 +67,15 @@ public class OrderList {
         }
     }
 
+    public Order getOrderById(String id) {
+    for (Order o : ords) {
+        if (o.getOrderId().equals(id)) {
+            return o;
+        }
+    }
+    return null;
+}
+
     // cập nhật chức năng hiển thị đơn hàng lọc theo trạng thái đơn hàng
     public void displayOrdersByStatus(String status) {
     boolean found = false;

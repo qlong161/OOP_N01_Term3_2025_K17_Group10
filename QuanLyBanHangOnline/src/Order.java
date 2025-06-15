@@ -14,7 +14,7 @@ public class Order {
         this.customer = customer;
         this.product = product;
         this.quantity = quantity;
-        this.status = "chua xu ly";
+        this.status = "chưa xử lý";
         this.date = LocalDateTime.now();
     }
      public Order(String orderId, Customer customer, Product product, int quantity, String status) {
@@ -22,7 +22,7 @@ public class Order {
         this.customer = customer;
         this.product = product;
         this.quantity = quantity;
-        this.status = "chua xu ly";
+        this.status = "chưa xử lý";
         this.date = LocalDateTime.now();
     }
 
@@ -30,7 +30,7 @@ public class Order {
         this.orderId = orderId;
         this.customer = customer;
         this.product = product;
-        this.status = "chua xu ly";
+        this.status = "chưa xử lý";
         this.date = LocalDateTime.now();
     }
 

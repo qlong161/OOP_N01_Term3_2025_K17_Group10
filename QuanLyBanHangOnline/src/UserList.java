@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserList {
@@ -39,3 +38,4 @@ public class UserList {
             System.out.println("----------------------");
         }
     }
+}

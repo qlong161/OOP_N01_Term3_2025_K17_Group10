@@ -1,45 +1,162 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class OrderListTest {
-    public static void test(){
-        // Tạo sản phẩm
-        Product p1 = new Product("P001", "Iphone 13", 20000000, 10);
-        Product p2 = new Product("P002", "Laptop Dell", 15000000, 5);
+    public static void runOrderMenu(OrderList orderList, CustomerList customerList, ProductList productList) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
 
-        // Tạo khách hàng
-        Customer c1 = new Customer("C001", "Nguyen Van A", "a@gmail.com", "Mua trực tiếp");
-        Customer c2 = new Customer("C002", "Tran Thi B", "b@gmail.com", "Đặt online");
+        do {
+            System.out.println("\n==== Quản lý đơn hàng ====");
+            System.out.println("1. Thêm đơn hàng");
+            System.out.println("2. Sửa thông tin đơn hàng");
+            System.out.println("3. Xóa đơn hàng");
+            System.out.println("4. Hiển thị danh sách đơn hàng");
+            System.out.println("5. In đơn hàng theo trạng thái");
+            System.out.println("0. Quay lại");
+            System.out.print("Chọn chức năng: ");
+            choice = sc.nextInt();
+            sc.nextLine(); 
 
-        // Tạo danh sách đơn hàng
-        OrderList orderList = new OrderList();
+            switch (choice) {
+                case 1: 
+                    System.out.print("Nhập mã đơn hàng: ");
+                    String orderId = sc.nextLine();
 
-        // Tạo đơn hàng
-        Order o1 = new Order("O001", c1, p1, 2, "đã xử lý");
-        Order o2 = new Order("O002", c2, p2, 1, "đã xử lý");
-        Order o3 = new Order("O003", c2, p2, 1, "chưa xử lý");
+                    System.out.print("Nhập mã khách hàng: ");
+                    String customerId = sc.nextLine();
+                    Customer customer = customerList.getCustomerById(customerId);
+                    if (customer == null) {
+                        System.out.println("Khách hàng không tồn tại. Tạo mới khách hàng.");
+                        System.out.print("Tên khách hàng: ");
+                        String name = sc.nextLine();
+                        System.out.print("Email: ");
+                        String email = sc.nextLine();
+                        System.out.print("Kiểu khách: ");
+                        String type = sc.nextLine();
+                        customer = new Customer(customerId, name, email, type);
+                        customerList.addCustomer(customer);
+                    }
 
-        // Thêm đơn hàng
-        orderList.addOrder(o1);
-        orderList.addOrder(o2);
-        orderList.addOrder(o3);
+                    System.out.print("Nhập mã sản phẩm: ");
+                    String productId = sc.nextLine();
+                    Product product = productList.getProductById(productId);
+                    if (product == null) {
+                        System.out.println("Sản phẩm không tồn tại. Tạo mới sản phẩm.");
+                        System.out.print("Tên sản phẩm: ");
+                        String pname = sc.nextLine();
+                        System.out.print("Giá: ");
+                        double price = sc.nextDouble();
+                        System.out.print("Số lượng: ");
+                        int pqty = sc.nextInt();
+                        sc.nextLine(); 
+                        product = new Product(productId, pname, price, pqty);
+                        productList.addProduct(product);
+                    }
 
-        System.out.println("\n>>> Sau khi thêm đơn hàng:");
-        orderList.displayOrderList();
+                    System.out.print("Số lượng đặt: ");
+                    int qty = sc.nextInt();
+                    sc.nextLine(); 
 
-        // Sửa đơn hàng O001
-        System.out.println("\n>>> Cập nhật đơn hàng O001:");
-        orderList.editOrder("O001", c1, p2, 3, "đã xử lý");
-        orderList.displayOrderList();
+                    Order order = new Order(orderId, customer, product, qty);
+                    orderList.addOrder(order);
+                    break;
 
-        // Xoá đơn hàng O002
-        System.out.println("\n>>> Xoá đơn hàng O002:");
-        orderList.deleteOrder("O002");
-        orderList.displayOrderList();
+                case 2: 
+                    System.out.print("Nhập ID đơn hàng cần sửa: ");
+                    String editId = sc.nextLine();
+                    Order editOrder = orderList.getOrderById(editId);
 
-        // In thống kê theo ngày
-        String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        System.out.println("\n>>> Thống kê đơn hàng đã xử lý ngày hôm nay: " + today);
-        orderList.printDailySummary(today);
+                    if (editOrder == null) {
+                        System.out.println("Không tìm thấy đơn hàng.");
+                    } else {
+                        boolean editing = true;
+                        while (editing) {
+                            System.out.println("\n=== Chọn thông tin cần sửa ===");
+                            System.out.println("1. Sửa khách hàng");
+                            System.out.println("2. Sửa sản phẩm");
+                            System.out.println("3. Sửa số lượng");
+                            System.out.println("4. Sửa trạng thái");
+                            System.out.println("5. Quay lại");
+
+                            System.out.print("Lựa chọn: ");
+                            String editChoice = sc.nextLine();
+
+                            switch (editChoice) {
+                                case "1":
+                                    customerList.printCustomerList();
+                                    System.out.print("Nhập ID khách hàng mới: ");
+                                    String newCid = sc.nextLine();
+                                    Customer newC = customerList.getCustomerById(newCid);
+                                    if (newC != null) {
+                                        editOrder.setCustomer(newC);
+                                        System.out.println("Đã cập nhật khách hàng mới.");
+                                    } else {
+                                        System.out.println("Không tìm thấy khách hàng.");
+                                    }
+                                    break;
+
+                                case "2":
+                                    productList.displayAllProducts();
+                                    System.out.print("Nhập ID sản phẩm mới: ");
+                                    String newPid = sc.nextLine();
+                                    Product newP = productList.getProductById(newPid);
+                                    if (newP != null) {
+                                        editOrder.setProduct(newP);
+                                        System.out.println("Đã cập nhật sản phẩm mới.");
+                                    } else {
+                                        System.out.println("Không tìm thấy sản phẩm.");
+                                    }
+                                    break;
+
+                                case "3":
+                                    System.out.print("Nhập số lượng mới: ");
+                                    int newQty = Integer.parseInt(sc.nextLine());
+                                    editOrder.setQuantity(newQty);
+                                    System.out.println("Đã cập nhật số lượng.");
+                                    break;
+
+                                case "4":
+                                    System.out.print("Nhập trạng thái mới: ");
+                                    String newStatus = sc.nextLine();
+                                    editOrder.setStatus(newStatus);
+                                    System.out.println("Đã cập nhật trạng thái.");
+                                    break;
+
+                                case "5":
+                                    editing = false;
+                                    break;
+
+                                default:
+                                    System.out.println("Lựa chọn không hợp lệ.");
+                            }
+                        }
+                    }
+                    break;
+
+                case 3: 
+                    System.out.print("Nhập mã đơn hàng cần xóa: ");
+                    String delId = sc.nextLine();
+                    orderList.deleteOrder(delId);
+                    break;
+
+                case 4: 
+                    orderList.displayOrderList();
+                    break;
+
+                case 5: 
+                    System.out.print("Nhập trạng thái muốn lọc: ");
+                    String filterStatus = sc.nextLine();
+                    orderList.displayOrdersByStatus(filterStatus);
+                    break;
+
+                case 0:
+                    System.out.println("Quay lại menu chính...");
+                    break;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+
+        } while (choice != 0);
     }
 }

@@ -1,4 +1,4 @@
-public class UserTest {
+/*public class UserTest {
     public static void test() {
         User user1 = new User("0001", "Long", "0919560000");
 
@@ -7,3 +7,4 @@ public class UserTest {
         System.out.println("SĐT: " + user1.getSdt());
     }
 }
+*/
