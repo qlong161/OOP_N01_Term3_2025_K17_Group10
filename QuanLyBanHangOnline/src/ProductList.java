@@ -1,8 +1,11 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductList {
     private Map<String, Product> products = new HashMap<>();
-    
+
     public boolean addProduct(Product p) {
         if (products.containsKey(p.getId())) {
             System.out.println("Sản phẩm với ID " + p.getId() + " đã tồn tại.");
@@ -11,7 +14,6 @@ public class ProductList {
         products.put(p.getId(), p);
         return true;
     }
-      
 
     public boolean removeProduct(String id) {
         if (products.containsKey(id)) {
@@ -21,6 +23,7 @@ public class ProductList {
         System.out.println("Không tìm thấy sản phẩm để xóa với ID: " + id);
         return false;
     }
+
     public Product getProductById(String id) {
         return products.get(id);
     }
@@ -30,8 +33,44 @@ public class ProductList {
             System.out.println("Danh sách sản phẩm rỗng.");
         } else {
             for (Product p : products.values()) {
-                p.displayInfo();  
+                p.displayInfo();
+                System.out.println("-------------------------");
             }
+        }
+    }
+
+    
+    public List<Product> getAllProducts() {
+        return new ArrayList<>(products.values());
+    }
+
+    
+    public void displayOutOfStockProducts() {
+        boolean found = false;
+        for (Product p : products.values()) {
+            if (p.getQuantity() == 0) {
+                p.displayInfo();
+                System.out.println("-------------------------");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Không có sản phẩm nào hết hàng.");
+        }
+    }
+
+    
+    public void displayLowStockProducts() {
+        boolean found = false;
+        for (Product p : products.values()) {
+            if (p.getQuantity() > 0 && p.getQuantity() <= 5) {
+                p.displayInfo();
+                System.out.println("-------------------------");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Không có sản phẩm nào sắp hết hàng.");
         }
     }
 }
