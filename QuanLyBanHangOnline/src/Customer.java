@@ -38,10 +38,17 @@ public class Customer {
     }
 
     public void displayInfo(){
+        try{
         System.out.println("Ma khach hang: " + id);
         System.out.println("Ten khach hang: " + name);
         System.out.println("email: " + email);
         System.out.println("Kieu khach: " + type);
     }
-
+    catch (Exception e) {
+        System.out.println("Lỗi khi hiển thị thông tin khách hàng: "+ e.getMessage());
+    }
+    finally {
+        System.out.println("Đã thực hiện hiển thị thông tin khách hàng.");
+    }
+  }
 }  

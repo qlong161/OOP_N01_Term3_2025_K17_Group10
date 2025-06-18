@@ -48,6 +48,9 @@ public class CustomerListTest {
         } catch (NumberFormatException e) {
             return -1;
         }
+          finally {
+            System.out.println("Kết thúc kiểm thử CustomerList.");
+          }
     }
 
     private static void addCustomer() {
