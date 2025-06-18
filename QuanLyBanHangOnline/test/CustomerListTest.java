@@ -25,5 +25,8 @@ public class CustomerListTest {
         } catch (Exception e) {
             System.out.println("Đã xảy ra lỗi trong quá trình chạy test: " + e.getMessage());
         }
+          finally {
+            System.out.println("Kết thúc kiểm thử CustomerList.");
+          }
     }
 }

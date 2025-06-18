@@ -11,6 +11,9 @@ public class CustomerList {
         } catch (Exception e) {
             System.out.println("Lỗi khi thêm khách hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc thêm khách hàng.");
+        }
     }
 
     public boolean editCustomer(String customerID, String newName, String newEmail, String newType) {
@@ -30,6 +33,9 @@ public class CustomerList {
             System.out.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
             return false;
         }
+          finally {
+            System.out.println("Kết thúc cập nhật khách hàng.");
+          }
     }
 
     public boolean deleteCustomer(String id) {
@@ -45,6 +51,9 @@ public class CustomerList {
         } catch (Exception e) {
             System.out.println("Lỗi khi xóa khách hàng: " + e.getMessage());
             return false;
+        }
+        finally {
+            System.out.println("Kết thúc xóa khách hàng.");
         }
     }
 
@@ -64,6 +73,9 @@ public class CustomerList {
         } catch (Exception e) {
             System.out.println("Lỗi khi in danh sách khách hàng: " + e.getMessage());
         }
+          finally {
+            System.out.println("Kết thúc in danh sách khách hàng.");
+          }
     }
 
     public Map<String, Customer> getCustomers() {
