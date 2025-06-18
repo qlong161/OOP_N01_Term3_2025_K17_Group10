@@ -36,9 +36,9 @@ public class CustomerAiven {
         try {
            
             Class.forName("com.mysql.cj.jdbc.Driver");
-            
+
             conn = DriverManager.getConnection(
-                    "jdbc:mysql://avnadmin:AVNS_qcy9-3v56k3F_fag4J5@mysql-2a826328-st-cf76.c.aivencloud.com:24247/defaultdb?ssl-mode=REQUIRED",
+                    "jdbc:mysql://",
                     "sqluser", "password");
             Statement sta = conn.createStatement();
 
