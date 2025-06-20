@@ -6,16 +6,23 @@ public class OrderListTest {
     private static OrderList orderList = new OrderList();
 
     public static void runOrderMenu(OrderList oList, CustomerList cList, ProductList pList) {
+        try {
         orderList = oList;
         customerList = cList;
         productList = pList;
         runOrderMenu();
     }
-
+    catch(Exception e){
+        System.err.println("Lỗi khi chạy menu đơn hàng: " + e.getMessage());
+    }
+    finally {
+        System.out.println("Kết thúc xử lý runOderMenu với tham số.");
+    }
+  }
     public static void runOrderMenu() {
         Scanner sc = new Scanner(System.in);
         int choice;
-
+    try {
         do {
             System.out.println("\n==== Quản lý đơn hàng ====");
             System.out.println("1. Thêm đơn hàng");
@@ -62,8 +69,15 @@ public class OrderListTest {
 
         } while (choice != 0);
     }
-
+    catch(Exception e){
+        System.err.println("Lỗi trong menu đơn hàng: " + e.getMessage());
+    }
+    finally {
+        System.out.println("Kết thúc xử lý runOderMenu.");
+    }
+}
     private static void addOrder(OrderList orderList, Scanner sc) {
+        try {
         System.out.print("Nhập mã đơn hàng: ");
         String orderId = sc.nextLine();
 
@@ -118,8 +132,15 @@ public class OrderListTest {
 
         orderList.addOrder(order);
     }
-
+    catch(Exception e){
+        System.err.println("Lỗi khi thêm đơn hàng: " +e.getMessage()); 
+    }
+    finally {
+        System.out.println("Kết thúc xử lý thêm đơn hàng.");
+    }
+ }
     private static void editOrder(OrderList orderList, Scanner sc) {
+        try {
         System.out.print("Nhập ID đơn hàng cần sửa: ");
         String editId = sc.nextLine();
         Order editOrder = orderList.getOrderById(editId);
@@ -205,4 +226,11 @@ public class OrderListTest {
             }
         }
     }
+    catch(Exception e){
+        System.err.println("Lỗi khi chỉnh sửa đơn hàng: " +e.getMessage());
+    }
+    finally {
+        System.out.println("Kết thúc xử lý chỉnh sửa đơn hàng.");
+    }
+  }
 }

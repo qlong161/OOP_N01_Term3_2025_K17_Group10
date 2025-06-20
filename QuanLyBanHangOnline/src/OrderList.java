@@ -12,6 +12,9 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc xử lý thêm đơn hàng.");
+        }
     }
 
     public double getRevenueOfToday() {
@@ -27,6 +30,10 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi tính doanh thu hôm nay: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc tính doanh thu hôm nay.");
+        }
+
         return total;
     }
 
@@ -44,6 +51,9 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi sửa đơn hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc chỉnh sửa đơn hàng.");
+        }
         return false;
     }
 
@@ -60,6 +70,9 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi xoá đơn hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc xử lý xóa đơn hàng.");
+        }
         return false;
     }
 
@@ -75,6 +88,9 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi lọc đơn hàng theo ngày: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc lọc đơn hàng theo ngày.");
+        }
         return filtered;
     }
 
@@ -87,13 +103,20 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi tính doanh thu: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc tính tổng doanh thu theo danh sách.");
+        }
         return total;
     }
 
     public double calculateTotalRevenue() {
+        try {
         return calculateTotalRevenue(ords);
     }
-
+    finally {
+        System.out.println("Tính tổng doanh thu toàn bộ đơn hàng.");
+    }
+}
     public void printDailySummary(String date) {
         try {
             List<Order> orders = getProcessedOrderByDate(date);
@@ -123,6 +146,9 @@ public class OrderList {
         } catch (Exception e) {
             System.err.println("Lỗi khi tìm đơn hàng theo ID: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc tìm kiếm đơn hàng theo ID.");
+        }
         return null;
     }
 
@@ -142,6 +168,9 @@ public class OrderList {
             }
         } catch (Exception e) {
             System.err.println("Lỗi khi hiển thị đơn hàng theo trạng thái: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Kết thúc hiển thị đơn hàng theo trạng thái.");
         }
     }
 

@@ -13,6 +13,8 @@ public class User {
             this.orderList = new OrderList(); // mỗi người dùng có danh sách đơn hàng riêng
         } catch (Exception e) {
             System.err.println("Lỗi khi khởi tạo User: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc khởi tạo User.");
         }
     }
 
@@ -28,6 +30,8 @@ public class User {
             this.maUser = maUser;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật mã người dùng: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc cập nhật mã người dùng.");
         }
     }
 
@@ -43,6 +47,8 @@ public class User {
             this.tenUser = tenUser;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật tên người dùng: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc cập nhật tên người dùng.");
         }
     }
 
@@ -58,6 +64,8 @@ public class User {
             this.orderList = orderList;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật danh sách đơn hàng: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc cập nhật danh sách đơn hàng.");
         }
     }
 }

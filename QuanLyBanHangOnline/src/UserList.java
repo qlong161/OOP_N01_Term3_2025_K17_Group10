@@ -6,7 +6,13 @@ public class UserList {
     private static UserList userListStatic;
 
     public static void setMainUserList(UserList userList) {
-        userListStatic = userList;
+        try {
+            userListStatic = userList;
+        } catch (Exception e) {
+            System.err.println("Lỗi khi thiết lập danh sách người dùng chính: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc thiết lập danh sách người dùng chính.");
+        }
     }
 
     public boolean addUser(User user) {
@@ -23,6 +29,8 @@ public class UserList {
         } catch (Exception e) {
             System.err.println("Lỗi khi thêm người dùng: " + e.getMessage());
             return false;
+        } finally {
+            System.out.println("Kết thúc thao tác thêm người dùng.");
         }
     }
 
@@ -38,6 +46,8 @@ public class UserList {
         } catch (Exception e) {
             System.err.println("Lỗi khi xoá người dùng: " + e.getMessage());
             return false;
+        } finally {
+            System.out.println("Kết thúc thao tác xoá người dùng.");
         }
     }
 
@@ -50,12 +60,21 @@ public class UserList {
             }
         } catch (Exception e) {
             System.err.println("Lỗi khi tìm người dùng: " + e.getMessage());
+        } finally {
+            System.out.println("Kết thúc xử lý tìm người dùng.");
         }
         return null;
     }
 
     public List<User> getAllUsers() {
-        return users;
+        try {
+            return users;
+        } catch (Exception e) {
+            System.err.println("Lỗi khi lấy danh sách người dùng: " + e.getMessage());
+            return new ArrayList<>();
+        } finally {
+            System.out.println("Kết thúc thao tác lấy danh sách người dùng.");
+        }
     }
 
     public void displayAllUsers() {
@@ -77,7 +96,6 @@ public class UserList {
         }
     }
 
-    // ====== Hàm static thống kê doanh thu trong ngày ======
     public static void getTotalRevenue() {
         try {
             if (userListStatic == null) {

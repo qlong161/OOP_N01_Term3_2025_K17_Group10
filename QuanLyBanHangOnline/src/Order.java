@@ -20,6 +20,9 @@ public class Order {
         } catch (Exception e) {
             System.err.println("Lỗi khởi tạo đơn hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Khởi tạo order đơn giản hoàn tất.");
+        }
     }
 
     public Order(String orderId, Customer customer, String status, LocalDateTime date) {
@@ -31,6 +34,9 @@ public class Order {
             this.date = date;
         } catch (Exception e) {
             System.err.println("Lỗi khởi tạo đơn hàng với thông tin đầy đủ: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Khởi tạo order đầy đủ hoàn tất.");
         }
     }
 
@@ -46,6 +52,9 @@ public class Order {
             }
         } catch (Exception e) {
             System.err.println("Lỗi khi thêm sản phẩm vào đơn hàng: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Thêm sản phẩm hoàn tất.");
         }
     }
 
@@ -66,6 +75,9 @@ public class Order {
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Cập nhật khách hàng hoàn tất.");
+        }
     }
 
     public Map<Product, Integer> getItems() {
@@ -81,6 +93,9 @@ public class Order {
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật danh sách sản phẩm: " + e.getMessage());
         }
+        finally {
+            System.out.println("Cập nhật danh sách sản phẩm hoàn tất.");
+        }
     }
 
     public String getStatus() {
@@ -92,6 +107,9 @@ public class Order {
             this.status = status;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật trạng thái đơn hàng: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Cập nhật trạng thái đơn hàng hoàn tất.");
         }
     }
 
@@ -107,6 +125,9 @@ public class Order {
             System.err.println("Lỗi định dạng ngày: " + e.getMessage());
             return "Không xác định";
         }
+        finally {
+            System.out.println("Định dạng ngày hoàn tất.");
+        }
     }
 
     public double calculateTotalPrice() {
@@ -117,6 +138,9 @@ public class Order {
             }
         } catch (Exception e) {
             System.err.println("Lỗi tính tổng tiền: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Tính tổng tiền hoàn tất.");
         }
         return total;
     }

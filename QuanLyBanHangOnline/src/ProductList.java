@@ -22,6 +22,9 @@ public class ProductList {
             System.err.println("Lỗi khi thêm sản phẩm: " + e.getMessage());
             return false;
         }
+        finally {
+            System.out.println("Kết thúc xử lý thêm sản phẩm.");
+        }
     }
 
     public boolean removeProduct(String id) {
@@ -41,6 +44,9 @@ public class ProductList {
             System.err.println("Lỗi khi xoá sản phẩm: " + e.getMessage());
             return false;
         }
+        finally {
+            System.out.println("Kết thúc xử lý xóa sản phẩm.");
+        }
     }
 
     public Product getProductById(String id) {
@@ -49,6 +55,9 @@ public class ProductList {
         } catch (Exception e) {
             System.err.println("Lỗi khi lấy sản phẩm theo ID: " + e.getMessage());
             return null;
+        }
+        finally {
+            System.out.println("Kết thúc xử lý sản phẩm theo ID.");
         }
     }
 
@@ -89,6 +98,9 @@ public class ProductList {
         } catch (Exception e) {
             System.err.println("Lỗi khi hiển thị sản phẩm hết hàng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Kết thúc xử lý tất cả sản phẩm.");
+        }
     }
 
     public void displayLowStockProducts() {
@@ -106,6 +118,9 @@ public class ProductList {
             }
         } catch (Exception e) {
             System.err.println("Lỗi khi hiển thị sản phẩm sắp hết hàng: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Kết thúc xử lý hiển thị sản phẩm hết hàng.");
         }
     }
 }

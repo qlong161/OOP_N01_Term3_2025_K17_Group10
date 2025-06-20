@@ -16,6 +16,9 @@ public class Product {
         } catch (Exception e) {
             System.err.println("Lỗi khi khởi tạo sản phẩm: " + e.getMessage());
         }
+        finally {
+            System.out.println("Khởi tạo sản phẩm hoàn tất.");
+        }
     }
 
     public boolean isAvailable(int qty) {
@@ -35,6 +38,9 @@ public class Product {
         } catch (Exception e) {
             System.err.println("Lỗi khi giảm số lượng: " + e.getMessage());
         }
+        finally {
+            System.out.println("Xử lý giảm số lượng hoàn tất.");
+        }
     }
 
     public void increaseQuantity(int qty) {
@@ -45,6 +51,9 @@ public class Product {
             quantity += qty;
         } catch (Exception e) {
             System.err.println("Lỗi khi tăng số lượng: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Xử lý tăng số lượng hoàn tất.");
         }
     }
 
@@ -75,6 +84,9 @@ public class Product {
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật ID: " + e.getMessage());
         }
+        finally {
+            System.out.println("Đã xử lý cập nhật ID.");
+        }
     }
 
     public String getName() {
@@ -89,6 +101,9 @@ public class Product {
             this.name = name;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật tên: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Đã xử lý cập nhật tên");
         }
     }
 
@@ -105,6 +120,9 @@ public class Product {
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật giá: " + e.getMessage());
         }
+        finally {
+            System.out.println("Đã xử lý cập nhật giá.");
+        }
     }
 
     public int getQuantity() {
@@ -119,6 +137,9 @@ public class Product {
             this.quantity = quantity;
         } catch (Exception e) {
             System.err.println("Lỗi khi cập nhật số lượng: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Đã xử lý cập nhật số lượng.");
         }
     }
 }
