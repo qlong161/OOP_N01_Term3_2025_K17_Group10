@@ -6,63 +6,86 @@ public class OrderList {
     private ArrayList<Order> ords = new ArrayList<>();
 
     public void addOrder(Order order) {
-        ords.add(order);
-        System.out.println("Đã thêm đơn hàng với ID: " + order.getOrderId());
+        try {
+            ords.add(order);
+            System.out.println("Đã thêm đơn hàng với ID: " + order.getOrderId());
+        } catch (Exception e) {
+            System.err.println("Lỗi khi thêm đơn hàng: " + e.getMessage());
+        }
     }
 
     public double getRevenueOfToday() {
-    double total = 0;
-    LocalDate today = LocalDate.now();
-    for (Order o : ords) {
-        // Lọc đơn hàng đã xử lý và có ngày trùng với hôm nay
-        if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
-            o.getDate().toLocalDate().equals(today)) {
-            total += o.calculateTotalPrice();
+        double total = 0;
+        try {
+            LocalDate today = LocalDate.now();
+            for (Order o : ords) {
+                if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
+                    o.getDate().toLocalDate().equals(today)) {
+                    total += o.calculateTotalPrice();
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi tính doanh thu hôm nay: " + e.getMessage());
         }
-    }
-    return total;
+        return total;
     }
 
     public boolean editOrder(String orderId, Customer customer, String status) {
-        for (Order o : ords) {
-            if (o.getOrderId().equals(orderId)) {
-                o.setCustomer(customer);
-                o.setStatus(status);
-                System.out.println("Đã cập nhật đơn hàng với ID: " + orderId);
-                return true;
+        try {
+            for (Order o : ords) {
+                if (o.getOrderId().equals(orderId)) {
+                    o.setCustomer(customer);
+                    o.setStatus(status);
+                    System.out.println("Đã cập nhật đơn hàng với ID: " + orderId);
+                    return true;
+                }
             }
+            System.out.println("Không tìm thấy đơn hàng với ID: " + orderId);
+        } catch (Exception e) {
+            System.err.println("Lỗi khi sửa đơn hàng: " + e.getMessage());
         }
-        System.out.println("Không tìm thấy đơn hàng với ID: " + orderId);
         return false;
     }
 
     public boolean deleteOrder(String orderId) {
-        for (int i = 0; i < ords.size(); i++) {
-            if (ords.get(i).getOrderId().equals(orderId)) {
-                ords.remove(i);
-                System.out.println("Đã xoá đơn hàng với ID: " + orderId);
-                return true;
+        try {
+            for (int i = 0; i < ords.size(); i++) {
+                if (ords.get(i).getOrderId().equals(orderId)) {
+                    ords.remove(i);
+                    System.out.println("Đã xoá đơn hàng với ID: " + orderId);
+                    return true;
+                }
             }
+            System.out.println("Không tìm thấy đơn hàng để xoá với ID: " + orderId);
+        } catch (Exception e) {
+            System.err.println("Lỗi khi xoá đơn hàng: " + e.getMessage());
         }
-        System.out.println("Không tìm thấy đơn hàng để xoá với ID: " + orderId);
         return false;
     }
 
     public List<Order> getProcessedOrderByDate(String date) {
         List<Order> filtered = new ArrayList<>();
-        for (Order o : ords) {
-            if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
-                (date.isEmpty() || o.getFormattedDate().equals(date))) {
-                filtered.add(o);
+        try {
+            for (Order o : ords) {
+                if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
+                    (date.isEmpty() || o.getFormattedDate().equals(date))) {
+                    filtered.add(o);
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi lọc đơn hàng theo ngày: " + e.getMessage());
         }
         return filtered;
     }
 
     public double calculateTotalRevenue(List<Order> orders) {
         double total = 0;
-        for (Order o : orders) {
-            total += o.calculateTotalPrice();
+        try {
+            for (Order o : orders) {
+                total += o.calculateTotalPrice();
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi tính doanh thu: " + e.getMessage());
         }
         return total;
     }
@@ -72,52 +95,72 @@ public class OrderList {
     }
 
     public void printDailySummary(String date) {
-        List<Order> orders = getProcessedOrderByDate(date);
-        if (orders.isEmpty()) {
-            System.out.println("Không có đơn hàng đã xử lý trong ngày " + date);
-        } else {
-            for (Order o : orders) {
-                o.displayOrder();
+        try {
+            List<Order> orders = getProcessedOrderByDate(date);
+            if (orders.isEmpty()) {
+                System.out.println("Không có đơn hàng đã xử lý trong ngày " + date);
+            } else {
+                for (Order o : orders) {
+                    o.displayOrder();
+                }
+                double revenue = calculateTotalRevenue(orders);
+                System.out.println("Tổng doanh thu ngày " + date + ": " + revenue);
             }
-            double revenue = calculateTotalRevenue(orders);
-            System.out.println("Tổng doanh thu ngày " + date + ": " + revenue);
+        } catch (Exception e) {
+            System.err.println("Lỗi khi in tổng kết ngày: " + e.getMessage());
+        } finally {
+            System.out.println("Đã xử lý xong tổng kết ngày.");
         }
     }
 
     public Order getOrderById(String id) {
-        for (Order o : ords) {
-            if (o.getOrderId().equals(id)) {
-                return o;
+        try {
+            for (Order o : ords) {
+                if (o.getOrderId().equals(id)) {
+                    return o;
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi tìm đơn hàng theo ID: " + e.getMessage());
         }
         return null;
     }
 
     public void displayOrdersByStatus(String status) {
         boolean found = false;
-        for (Order o : ords) {
-            if (o.getStatus().equalsIgnoreCase(status)) {
-                o.displayOrder();
-                System.out.println("Tổng tiền: " + o.calculateTotalPrice());
-                System.out.println("---------------------------");
-                found = true;
+        try {
+            for (Order o : ords) {
+                if (o.getStatus().equalsIgnoreCase(status)) {
+                    o.displayOrder();
+                    System.out.println("Tổng tiền: " + o.calculateTotalPrice());
+                    System.out.println("---------------------------");
+                    found = true;
+                }
             }
-        }
-        if (!found) {
-            System.out.println("Không có đơn hàng nào với trạng thái: " + status);
+            if (!found) {
+                System.out.println("Không có đơn hàng nào với trạng thái: " + status);
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi hiển thị đơn hàng theo trạng thái: " + e.getMessage());
         }
     }
 
     public void displayOrderList() {
-        if (ords.isEmpty()) {
-            System.out.println("Danh sách đơn hàng trống.");
-        } else {
-            System.out.println("===== Danh sách đơn hàng =====");
-            for (Order order : ords) {
-                order.displayOrder();
-                System.out.println("Tổng tiền: " + order.calculateTotalPrice());
-                System.out.println("-------------------------------");
+        try {
+            if (ords.isEmpty()) {
+                System.out.println("Danh sách đơn hàng trống.");
+            } else {
+                System.out.println("===== Danh sách đơn hàng =====");
+                for (Order order : ords) {
+                    order.displayOrder();
+                    System.out.println("Tổng tiền: " + order.calculateTotalPrice());
+                    System.out.println("-------------------------------");
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi hiển thị danh sách đơn hàng: " + e.getMessage());
+        } finally {
+            System.out.println("Hoàn tất hiển thị danh sách đơn hàng.");
         }
     }
 }
