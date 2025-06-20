@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,19 @@ public class OrderList {
     public void addOrder(Order order) {
         ords.add(order);
         System.out.println("Đã thêm đơn hàng với ID: " + order.getOrderId());
+    }
+
+    public double getRevenueOfToday() {
+    double total = 0;
+    LocalDate today = LocalDate.now();
+    for (Order o : ords) {
+        // Lọc đơn hàng đã xử lý và có ngày trùng với hôm nay
+        if (o.getStatus().equalsIgnoreCase("đã xử lý") &&
+            o.getDate().toLocalDate().equals(today)) {
+            total += o.calculateTotalPrice();
+        }
+    }
+    return total;
     }
 
     public boolean editOrder(String orderId, Customer customer, String status) {
