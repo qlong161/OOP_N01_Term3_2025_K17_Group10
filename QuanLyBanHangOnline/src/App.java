@@ -1,6 +1,7 @@
 public class App {
     public static void main(String[] args) {
         //menu.mainmenu();
-        OrderListTest.runOrderMenu();
+        //OrderListTest.runOrderMenu();
+        ProductListTest.runProductMenu();
 }
 }
