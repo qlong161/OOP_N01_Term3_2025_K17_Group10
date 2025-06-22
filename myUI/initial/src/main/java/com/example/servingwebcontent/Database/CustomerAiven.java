@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.database;
+package com.example.servingwebcontent.Database;
 
 
 import java.sql.Connection;
@@ -38,8 +38,8 @@ public class CustomerAiven {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             conn = DriverManager.getConnection(
-                    "jdbc:mysql://",
-                    "sqluser", "password");
+                    "jdbc:mysql://avnadmin:AVNS_5W0mNiZFLxdUEn9oYby@mysql-1a39bf8a-leducthuong17022005.c.aivencloud.com:19020/defaultdb?ssl-mode=REQUIRED",
+                    "avnadmin", "AVNS_5W0mNiZFLxdUEn9oYby");
             Statement sta = conn.createStatement();
 
             ResultSet setdata = sta.executeQuery("select * from Customer limit 10");

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.servingwebcontent.database.CustomerAiven;
+import com.example.servingwebcontent.Database.CustomerAiven;
 
 import java.util.ArrayList;
 
