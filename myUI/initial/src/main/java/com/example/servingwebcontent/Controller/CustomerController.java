@@ -1,13 +1,14 @@
 
 
 
-package com.example.servingwebcontent;
+package com.example.servingwebcontent.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.servingwebcontent.Database.CustomerAiven;
+import com.example.servingwebcontent.Model.Customer;
 
 import java.util.ArrayList;
 

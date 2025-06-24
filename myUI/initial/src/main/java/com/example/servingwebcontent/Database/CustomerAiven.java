@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 //import java.util.List;
 
-import com.example.servingwebcontent.Customer;
+import com.example.servingwebcontent.Model.Customer;
 
 
 
