@@ -7,47 +7,40 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/productlist")
 public class ProductController {
 
     private final ProductAiven db = new ProductAiven();
 
-    // 1. Hiển thị toàn bộ sản phẩm + form thêm/sửa
-    @GetMapping("/")
+    // 1. Hiển thị toàn bộ sản phẩm + form thêm
+    @GetMapping("")
     public String showAllProducts(Model model) {
         model.addAttribute("ListOfProduct", db.getAllProducts());
-        if (!model.containsAttribute("newProduct")) {
-            model.addAttribute("newProduct", new Product());
-        }
+        model.addAttribute("newProduct", new Product());
         return "productlist";
     }
 
-    // 2. Lưu sản phẩm (thêm mới hoặc cập nhật nếu đã tồn tại)
-    @PostMapping("/save")
-    public String saveProduct(@ModelAttribute("newProduct") Product product) {
-        Product existing = db.findById(product.getId());
-        if (existing != null) {
-            db.updateProduct(product); // nếu có ID => cập nhật
-        } else {
-            db.insertProduct(product); // nếu không có => thêm mới
-        }
-        return "redirect:/";
+    // 2. Thêm sản phẩm mới
+    @PostMapping("/add")
+    public String addProduct(@ModelAttribute("newProduct") Product product) {
+        db.insertProduct(product); // chỉ thêm mới, không cập nhật
+        return "redirect:/productlist";
     }
 
     // 3. Xoá sản phẩm
     @PostMapping("/delete")
     public String deleteProduct(@RequestParam("id") String id) {
         db.deleteProduct(id);
-        return "redirect:/";
+        return "redirect:/productlist";
     }
 
-    // 4. Nhấn nút "Sửa" -> hiển thị lại trang với form được điền sẵn dữ liệu
-    @PostMapping("/edit")
-    public String editProduct(@RequestParam("id") String id, Model model) {
+    // 4. Sửa sản phẩm (hiển thị lại trang với form đã điền sẵn)
+    @GetMapping("/edit/{id}")
+    public String editProduct(@PathVariable("id") String id, Model model) {
         Product product = db.findById(id);
-        model.addAttribute("newProduct", product); // đổ dữ liệu vào form
-        model.addAttribute("ListOfProduct", db.getAllProducts()); // load lại danh sách
-        return "productlist"; // render lại trang với form có dữ liệu
+        model.addAttribute("newProduct", product); // gán sản phẩm vào form
+        model.addAttribute("ListOfProduct", db.getAllProducts()); // load danh sách
+        return "productlist";
     }
 
     // 5. Hiển thị sản phẩm hết hàng

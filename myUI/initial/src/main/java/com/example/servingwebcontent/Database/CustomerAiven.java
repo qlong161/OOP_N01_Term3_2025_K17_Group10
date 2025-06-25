@@ -1,98 +1,110 @@
 package com.example.servingwebcontent.Database;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-//import java.util.List;
+import java.util.List;
 
 import com.example.servingwebcontent.Model.Customer;
 
-
-
-
-
-
 public class CustomerAiven {
 
-    public CustomerAiven(){}
+    private static final String DB_URL = "jdbc:mysql://avnadmin:AVNS_5W0mNiZFLxdUEn9oYby@mysql-1a39bf8a-leducthuong17022005.c.aivencloud.com:19020/OOP?ssl-mode=REQUIRED";
+    private static final String USER = "avnadmin";
+    private static final String PASSWORD = "AVNS_5W0mNiZFLxdUEn9oYby";
 
-    /*
-     * to do
-     * mapping database data to Model Song
-     */
+    public CustomerAiven() {}
 
-    ArrayList<Customer> items = new ArrayList<Customer>(); 
-  
-
-    /**
-     * @return
-     */
-    public ArrayList<Customer> customerAivenList() {
-      
-        Connection conn = null;
-        try {
-           
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://avnadmin:AVNS_5W0mNiZFLxdUEn9oYby@mysql-1a39bf8a-leducthuong17022005.c.aivencloud.com:19020/defaultdb?ssl-mode=REQUIRED",
-                    "avnadmin", "AVNS_5W0mNiZFLxdUEn9oYby");
-            Statement sta = conn.createStatement();
-
-            ResultSet setdata = sta.executeQuery("select * from Customer limit 10");
-            int index =0;
-            int columnCount = setdata.getMetaData().getColumnCount();
-             System.out.println("column #"+columnCount);
-   
-          
-
-            while (setdata.next()) {
-                Customer cust = new Customer();
-               
-              
-                String id = setdata.getString("id");
-           
-                String name = setdata.getString("name");
-          
-                String email = setdata.getString("email");
-
-                String type = setdata.getString("type");
-
-                System.out.println("Song AIVEN TEST:");
-                System.out.println(id + " " + name + " " + email);
-
-                cust.setId(id);
-                cust.setName(name);
-                cust.setEmail(email);
-                cust.setType(type);
-
-
-                System.out.println("Get SONG in song Aiven");
-                System.out.println(cust.getName());
-                System.out.println(index);
-                
-
-        
-            items.add(cust);
-       }
-
-            setdata.close();
-            sta.close();
-            conn.close();
-           
-        } 
-        catch (Exception e) {
-            System.out.println("Error in database connecion");
-            System.out.println(e);
-            e.printStackTrace();
+    // Lấy tất cả khách hàng
+    public List<Customer> getAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        String sql = "SELECT * FROM customer";
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)
+        ) {
+            while (rs.next()) {
+                customers.add(new Customer(
+                    rs.getString("id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("type")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
         }
-
-        
-        return items;
-
+        return customers;
     }
-    
+
+    // Tìm khách hàng theo ID
+    public Customer findById(String id) {
+        String sql = "SELECT * FROM customer WHERE id=?";
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Customer(
+                    rs.getString("id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("type")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi tìm khách hàng: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // Thêm khách hàng mới
+    public void insertCustomer(Customer c) {
+        String sql = "INSERT INTO customer (id, name, email, type) VALUES (?, ?, ?, ?)";
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setString(1, c.getId());
+            ps.setString(2, c.getName());
+            ps.setString(3, c.getEmail());
+            ps.setString(4, c.getType());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Lỗi khi thêm khách hàng: " + e.getMessage());
+        }
+    }
+
+    // Cập nhật thông tin khách hàng
+    public void updateCustomer(Customer c) {
+        String sql = "UPDATE customer SET name=?, email=?, type=? WHERE id=?";
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setString(1, c.getName());
+            ps.setString(2, c.getEmail());
+            ps.setString(3, c.getType());
+            ps.setString(4, c.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
+        }
+    }
+
+    // Xoá khách hàng
+    public void deleteCustomer(String id) {
+        String sql = "DELETE FROM customer WHERE id=?";
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setString(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Lỗi khi xoá khách hàng: " + e.getMessage());
+        }
+    }
 }

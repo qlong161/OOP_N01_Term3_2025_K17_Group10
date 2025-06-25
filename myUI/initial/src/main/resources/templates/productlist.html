@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý kho hàng</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-<div class="container mt-5">
 
-    <h2 class="mb-4">Danh sách sản phẩm trong kho</h2>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">QUẢN LÝ KHO HÀNG</h2>
 
-    <!-- Form thêm/sửa sản phẩm -->
-    <form th:action="@{/save}" th:object="${newProduct}" method="post" class="row g-3 mb-4">
-        <input type="hidden" th:field="*{id}"/>
-        <div class="col-md-4">
-            <label class="form-label">Tên sản phẩm</label>
-            <input type="text" class="form-control" th:field="*{name}" required>
+    <!-- Buttons -->
+    <div class="mb-3 d-flex justify-content-between">
+        <div>
+            <a href="/productlist" class="btn btn-outline-primary"><i class="bi bi-boxes"></i> Tất cả</a>
+            <a href="/productlist/outofstock" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i> Hết hàng</a>
+            <a href="/productlist/lowstock" class="btn btn-outline-warning"><i class="bi bi-exclamation-triangle"></i> Gần hết</a>
         </div>
-        <div class="col-md-3">
-            <label class="form-label">Giá</label>
-            <input type="number" class="form-control" step="0.01" th:field="*{price}" required>
-        </div>
-        <div class="col-md-3">
-            <label class="form-label">Số lượng</label>
-            <input type="number" class="form-control" th:field="*{quantity}" required>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">Lưu</button>
+    </div>
+
+    <!-- Add Product Form -->
+    <form th:action="@{/productlist/add}" method="post" class="border p-3 rounded mb-4 bg-light">
+        <h5 class="text-success"><i class="bi bi-plus-circle"></i> Thêm sản phẩm mới</h5>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" th:field="*{newProduct.id}" placeholder="Mã sản phẩm" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" th:field="*{newProduct.name}" placeholder="Tên sản phẩm" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" step="0.01" class="form-control" th:field="*{newProduct.price}" placeholder="Giá" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control" th:field="*{newProduct.quantity}" placeholder="Số lượng" required>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg"></i> Thêm</button>
+            </div>
         </div>
     </form>
 
-    <!-- Nút lọc sản phẩm -->
-    <div class="mb-3">
-        <a href="/" class="btn btn-secondary btn-sm">Tất cả</a>
-        <a href="/outofstock" class="btn btn-danger btn-sm">Hết hàng</a>
-        <a href="/lowstock" class="btn btn-warning btn-sm">Gần hết</a>
+    <!-- Table -->
+    <div th:if="${#lists.isEmpty(ListOfProduct)}" class="alert alert-warning text-center">
+        Không có sản phẩm nào để hiển thị.
     </div>
 
-    <!-- Bảng sản phẩm -->
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Tên sản phẩm</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Hành động</th>
-        </tr>
+    <table class="table table-bordered table-hover align-middle" th:if="${!#lists.isEmpty(ListOfProduct)}">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Sửa</th>
+                <th>Xoá</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${ListOfProduct}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.price} + ' đ'"></td>
-            <td th:text="${product.quantity}"></td>
-            <td>
-                <form th:action="@{/edit}" method="post" class="d-inline">
-                    <input type="hidden" name="id" th:value="${product.id}"/>
-                    <button type="submit" class="btn btn-sm btn-warning">Sửa</button>
-                </form>
-                <form th:action="@{/delete}" method="post" class="d-inline" 
-                      onsubmit="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">
-                    <input type="hidden" name="id" th:value="${product.id}"/>
-                    <button type="submit" class="btn btn-sm btn-danger">Xoá</button>
-                </form>
-            </td>
-        </tr>
+            <tr th:each="prod : ${ListOfProduct}" class="text-center">
+                <td th:text="${prod.id}">ID</td>
+                <td th:text="${prod.name}">Name</td>
+                <td th:text="${prod.price}">Price</td>
+                <td th:text="${prod.quantity}">Qty</td>
+
+                <!-- Sửa -->
+                <td>
+                    <a th:href="@{'/productlist/edit/' + ${prod.id}}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+
+                <!-- Xoá -->
+                <td>
+                    <form th:action="@{/productlist/delete}" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xoá?')">
+                        <input type="hidden" name="id" th:value="${prod.id}">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
-
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
