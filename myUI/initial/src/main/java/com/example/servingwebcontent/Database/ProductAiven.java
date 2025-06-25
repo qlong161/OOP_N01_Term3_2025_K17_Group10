@@ -8,7 +8,7 @@ import com.example.servingwebcontent.Model.Product;
 
 public class ProductAiven {
 
-    private static final String DB_URL = "jdbc:mysql://avnadmin:AVNS_5W0mNiZFLxdUEn9oYby@mysql-1a39bf8a-leducthuong17022005.c.aivencloud.com:19020/defaultdb?ssl-mode=REQUIRED";
+    private static final String DB_URL = "jdbc:mysql://avnadmin:AVNS_5W0mNiZFLxdUEn9oYby@mysql-1a39bf8a-leducthuong17022005.c.aivencloud.com:19020/OOP?ssl-mode=REQUIRED";
     private static final String USER = "avnadmin";
     private static final String PASSWORD = "AVNS_5W0mNiZFLxdUEn9oYby";
 
@@ -17,7 +17,7 @@ public class ProductAiven {
     // Lấy tất cả sản phẩm
     public List<Product> getAllProducts() {
         List<Product> items = new ArrayList<>();
-        String sql = "SELECT * FROM Product";
+        String sql = "SELECT * FROM product";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();
@@ -40,7 +40,7 @@ public class ProductAiven {
 
     // Tìm theo ID
     public Product findById(String id) {
-        String sql = "SELECT * FROM Product WHERE id=?";
+        String sql = "SELECT * FROM product WHERE id=?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -63,7 +63,7 @@ public class ProductAiven {
 
     // Thêm mới sản phẩm
     public void insertProduct(Product p) {
-        String sql = "INSERT INTO Product (id, name, price, quantity) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO product (id, name, price, quantity) VALUES (?, ?, ?, ?)";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -80,7 +80,7 @@ public class ProductAiven {
 
     // Cập nhật thông tin sản phẩm
     public void updateProduct(Product p) {
-        String sql = "UPDATE Product SET name=?, price=?, quantity=? WHERE id=?";
+        String sql = "UPDATE product SET name=?, price=?, quantity=? WHERE id=?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -97,7 +97,7 @@ public class ProductAiven {
 
     // Xoá sản phẩm
     public void deleteProduct(String id) {
-        String sql = "DELETE FROM Product WHERE id=?";
+        String sql = "DELETE FROM product WHERE id=?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -112,7 +112,7 @@ public class ProductAiven {
     // Sản phẩm đã hết (quantity = 0)
     public List<Product> getOutOfStockProducts() {
         List<Product> items = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE quantity = 0";
+        String sql = "SELECT * FROM product WHERE quantity = 0";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();
@@ -135,7 +135,7 @@ public class ProductAiven {
     // Sản phẩm gần hết (quantity <= 5)
     public List<Product> getLowStockProducts() {
         List<Product> items = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE quantity > 0 AND quantity <= 5";
+        String sql = "SELECT * FROM product WHERE quantity > 0 AND quantity <= 5";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             Statement stmt = conn.createStatement();
