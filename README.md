@@ -25,7 +25,7 @@ II. TÍNH NĂNG
 - Trực quan hóa dữ liệu (có thể dùng biểu đồ)
 - Xuất dữ liệu ra file Excel hoặc PDF
 III. THIẾT KẾ CƠ SỞ DỮ LIỆU
-1. User(Người dùng):
+   1. User(Người dùng):
   | Trường     | Kiểu dữ liệu | Mô tả                    |
 |------------|--------------|--------------------------|
 | `userId`   | UUID         | Định danh người dùng     |
@@ -34,7 +34,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | `email`    | String       | Email liên hệ            |
 | `role`     | String       | Vai trò (`admin`/`seller`) |
 
-2. Token:
+   2. Token:
 | Trường   | Kiểu dữ liệu | Mô tả                        |
 |----------|--------------|------------------------------|
 | userId   | UUID         | Liên kết đến người dùng (FK) |
@@ -42,14 +42,14 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | date     | Date         | Ngày tạo token               |
 
 
-3. Category(Danh mục):
+   3. Category(Danh mục):
  | Trường     | Kiểu dữ liệu | Mô tả         |
 |------------|--------------|---------------|
 | categoryId | UUID         | Mã danh mục   |
 | name       | String       | Tên danh mục  |
 
 
-4. Product:  
+   4. Product:  
 | Trường     | Kiểu dữ liệu | Mô tả                         |
 |------------|--------------|-------------------------------|
 | pdId       | UUID         | Mã sản phẩm                   |
@@ -59,7 +59,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | pdInfo     | Text         | Mô tả sản phẩm                |
 | pdQuantity | Integer      | Số lượng tồn kho              |
 
-5. Import(Nhập hàng):
+    5. Import(Nhập hàng):
 | Trường     | Kiểu dữ liệu | Mô tả                        |
 |------------|--------------|------------------------------|
 | ipId       | UUID         | Mã bản ghi nhập hàng         |
@@ -69,8 +69,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId     | UUID         | Người nhập (FK)              |
 | date       | DateTime     | Ngày nhập hàng               |
 
-
-6. Export(Xuất hàng):
+    6. Export(Xuất hàng):
 | Trường        | Kiểu dữ liệu | Mô tả                                 |
 |---------------|--------------|---------------------------------------|
 | epId          | UUID         | Mã bản ghi xuất hàng                  |
@@ -81,8 +80,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId        | UUID         | Người xuất (FK)                      |
 | date          | DateTime     | Ngày xuất hàng                        |
 
-
-7. Report(Báo cáo):
+    7. Report(Báo cáo):
 | Trường   | Kiểu dữ liệu | Mô tả                     |
 |----------|--------------|---------------------------|
 | reportId | UUID         | Mã báo cáo                |
@@ -90,8 +88,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | rpName   | String       | Tên báo cáo               |
 | rpInfo   | Text         | Nội dung báo cáo          |
 
-
-8. Customer:
+    8. Customer:
 | Trường     | Kiểu dữ liệu | Mô tả                              |
 |------------|--------------|------------------------------------|
 | customerId | UUID         | Mã khách hàng                      |
@@ -100,8 +97,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | address    | String       | Địa chỉ                            |
 | type       | String       | Loại khách: trực tiếp / online     |
 
-
-9.Order
+     9.Order
 | Trường      | Kiểu dữ liệu | Mô tả                                      |
 |-------------|--------------|--------------------------------------------|
 | orderId     | UUID         | Mã đơn hàng                                |
