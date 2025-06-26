@@ -30,13 +30,14 @@ public class CustomerController {
     // Hiển thị form chỉnh sửa
     @GetMapping("/edit/{id}")
     public String editCustomerForm(@PathVariable String id, Model model) {
-        Customer existing = customerDB.findById(id);
+    Customer existing = customerDB.findById(id);
+        model.addAttribute("ListOfCustomer", customerDB.getAllCustomers()); // Để bảng vẫn hiển thị
+        model.addAttribute("newCustomer", new Customer()); // Form thêm
         if (existing != null) {
-            model.addAttribute("editCustomer", existing);
-            return "edit-customer"; // Bạn cần tạo file HTML cho việc chỉnh sửa
-        }
-        return "redirect:/customerlist";
+         model.addAttribute("editCustomer", existing); // Form sửa
     }
+    return "customerlist";
+}
 
     // Cập nhật sau khi chỉnh sửa
     @PostMapping("/update")

@@ -36,6 +36,30 @@
         </div>
     </form>
 
+    <!-- Form chỉnh sửa khách hàng (nếu có) -->
+    <div th:if="${editCustomer != null}" class="border p-3 rounded mb-4 bg-warning-subtle">
+        <h5 class="text-warning"><i class="bi bi-pencil-fill"></i> Chỉnh sửa khách hàng</h5>
+        <form th:action="@{/customerlist/update}" method="post">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" th:field="*{editCustomer.id}" readonly>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" th:field="*{editCustomer.name}" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="email" class="form-control" th:field="*{editCustomer.email}" required>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" th:field="*{editCustomer.type}" required>
+                </div>
+                <div class="col-md-1 d-grid">
+                    <button type="submit" class="btn btn-warning"><i class="bi bi-check-lg"></i> Cập nhật</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <!-- Nếu không có khách hàng -->
     <div th:if="${#lists.isEmpty(ListOfCustomer)}" class="alert alert-warning text-center">
         Không có khách hàng nào để hiển thị.
