@@ -24,8 +24,8 @@ public class OrderAiven {
 
     // Thêm đơn hàng mới cho user
     public void insertOrder(Order order) {
-        String insertOrderSQL = "INSERT INTO orders (order_id, customer_id, user_id, status, date) VALUES (?, ?, ?, ?, ?)";
-        String insertItemSQL = "INSERT INTO order_item (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+        String insertOrderSQL = "INSERT INTO orders (id, customer_id, user_id, status, date) VALUES (?, ?, ?, ?, ?)";
+        String insertItemSQL = "INSERT INTO order_item (order_id, product_id, quantity) VALUES (?, ?, ?)";
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -48,7 +48,6 @@ public class OrderAiven {
                 itemStmt.setString(1, order.getOrderId());
                 itemStmt.setString(2, product.getId());
                 itemStmt.setInt(3, quantity);
-                itemStmt.setDouble(4, product.getPrice());
                 itemStmt.addBatch();
             }
             itemStmt.executeBatch();
@@ -77,7 +76,7 @@ public class OrderAiven {
             ProductAiven productAiven = new ProductAiven();
 
             while (rs.next()) {
-                String orderId = rs.getString("order_id");
+                String orderId = rs.getString("id");
                 String customerId = rs.getString("customer_id");
                 String status = rs.getString("status");
                 LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
@@ -93,10 +92,8 @@ public class OrderAiven {
                     while (itemRs.next()) {
                         String productId = itemRs.getString("product_id");
                         int quantity = itemRs.getInt("quantity");
-                        double price = itemRs.getDouble("price");
 
                         Product product = productAiven.findById(productId);
-                        product.setPrice(price);
                         order.addProduct(product, quantity);
                     }
                 }
@@ -113,7 +110,7 @@ public class OrderAiven {
 
     public void deleteOrder(String orderId) {
         String deleteItemsSQL = "DELETE FROM order_item WHERE order_id = ?";
-        String deleteOrderSQL = "DELETE FROM orders WHERE order_id = ?";
+        String deleteOrderSQL = "DELETE FROM orders WHERE id = ?";
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -137,7 +134,7 @@ public class OrderAiven {
     }
 
     public void updateStatus(String orderId, String newStatus) {
-        String sql = "UPDATE orders SET status = ? WHERE order_id = ?";
+        String sql = "UPDATE orders SET status = ? WHERE id = ?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement stmt = conn.prepareStatement(sql)
@@ -153,8 +150,10 @@ public class OrderAiven {
 
     public double calculateTotalRevenueByUserId(String userId) {
         double total = 0;
-        String sql = "SELECT SUM(oi.price * oi.quantity) as revenue " +
-                     "FROM orders o JOIN order_item oi ON o.order_id = oi.order_id " +
+        String sql = "SELECT SUM(p.price * oi.quantity) as revenue " +
+                     "FROM orders o " +
+                     "JOIN order_item oi ON o.id = oi.order_id " +
+                     "JOIN product p ON oi.product_id = p.id " +
                      "WHERE o.user_id = ?";
 
         try (

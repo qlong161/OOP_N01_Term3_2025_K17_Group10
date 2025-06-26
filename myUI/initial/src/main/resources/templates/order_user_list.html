@@ -2,113 +2,141 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý đơn hàng của [[${user.name}]]</title>
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
-        form.inline { display: inline; }
-        .box { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
-        .total { font-weight: bold; }
-    </style>
+    <title>Quản lý đơn hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body>
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">
+        ĐƠN HÀNG CỦA <span th:text="${user.name}">Người dùng</span>
+    </h2>
 
-<h2>Đơn hàng của người dùng: <span th:text="${user.name}">Tên người dùng</span></h2>
+    <!-- Tổng doanh thu -->
+    <p class="text-end fw-bold">
+        Tổng doanh thu: <span th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0 VNĐ</span>
+    </p>
 
-<p class="total">Tổng doanh thu: <span th:text="${totalRevenue} + ' VNĐ'">0 VNĐ</span></p>
+    <!-- Quay lại danh sách user -->
+    <a href="/userlist" class="btn btn-outline-secondary mb-3"><i class="bi bi-arrow-left"></i> Quay lại</a>
 
-<a href="/userlist">⬅ Quay lại danh sách người dùng</a>
-
-<!-- Bộ lọc trạng thái -->
-<div class="box">
-    <form th:action="@{'/order/user/' + ${user.id} + '/filter'}" method="get">
-        <label>Lọc theo trạng thái:</label>
-        <select name="status">
-            <option value="New">New</option>
-            <option value="Processing">Processing</option>
-            <option value="Completed">Completed</option>
+    <!-- Bộ lọc trạng thái -->
+    <form th:action="@{'/order/user/' + ${user.id} + '/filter'}" method="get" class="mb-3 d-flex align-items-center gap-2">
+        <label for="status" class="form-label mb-0 fw-bold">Lọc trạng thái:</label>
+        <select id="status" name="status" class="form-select w-auto">
+            <option value="New">Chưa xử lý</option>
+            <option value="Processing">Đang xử lý</option>
+            <option value="Completed">Đã xử lý</option>
         </select>
-        <button type="submit">Lọc</button>
+        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-funnel"></i> Lọc</button>
     </form>
-</div>
 
-<!-- Danh sách đơn hàng -->
-<table>
-    <thead>
-        <tr>
-            <th>Mã đơn</th>
-            <th>Khách hàng</th>
-            <th>Ngày</th>
-            <th>Trạng thái</th>
-            <th>Sản phẩm</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="order : ${orders}">
-            <td th:text="${order.orderId}">Mã đơn</td>
-            <td th:text="${order.customer.name}">Khách hàng</td>
-            <td th:text="${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}">Ngày</td>
-            <td th:text="${order.status}">Trạng thái</td>
-            <td>
-                <ul>
-                    <li th:each="entry : ${order.items}">
-                        <span th:text="${entry.key.name}">Tên SP</span> -
-                        <span th:text="${entry.value}">SL</span> cái
-                    </li>
-                </ul>
-            </td>
-            <td>
-                <!-- Cập nhật trạng thái -->
-                <form method="post" action="/order/update" class="inline">
-                    <input type="hidden" name="orderId" th:value="${order.orderId}" />
-                    <input type="hidden" name="userId" th:value="${user.id}" />
-                    <select name="status">
-                        <option value="New" th:selected="${order.status == 'New'}">New</option>
-                        <option value="Processing" th:selected="${order.status == 'Processing'}">Processing</option>
-                        <option value="Completed" th:selected="${order.status == 'Completed'}">Completed</option>
+    <!-- Bảng đơn hàng -->
+    <div th:if="${#lists.isEmpty(orders)}" class="alert alert-warning text-center">Không có đơn hàng nào.</div>
+
+    <table class="table table-bordered table-hover align-middle" th:if="${!#lists.isEmpty(orders)}">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Ngày</th>
+                <th>Trạng thái</th>
+                <th>Sản phẩm</th>
+                <th>Sửa</th>
+                <th>Xoá</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order : ${orders}" class="text-center">
+                <td th:text="${order.orderId}">Mã</td>
+                <td th:text="${order.customer.name}">Tên KH</td>
+                <td th:text="${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}">Ngày</td>
+                <td>
+                    <span th:switch="${order.status}">
+                        <span th:case="'New'">Chưa xử lý</span>
+                        <span th:case="'Processing'">Đang xử lý</span>
+                        <span th:case="'Completed'">Đã xử lý</span>
+                        <span th:case="*">Không rõ</span>
+                    </span>
+                </td>
+                <td>
+                    <ul class="text-start mb-0">
+                        <li th:each="entry : ${order.items}">
+                            <span th:text="${entry.key.name}">Tên SP</span> -
+                            <span th:text="${entry.value}">SL</span> cái
+                        </li>
+                    </ul>
+                </td>
+
+                <!-- Sửa trạng thái -->
+                <td>
+                    <form method="post" action="/order/update">
+                        <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                        <input type="hidden" name="userId" th:value="${user.id}" />
+                        <select name="status" class="form-select mb-1">
+                            <option value="New" th:selected="${order.status == 'New'}">Chưa xử lý</option>
+                            <option value="Processing" th:selected="${order.status == 'Processing'}">Đang xử lý</option>
+                            <option value="Completed" th:selected="${order.status == 'Completed'}">Đã xử lý</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-success w-100">
+                            <i class="bi bi-check-circle"></i> Cập nhật
+                        </button>
+                    </form>
+                </td>
+
+                <!-- Xoá -->
+                <td>
+                    <form method="post" action="/order/delete"
+                          onsubmit="return confirm('Bạn có chắc chắn muốn xoá đơn hàng này?')">
+                        <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                        <input type="hidden" name="userId" th:value="${user.id}" />
+                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                            <i class="bi bi-trash3"></i> Xoá
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Form thêm đơn hàng -->
+    <div class="border p-4 rounded bg-light mt-4">
+        <h5 class="text-success"><i class="bi bi-plus-circle"></i> Thêm đơn hàng mới</h5>
+        <form method="post" action="/order/add">
+            <input type="hidden" name="userId" th:value="${user.id}" />
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Mã đơn hàng</label>
+                    <input type="text" name="orderId" class="form-control" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Khách hàng</label>
+                    <select name="customerId" class="form-select">
+                        <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}">Khách hàng</option>
                     </select>
-                    <button type="submit">✔ Cập nhật</button>
-                </form>
+                </div>
+            </div>
 
-                <!-- Xoá đơn hàng -->
-                <form method="post" action="/order/delete" class="inline"
-                      onsubmit="return confirm('Xoá đơn hàng này?')">
-                    <input type="hidden" name="orderId" th:value="${order.orderId}" />
-                    <input type="hidden" name="userId" th:value="${user.id}" />
-                    <button type="submit">🗑️ Xoá</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            <label class="form-label">Chọn sản phẩm và số lượng</label>
+            <div class="row mb-3" th:each="product : ${products}">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <span th:text="${product.name + ' (' + product.price + ' VNĐ)'}"></span>
+                        <input type="number" min="0" value="0" class="form-control mt-1"
+                               th:name="${'product_' + product.id}" />
+                    </label>
+                </div>
+            </div>
 
-<!-- Thêm đơn hàng mới -->
-<div class="box">
-    <h3>Thêm đơn hàng mới</h3>
-    <form method="post" action="/order/add">
-        <input type="hidden" name="userId" th:value="${user.id}" />
-        <label>Mã đơn hàng:</label>
-        <input type="text" name="orderId" required><br><br>
-
-        <label>Chọn khách hàng:</label>
-        <select name="customerId">
-            <option th:each="c : ${customers}" th:value="${c.customerId}" th:text="${c.name}">Khách hàng</option>
-        </select><br><br>
-
-        <label>Chọn sản phẩm và số lượng:</label><br>
-        <div th:each="product : ${products}">
-            <label>
-                <span th:text="${product.name} + ' (' + product.price + ' VNĐ)'"></span>
-                <input type="number" th:attr="name=${'product_' + product.id}" value="0" min="0" />
-            </label><br>
-        </div><br>
-
-        <button type="submit">➕ Tạo đơn hàng</button>
-    </form>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Tạo đơn hàng
+            </button>
+        </form>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

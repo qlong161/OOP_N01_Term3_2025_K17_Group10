@@ -3,6 +3,7 @@ package com.example.servingwebcontent.Controller;
 import com.example.servingwebcontent.Database.OrderAiven;
 import com.example.servingwebcontent.Database.CustomerAiven;
 import com.example.servingwebcontent.Database.ProductAiven;
+import com.example.servingwebcontent.Database.UserAiven;
 import com.example.servingwebcontent.Model.*;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ public class OrderController {
     private final OrderAiven orderDB = new OrderAiven();
     private final CustomerAiven customerDB = new CustomerAiven();
     private final ProductAiven productDB = new ProductAiven();
+    private final UserAiven userDB = new UserAiven();
 
     // Giao diện chọn user để quản lý đơn hàng
     @GetMapping("/selectUser")
@@ -31,19 +33,18 @@ public class OrderController {
         return "redirect:/order/user/" + userId;
     }
 
-    // Trang chính: Hiển thị danh sách đơn hàng của 1 user (người bán)
+    // Hiển thị danh sách đơn hàng của 1 user
     @GetMapping("/user/{userId}")
     public String showOrdersForUser(@PathVariable("userId") String userId, Model model) {
         List<Order> orders = orderDB.getOrdersByUserId(userId);
         double totalRevenue = orderDB.calculateTotalRevenueByUserId(userId);
-
-        User user = new User(userId, "Tên người dùng"); // Có thể nâng cấp nếu có UserAiven
+        User user = userDB.findById(userId);
 
         model.addAttribute("user", user);
         model.addAttribute("orders", orders);
         model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("products", productDB.findAll());
-        model.addAttribute("customers", customerDB.findAll());
+        model.addAttribute("customers", customerDB.getAllCustomers()); // ✅ Sửa chỗ này
         return "order_user_list";
     }
 
@@ -57,19 +58,21 @@ public class OrderController {
         Customer customer = customerDB.findById(customerId);
         if (customer == null) return "redirect:/order/user/" + userId;
 
-        User user = new User(userId, "Tên người dùng");
+        User user = userDB.findById(userId);
         Order order = new Order(orderId, customer, user, "New", LocalDateTime.now());
 
         for (String key : allParams.keySet()) {
             if (key.startsWith("product_")) {
                 String productId = key.substring("product_".length());
-                int quantity = Integer.parseInt(allParams.get(key));
-                if (quantity > 0) {
-                    Product product = productDB.findById(productId);
-                    if (product != null) {
-                        order.addProduct(product, quantity);
+                try {
+                    int quantity = Integer.parseInt(allParams.get(key));
+                    if (quantity > 0) {
+                        Product product = productDB.findById(productId);
+                        if (product != null) {
+                            order.addProduct(product, quantity);
+                        }
                     }
-                }
+                } catch (NumberFormatException ignored) {}
             }
         }
 
@@ -104,13 +107,13 @@ public class OrderController {
                 .toList();
 
         double totalRevenue = orderDB.calculateTotalRevenueByUserId(userId);
-        User user = new User(userId, "Tên người dùng");
+        User user = userDB.findById(userId);
 
         model.addAttribute("user", user);
         model.addAttribute("orders", filteredOrders);
         model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("products", productDB.findAll());
-        model.addAttribute("customers", customerDB.findAll());
+        model.addAttribute("customers", customerDB.getAllCustomers()); // ✅ Sửa chỗ này
         return "order_user_list";
     }
 }
