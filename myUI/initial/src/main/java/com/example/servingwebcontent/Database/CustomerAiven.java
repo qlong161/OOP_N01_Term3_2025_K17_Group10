@@ -37,6 +37,30 @@ public class CustomerAiven {
         return customers;
     }
 
+    public List<Customer> findAll() {
+        List<Customer> customers = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+            String sql = "SELECT * FROM customers";
+            try (PreparedStatement stmt = conn.prepareStatement(sql);
+                 ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Customer c = new Customer(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("address")
+                    );
+                    customers.add(c);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
+
     // Tìm khách hàng theo ID
     public Customer findById(String id) {
         String sql = "SELECT * FROM customer WHERE id=?";

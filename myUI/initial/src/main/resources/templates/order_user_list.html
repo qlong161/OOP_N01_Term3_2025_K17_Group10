@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý đơn hàng của [[${user.name}]]</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        form.inline { display: inline; }
+        .box { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+        .total { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>Đơn hàng của người dùng: <span th:text="${user.name}">Tên người dùng</span></h2>
+
+<p class="total">Tổng doanh thu: <span th:text="${totalRevenue} + ' VNĐ'">0 VNĐ</span></p>
+
+<a href="/userlist">⬅ Quay lại danh sách người dùng</a>
+
+<!-- Bộ lọc trạng thái -->
+<div class="box">
+    <form th:action="@{'/order/user/' + ${user.id} + '/filter'}" method="get">
+        <label>Lọc theo trạng thái:</label>
+        <select name="status">
+            <option value="New">New</option>
+            <option value="Processing">Processing</option>
+            <option value="Completed">Completed</option>
+        </select>
+        <button type="submit">Lọc</button>
+    </form>
+</div>
+
+<!-- Danh sách đơn hàng -->
+<table>
+    <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Ngày</th>
+            <th>Trạng thái</th>
+            <th>Sản phẩm</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.orderId}">Mã đơn</td>
+            <td th:text="${order.customer.name}">Khách hàng</td>
+            <td th:text="${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}">Ngày</td>
+            <td th:text="${order.status}">Trạng thái</td>
+            <td>
+                <ul>
+                    <li th:each="entry : ${order.items}">
+                        <span th:text="${entry.key.name}">Tên SP</span> -
+                        <span th:text="${entry.value}">SL</span> cái
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <!-- Cập nhật trạng thái -->
+                <form method="post" action="/order/update" class="inline">
+                    <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <select name="status">
+                        <option value="New" th:selected="${order.status == 'New'}">New</option>
+                        <option value="Processing" th:selected="${order.status == 'Processing'}">Processing</option>
+                        <option value="Completed" th:selected="${order.status == 'Completed'}">Completed</option>
+                    </select>
+                    <button type="submit">✔ Cập nhật</button>
+                </form>
+
+                <!-- Xoá đơn hàng -->
+                <form method="post" action="/order/delete" class="inline"
+                      onsubmit="return confirm('Xoá đơn hàng này?')">
+                    <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <button type="submit">🗑️ Xoá</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Thêm đơn hàng mới -->
+<div class="box">
+    <h3>Thêm đơn hàng mới</h3>
+    <form method="post" action="/order/add">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <label>Mã đơn hàng:</label>
+        <input type="text" name="orderId" required><br><br>
+
+        <label>Chọn khách hàng:</label>
+        <select name="customerId">
+            <option th:each="c : ${customers}" th:value="${c.customerId}" th:text="${c.name}">Khách hàng</option>
+        </select><br><br>
+
+        <label>Chọn sản phẩm và số lượng:</label><br>
+        <div th:each="product : ${products}">
+            <label>
+                <span th:text="${product.name} + ' (' + product.price + ' VNĐ)'"></span>
+                <input type="number" th:attr="name=${'product_' + product.id}" value="0" min="0" />
+            </label><br>
+        </div><br>
+
+        <button type="submit">➕ Tạo đơn hàng</button>
+    </form>
+</div>
+
+</body>
+</html>

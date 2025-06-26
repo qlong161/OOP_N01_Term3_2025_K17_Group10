@@ -1,10 +1,10 @@
 package com.example.servingwebcontent.Database;
 
+import com.example.servingwebcontent.Model.Product;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.servingwebcontent.Model.Product;
 
 public class ProductAiven {
 
@@ -14,7 +14,7 @@ public class ProductAiven {
 
     public ProductAiven() {}
 
-    // Lấy tất cả sản phẩm
+    // 1. Lấy tất cả sản phẩm
     public List<Product> getAllProducts() {
         List<Product> items = new ArrayList<>();
         String sql = "SELECT * FROM product";
@@ -24,13 +24,7 @@ public class ProductAiven {
             ResultSet rs = stmt.executeQuery(sql)
         ) {
             while (rs.next()) {
-                Product p = new Product(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getInt("quantity")
-                );
-                items.add(p);
+                items.add(mapResultSetToProduct(rs));
             }
         } catch (Exception e) {
             System.out.println("Lỗi khi đọc dữ liệu: " + e.getMessage());
@@ -38,9 +32,14 @@ public class ProductAiven {
         return items;
     }
 
-    // Tìm theo ID
+    // ✅ Hàm mới: findAll() dành riêng cho order controller
+    public List<Product> findAll() {
+        return getAllProducts();
+    }
+
+    // 2. Tìm sản phẩm theo ID
     public Product findById(String id) {
-        String sql = "SELECT * FROM product WHERE id=?";
+        String sql = "SELECT * FROM product WHERE id = ?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -48,12 +47,7 @@ public class ProductAiven {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Product(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getInt("quantity")
-                );
+                return mapResultSetToProduct(rs);
             }
         } catch (Exception e) {
             System.out.println("Lỗi khi tìm sản phẩm: " + e.getMessage());
@@ -61,7 +55,7 @@ public class ProductAiven {
         return null;
     }
 
-    // Thêm mới sản phẩm
+    // 3. Thêm sản phẩm mới
     public void insertProduct(Product p) {
         String sql = "INSERT INTO product (id, name, price, quantity) VALUES (?, ?, ?, ?)";
         try (
@@ -78,9 +72,9 @@ public class ProductAiven {
         }
     }
 
-    // Cập nhật thông tin sản phẩm
+    // 4. Cập nhật sản phẩm
     public void updateProduct(Product p) {
-        String sql = "UPDATE product SET name=?, price=?, quantity=? WHERE id=?";
+        String sql = "UPDATE product SET name = ?, price = ?, quantity = ? WHERE id = ?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -95,9 +89,9 @@ public class ProductAiven {
         }
     }
 
-    // Xoá sản phẩm
+    // 5. Xóa sản phẩm
     public void deleteProduct(String id) {
-        String sql = "DELETE FROM product WHERE id=?";
+        String sql = "DELETE FROM product WHERE id = ?";
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -109,7 +103,7 @@ public class ProductAiven {
         }
     }
 
-    // Sản phẩm đã hết (quantity = 0)
+    // 6. Lấy sản phẩm hết hàng (quantity = 0)
     public List<Product> getOutOfStockProducts() {
         List<Product> items = new ArrayList<>();
         String sql = "SELECT * FROM product WHERE quantity = 0";
@@ -119,12 +113,7 @@ public class ProductAiven {
             ResultSet rs = stmt.executeQuery(sql)
         ) {
             while (rs.next()) {
-                items.add(new Product(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getInt("quantity")
-                ));
+                items.add(mapResultSetToProduct(rs));
             }
         } catch (Exception e) {
             System.out.println("Lỗi khi lấy danh sách hết hàng: " + e.getMessage());
@@ -132,7 +121,7 @@ public class ProductAiven {
         return items;
     }
 
-    // Sản phẩm gần hết (quantity <= 5)
+    // 7. Lấy sản phẩm gần hết hàng (quantity > 0 AND quantity <= 5)
     public List<Product> getLowStockProducts() {
         List<Product> items = new ArrayList<>();
         String sql = "SELECT * FROM product WHERE quantity > 0 AND quantity <= 5";
@@ -142,16 +131,21 @@ public class ProductAiven {
             ResultSet rs = stmt.executeQuery(sql)
         ) {
             while (rs.next()) {
-                items.add(new Product(
-                    rs.getString("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getInt("quantity")
-                ));
+                items.add(mapResultSetToProduct(rs));
             }
         } catch (Exception e) {
             System.out.println("Lỗi khi lấy danh sách gần hết: " + e.getMessage());
         }
         return items;
+    }
+
+    // ✅ Hàm hỗ trợ để chuyển ResultSet thành Product
+    private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
+        return new Product(
+            rs.getString("id"),
+            rs.getString("name"),
+            rs.getDouble("price"),
+            rs.getInt("quantity")
+        );
     }
 }

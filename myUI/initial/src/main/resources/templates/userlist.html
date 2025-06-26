@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý người dùng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        input[type="text"] {
+            padding: 6px;
+            margin: 4px 0;
+            width: 200px;
+        }
+
+        button {
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        form {
+            display: inline;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Quản lý người dùng</h1>
+
+<!-- Form thêm hoặc cập nhật user -->
+<div class="form-container">
+    <form th:action="@{/userlist/add}" method="post">
+        <input type="text" name="id" placeholder="Nhập ID người dùng" required>
+        <input type="text" name="name" placeholder="Nhập tên người dùng" required>
+        <button type="submit">Thêm người dùng</button>
+    </form>
+</div>
+
+<!-- Bảng hiển thị danh sách user -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tên người dùng</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.name}">Tên</td>
+        <td>
+            <!-- Form cập nhật -->
+            <form th:action="@{/userlist/update}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <input type="text" name="name" th:placeholder="'Sửa tên: ' + ${user.name}" required>
+                <button type="submit">Sửa</button>
+            </form>
+
+            <!-- Form xoá -->
+            <form th:action="@{/userlist/delete}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá người dùng này?')">Xoá</button>
+            </form>
+
+            <!-- Nút quản lý đơn hàng -->
+            <form th:action="@{'/order/user/' + ${user.id}}" method="get">
+                <button type="submit">Quản lý đơn hàng</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Nút quay lại trang chủ -->
+<a href="/" style="text-decoration: none;">
+    <button>Trang chủ</button>
+</a>
+
+</body>
+</html>
