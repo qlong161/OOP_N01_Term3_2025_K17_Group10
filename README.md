@@ -62,7 +62,7 @@ Khi xử lý trong bộ nhớ, dữ liệu cần lưu bằng các Collection nh�
 ![Sơ đồ Class Diagram](https://github.com/user-attachments/assets/7dd3bc0b-8b56-4eea-a83b-9099b460a9c0)
 
 # Lưu đồ thuật toán của chức năng chính:
-![1111](https://github.com/user-attachments/assets/02b78240-e7a5-448e-9f4c-c99adb12b8df)
+![Lưu đồ thuật toán của chức năng chính](https://github.com/qlong161/OOP_N01_Term3_2025_K17_Group10/blob/main/Images/s%C6%A1%20%C4%91%E1%BB%93%20oop.png?raw=true)
 
 # Phân công công việc cho thành viên:
 + Nguyễn Hữu Quang Long: Viết phương thức lọc đơn hàng theo ngày theo trạng thái "Đã xử lý"
