@@ -46,7 +46,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | date     | Date         | Ngày tạo token               |
 
 
-   ### Category(Danh mục)
+   ###  Category(Danh mục)
    
  | Trường     | Kiểu dữ liệu | Mô tả         |
 |------------|--------------|---------------|
@@ -54,7 +54,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | name       | String       | Tên danh mục  |
 
 
-   ### Product
+   ###  Product
    
 | Trường     | Kiểu dữ liệu | Mô tả                         |
 |------------|--------------|-------------------------------|
@@ -65,7 +65,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | pdInfo     | Text         | Mô tả sản phẩm                |
 | pdQuantity | Integer      | Số lượng tồn kho              |
 
-    ### Import(Nhập hàng)
+    ###  Import(Nhập hàng)
     
 | Trường     | Kiểu dữ liệu | Mô tả                        |
 |------------|--------------|------------------------------|
@@ -76,7 +76,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId     | UUID         | Người nhập (FK)              |
 | date       | DateTime     | Ngày nhập hàng               |
 
-    ### Export(Xuất hàng)
+    ###  Export(Xuất hàng)
     
 | Trường        | Kiểu dữ liệu | Mô tả                                 |
 |---------------|--------------|---------------------------------------|
@@ -88,7 +88,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId        | UUID         | Người xuất (FK)                      |
 | date          | DateTime     | Ngày xuất hàng                        |
 
-    ### Report(Báo cáo)
+    ###  Report(Báo cáo)
     
 | Trường   | Kiểu dữ liệu | Mô tả                     |
 |----------|--------------|---------------------------|
@@ -97,7 +97,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | rpName   | String       | Tên báo cáo               |
 | rpInfo   | Text         | Nội dung báo cáo          |
 
-    ### Customer
+    ###  Customer
     
 | Trường     | Kiểu dữ liệu | Mô tả                              |
 |------------|--------------|------------------------------------|
@@ -107,7 +107,7 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | address    | String       | Địa chỉ                            |
 | type       | String       | Loại khách: trực tiếp / online     |
 
-     ### Order
+     ###  Order
      
 | Trường      | Kiểu dữ liệu | Mô tả                                      |
 |-------------|--------------|--------------------------------------------|
@@ -181,9 +181,10 @@ User nhập thông tin → Controller nhận dữ liệu → gọi Service xử 
 
 V. CẤU TRÚC THƯ MỤC
 
+```
 project-root/
 ├── .vscode/
-│   └── settings.json                    # Cấu hình môi trường phát triển trong VS Code
+│   └── settings.json              # Cấu hình môi trường phát triển trong VS Code
 │
 ├── myUI/
 │   └── initial/
@@ -195,7 +196,7 @@ project-root/
 │       ├── logo.png
 │       └── notes.txt
 │
-├── images/                              # Ảnh minh họa sơ đồ, giao diện, báo cáo
+├── images/                        # Ảnh minh họa sơ đồ, giao diện, báo cáo
 │
 ├── Quản lý bán hàng cho tiểu thương nhỏ lẻ/
 │   ├── .vscode/
@@ -237,28 +238,30 @@ project-root/
 │   │
 │   └── README.md
 │
-├── mvnw                                   # Maven Wrapper script (Linux/Mac)
-├── mvnw.cmd                               # Maven Wrapper script (Windows)
+├── mvnw                          # Maven Wrapper script (Linux/Mac)
+├── mvnw.cmd                      # Maven Wrapper script (Windows)
 ├── mvn/
 │   └── wrapper/
-│       ├── maven-wrapper.jar              # Maven launcher
-│       └── maven-wrapper.properties       # Cấu hình Maven Wrapper
+│       ├── maven-wrapper.jar     # Maven launcher
+│       └── maven-wrapper.properties
 │
-├── pom.xml                                # Tệp cấu hình Maven chính (dependencies, plugins)
-└── src/                                   # Cấu trúc Spring Boot chuẩn
+├── pom.xml                       # Tệp cấu hình Maven chính (dependencies, plugins)
+│
+└── src/                          # Cấu trúc Spring Boot chuẩn
     ├── main/
     │   ├── java/
     │   │   └── com/example/servingwebcontent/
-    │   │       └── (các class Spring Boot controller, model, service…)
+    │   │       └── (các class Spring Boot: controller, model, service…)
     │   └── resources/
-    │       ├── templates/                 # Thymeleaf HTML
-    │       ├── static/                    # CSS, JS, ảnh tĩnh
-    │       └── application.properties     # Cấu hình Spring
+    │       ├── templates/        # Thymeleaf HTML
+    │       ├── static/           # CSS, JS, ảnh tĩnh
+    │       └── application.properties
     │
     └── test/
         └── java/
             └── com/example/servingwebcontent/
                 └── (JUnit test class)
+```
 
 VI. MÔ HÌNH VÀ CHỨC NĂNG
 1. Mô hình hệ thống – Kiến trúc MVC (Model - View - Controller)
