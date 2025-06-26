@@ -35,7 +35,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | email    | String       | Email liên hệ            |
 | role     | String       | Vai trò (`admin`/`seller`) |
 
-   2. Token:
+   ### Token
+   
 | Trường   | Kiểu dữ liệu | Mô tả                        |
 |----------|--------------|------------------------------|
 | userId   | UUID         | Liên kết đến người dùng (FK) |
