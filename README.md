@@ -1,6 +1,8 @@
 QUẢN LÝ BÁN HÀNG CHO TIỂU THƯƠNG NHỎ LẺ
 
 
+
+
 ![Spring Boot + Java Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/512px-Spring_Framework_Logo_2018.svg.png)
 
 
@@ -44,14 +46,16 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | date     | Date         | Ngày tạo token               |
 
 
-   3. Category(Danh mục):
+   ### Category(Danh mục)
+   
  | Trường     | Kiểu dữ liệu | Mô tả         |
 |------------|--------------|---------------|
 | categoryId | UUID         | Mã danh mục   |
 | name       | String       | Tên danh mục  |
 
 
-   4. Product:  
+   ### Product
+   
 | Trường     | Kiểu dữ liệu | Mô tả                         |
 |------------|--------------|-------------------------------|
 | pdId       | UUID         | Mã sản phẩm                   |
@@ -61,7 +65,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | pdInfo     | Text         | Mô tả sản phẩm                |
 | pdQuantity | Integer      | Số lượng tồn kho              |
 
-    5. Import(Nhập hàng):
+    ### Import(Nhập hàng)
+    
 | Trường     | Kiểu dữ liệu | Mô tả                        |
 |------------|--------------|------------------------------|
 | ipId       | UUID         | Mã bản ghi nhập hàng         |
@@ -71,7 +76,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId     | UUID         | Người nhập (FK)              |
 | date       | DateTime     | Ngày nhập hàng               |
 
-    6. Export(Xuất hàng):
+    ### Export(Xuất hàng)
+    
 | Trường        | Kiểu dữ liệu | Mô tả                                 |
 |---------------|--------------|---------------------------------------|
 | epId          | UUID         | Mã bản ghi xuất hàng                  |
@@ -82,7 +88,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | userId        | UUID         | Người xuất (FK)                      |
 | date          | DateTime     | Ngày xuất hàng                        |
 
-    7. Report(Báo cáo):
+    ### Report(Báo cáo)
+    
 | Trường   | Kiểu dữ liệu | Mô tả                     |
 |----------|--------------|---------------------------|
 | reportId | UUID         | Mã báo cáo                |
@@ -90,7 +97,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | rpName   | String       | Tên báo cáo               |
 | rpInfo   | Text         | Nội dung báo cáo          |
 
-    8. Customer:
+    ### Customer
+    
 | Trường     | Kiểu dữ liệu | Mô tả                              |
 |------------|--------------|------------------------------------|
 | customerId | UUID         | Mã khách hàng                      |
@@ -99,7 +107,8 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 | address    | String       | Địa chỉ                            |
 | type       | String       | Loại khách: trực tiếp / online     |
 
-     9.Order
+     ### Order
+     
 | Trường      | Kiểu dữ liệu | Mô tả                                      |
 |-------------|--------------|--------------------------------------------|
 | orderId     | UUID         | Mã đơn hàng                                |
@@ -138,6 +147,7 @@ IV. CẤU TRÚC DỰ ÁN
 [Data Models] - Các lớp như Product, Order, Customer
 
 2. Các thành phần chính trong project:
+   
 | Thành phần          | Vai trò                                                                |
 | ------------------- | ---------------------------------------------------------------------- |
 | `Product`           | Lớp đại diện sản phẩm: mã, tên, giá, tồn kho, mô tả                    |
@@ -159,6 +169,7 @@ User nhập thông tin → Controller nhận dữ liệu → gọi Service xử 
 → Trả kết quả về View (HTML/Thymeleaf)
 
 4. Danh sách mô-đun chức năng chính:
+   
 | Mô-đun            | Chức năng chính                                  |
 | ----------------- | ------------------------------------------------ |
 | `Authentication`  | Ghi nhận người dùng (người bán)                  |
@@ -169,6 +180,7 @@ User nhập thông tin → Controller nhận dữ liệu → gọi Service xử 
 | `AlertSystem`     | Cảnh báo khi sản phẩm sắp hết hàng               |
 
 V. CẤU TRÚC THƯ MỤC
+
 project-root/
 ├── .vscode/
 │   └── settings.json                    # Cấu hình môi trường phát triển trong VS Code
