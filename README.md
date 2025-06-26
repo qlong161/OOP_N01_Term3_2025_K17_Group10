@@ -25,14 +25,15 @@ II. TÍNH NĂNG
 - Trực quan hóa dữ liệu (có thể dùng biểu đồ)
 - Xuất dữ liệu ra file Excel hoặc PDF
 III. THIẾT KẾ CƠ SỞ DỮ LIỆU
-   1. User(Người dùng):
-  | Trường     | Kiểu dữ liệu | Mô tả                    |
-|------------|--------------|--------------------------|
-| `userId`   | UUID         | Định danh người dùng     |
-| `username` | String       | Tên đăng nhập            |
-| `password` | String       | Mật khẩu                 |
-| `email`    | String       | Email liên hệ            |
-| `role`     | String       | Vai trò (`admin`/`seller`) |
+   ### User (Người dùng)
+
+| Trường   | Kiểu dữ liệu | Mô tả                    |
+|----------|--------------|--------------------------|
+| userId   | UUID         | Định danh người dùng     |
+| username | String       | Tên đăng nhập            |
+| password | String       | Mật khẩu                 |
+| email    | String       | Email liên hệ            |
+| role     | String       | Vai trò (`admin`/`seller`) |
 
    2. Token:
 | Trường   | Kiểu dữ liệu | Mô tả                        |
