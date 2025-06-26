@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý khách hàng</title>
+    <title>Quản lý kho hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap + Icons -->
@@ -12,59 +12,81 @@
 
 <body>
 <div class="container mt-4">
-    <h2 class="text-center text-primary mb-4">QUẢN LÝ KHÁCH HÀNG</h2>
+    <h2 class="text-center text-primary mb-4">QUẢN LÝ KHO HÀNG</h2>
 
-    <!-- Add Customer Form -->
-    <form th:action="@{/customerlist/add}" method="post" class="border p-3 rounded mb-4 bg-light">
-        <h5 class="text-success"><i class="bi bi-person-plus-fill"></i> Thêm khách hàng mới</h5>
+    <!-- Buttons -->
+    <div class="mb-3 d-flex justify-content-between">
+        <div>
+            <a href="/productlist" class="btn btn-outline-primary"><i class="bi bi-boxes"></i> Tất cả</a>
+            <a href="/productlist/outofstock" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i> Hết hàng</a>
+            <a href="/productlist/lowstock" class="btn btn-outline-warning"><i class="bi bi-exclamation-triangle"></i> Gần hết</a>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Form -->
+    <form th:action="@{/productlist/save}" method="post" class="border p-3 rounded mb-4 bg-light">
+        <h5 class="text-success">
+            <i class="bi bi-pencil-square"></i>
+            <span th:text="${newProduct.id == null ? 'Thêm sản phẩm mới' : 'Chỉnh sửa sản phẩm'}"></span>
+        </h5>
         <div class="row g-3">
             <div class="col-md-3">
-                <input type="text" class="form-control" th:field="*{newCustomer.id}" placeholder="Mã khách hàng" required>
+                <input type="text" class="form-control" th:field="*{newProduct.id}" placeholder="Mã sản phẩm" required 
+                       th:readonly="${newProduct.id != null}" />
             </div>
             <div class="col-md-3">
-                <input type="text" class="form-control" th:field="*{newCustomer.name}" placeholder="Tên khách hàng" required>
+                <input type="text" class="form-control" th:field="*{newProduct.name}" placeholder="Tên sản phẩm" required>
             </div>
-            <div class="col-md-3">
-                <input type="email" class="form-control" th:field="*{newCustomer.email}" placeholder="Email" required>
+            <div class="col-md-2">
+                <input type="number" step="0.01" class="form-control" th:field="*{newProduct.price}" placeholder="Giá" required>
             </div>
-            <div class="col-md-3 d-grid">
-                <button type="submit" class="btn btn-success"><i class="bi bi-plus-lg"></i> Thêm</button>
+            <div class="col-md-2">
+                <input type="number" class="form-control" th:field="*{newProduct.quantity}" placeholder="Số lượng" required>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi" th:classappend="${newProduct.id == null ? 'bi-plus-lg' : 'bi-save'}"></i>
+                    <span th:text="${newProduct.id == null ? 'Thêm' : 'Lưu'}"></span>
+                </button>
             </div>
         </div>
     </form>
 
-    <!-- Table -->
-    <div th:if="${#lists.isEmpty(ListOfCustomer)}" class="alert alert-warning text-center">
-        Không có khách hàng nào để hiển thị.
+    <!-- Product Table -->
+    <div th:if="${#lists.isEmpty(ListOfProduct)}" class="alert alert-warning text-center">
+        Không có sản phẩm nào để hiển thị.
     </div>
 
-    <table class="table table-bordered table-hover align-middle" th:if="${!#lists.isEmpty(ListOfCustomer)}">
+    <table class="table table-bordered table-hover align-middle" th:if="${!#lists.isEmpty(ListOfProduct)}">
         <thead class="table-dark text-center">
         <tr>
             <th>Mã</th>
             <th>Tên</th>
-            <th>Email</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
             <th>Sửa</th>
             <th>Xoá</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="cust : ${ListOfCustomer}" class="text-center">
-            <td th:text="${cust.id}">ID</td>
-            <td th:text="${cust.name}">Name</td>
-            <td th:text="${cust.email}">Email</td>
+        <tr th:each="prod : ${ListOfProduct}" class="text-center">
+            <td th:text="${prod.id}">ID</td>
+            <td th:text="${prod.name}">Name</td>
+            <td th:text="${prod.price}">Price</td>
+            <td th:text="${prod.quantity}">Qty</td>
 
             <!-- Sửa -->
             <td>
-                <a th:href="@{'/customerlist/edit/' + ${cust.id}}" class="btn btn-sm btn-warning">
+                <a th:href="@{'/productlist/edit/' + ${prod.id}}" class="btn btn-sm btn-warning">
                     <i class="bi bi-pencil-square"></i>
                 </a>
             </td>
 
             <!-- Xoá -->
             <td>
-                <form th:action="@{/customerlist/delete}" method="post" onsubmit="return confirm('Bạn chắc chắn muốn xoá khách hàng này?')">
-                    <input type="hidden" name="id" th:value="${cust.id}">
+                <form th:action="@{/productlist/delete}" method="post"
+                      onsubmit="return confirm('Bạn chắc chắn muốn xoá?')">
+                    <input type="hidden" name="id" th:value="${prod.id}">
                     <button type="submit" class="btn btn-sm btn-danger">
                         <i class="bi bi-trash3"></i>
                     </button>

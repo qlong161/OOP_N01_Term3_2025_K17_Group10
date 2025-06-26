@@ -12,18 +12,23 @@ public class ProductController {
 
     private final ProductAiven db = new ProductAiven();
 
-    // 1. Hiển thị toàn bộ sản phẩm + form thêm
+    // 1. Hiển thị danh sách và form (mặc định form trống để thêm mới)
     @GetMapping("")
     public String showAllProducts(Model model) {
         model.addAttribute("ListOfProduct", db.getAllProducts());
-        model.addAttribute("newProduct", new Product());
+        model.addAttribute("newProduct", new Product()); // dùng để thêm mới hoặc cập nhật
         return "productlist";
     }
 
-    // 2. Thêm sản phẩm mới
-    @PostMapping("/add")
-    public String addProduct(@ModelAttribute("newProduct") Product product) {
-        db.insertProduct(product); // chỉ thêm mới, không cập nhật
+    // 2. Thêm hoặc cập nhật sản phẩm
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("newProduct") Product product) {
+        Product existing = db.findById(product.getId());
+        if (existing == null) {
+            db.insertProduct(product); // sản phẩm chưa có → thêm mới
+        } else {
+            db.updateProduct(product); // sản phẩm đã có → cập nhật
+        }
         return "redirect:/productlist";
     }
 
@@ -34,12 +39,12 @@ public class ProductController {
         return "redirect:/productlist";
     }
 
-    // 4. Sửa sản phẩm (hiển thị lại trang với form đã điền sẵn)
+    // 4. Sửa sản phẩm (form hiển thị lại dữ liệu sản phẩm cần sửa)
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable("id") String id, Model model) {
         Product product = db.findById(id);
-        model.addAttribute("newProduct", product); // gán sản phẩm vào form
-        model.addAttribute("ListOfProduct", db.getAllProducts()); // load danh sách
+        model.addAttribute("newProduct", product);
+        model.addAttribute("ListOfProduct", db.getAllProducts());
         return "productlist";
     }
 
