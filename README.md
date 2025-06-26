@@ -26,93 +26,93 @@ II. TÍNH NĂNG
 - Xuất dữ liệu ra file Excel hoặc PDF
 III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 1. User(Người dùng):
-  | Trường     | Kiểu dữ liệu | Mô tả                  |
+  | Trường     | Kiểu dữ liệu | Mô tả                    |
+|------------|--------------|--------------------------|
+| `userId`   | UUID         | Định danh người dùng     |
+| `username` | String       | Tên đăng nhập            |
+| `password` | String       | Mật khẩu                 |
+| `email`    | String       | Email liên hệ            |
+| `role`     | String       | Vai trò (`admin`/`seller`) |
 
-  |------------|--------------|------------------------|
-  
-  | userId     | UUID         | Định danh người dùng   |
-  
-  | username   | String       | Tên đăng nhập          |
-  
-  | password   | String       | Mật khẩu               |
-  
-  | email      | String       | Email liên hệ          |
-  
-  | role       | String       | Vai trò (admin/seller) |
+2. Token:
+| Trường   | Kiểu dữ liệu | Mô tả                        |
+|----------|--------------|------------------------------|
+| userId   | UUID         | Liên kết đến người dùng (FK) |
+| token    | String       | Token phiên đăng nhập        |
+| date     | Date         | Ngày tạo token               |
 
-3. Token:
- | Trường     | Kiểu dữ liệu | Mô tả                         |
- |------------|--------------|-------------------------------|
- | userId     | UUID         | Liên kết đến người dùng (FK)  |
- | token      | String       | Token phiên đăng nhập         |
- | date       | Date         | Ngày tạo token                |
 
-4. Category(Danh mục):
- | Trường       | Kiểu dữ liệu | Mô tả            |
- |--------------|--------------|------------------|
- | categoryId   | UUID         | Mã danh mục      |
- | name         | String       | Tên danh mục     |
+3. Category(Danh mục):
+ | Trường     | Kiểu dữ liệu | Mô tả         |
+|------------|--------------|---------------|
+| categoryId | UUID         | Mã danh mục   |
+| name       | String       | Tên danh mục  |
 
-5. Product:  
- | Trường      | Kiểu dữ liệu | Mô tả                         |
- |-------------|--------------|-------------------------------|
- | pdId        | UUID         | Mã sản phẩm                   |
- | pdName      | String       | Tên sản phẩm                  |
- | pdPrice     | Decimal      | Giá bán                       |
- | categoryId  | UUID         | Liên kết danh mục (FK)        |
- | pdInfo      | Text         | Mô tả sản phẩm                |
- | pdQuantity  | Integer      | Số lượng tồn kho              | 
 
-6. Import(Nhập hàng):
-| Trường      | Kiểu dữ liệu | Mô tả                         |
-|-------------|--------------|-------------------------------|
-| ipId        | UUID         | Mã bản ghi nhập hàng          |
-| pdId        | UUID         | Mã sản phẩm nhập (FK)         |
-| pdPrice     | Decimal      | Giá nhập                      |
-| pdQuantity  | Integer      | Số lượng nhập                 |
-| userId      | UUID         | Người nhập (FK)               |
-| date        | DateTime     | Ngày nhập hàng                |
+4. Product:  
+| Trường     | Kiểu dữ liệu | Mô tả                         |
+|------------|--------------|-------------------------------|
+| pdId       | UUID         | Mã sản phẩm                   |
+| pdName     | String       | Tên sản phẩm                  |
+| pdPrice    | Decimal      | Giá bán                       |
+| categoryId | UUID         | Liên kết danh mục (FK)        |
+| pdInfo     | Text         | Mô tả sản phẩm                |
+| pdQuantity | Integer      | Số lượng tồn kho              |
+
+5. Import(Nhập hàng):
+| Trường     | Kiểu dữ liệu | Mô tả                        |
+|------------|--------------|------------------------------|
+| ipId       | UUID         | Mã bản ghi nhập hàng         |
+| pdId       | UUID         | Mã sản phẩm nhập (FK)        |
+| pdPrice    | Decimal      | Giá nhập                     |
+| pdQuantity | Integer      | Số lượng nhập                |
+| userId     | UUID         | Người nhập (FK)              |
+| date       | DateTime     | Ngày nhập hàng               |
+
 
 6. Export(Xuất hàng):
-| Trường         | Kiểu dữ liệu | Mô tả                                |
-|----------------|--------------|--------------------------------------|
-| epId           | UUID         | Mã bản ghi xuất hàng                 |
-| pdId           | UUID         | Mã sản phẩm xuất (FK)               |
-| pdPrice        | Decimal      | Giá xuất                            |
-| pdQuantity     | Integer      | Số lượng xuất                       |
-| pdTotalPrice   | Decimal      | Tổng tiền = pdPrice * pdQuantity    |
-| userId         | UUID         | Người xuất (FK)                     |
-| date           | DateTime     | Ngày xuất hàng                      |
+| Trường        | Kiểu dữ liệu | Mô tả                                 |
+|---------------|--------------|---------------------------------------|
+| epId          | UUID         | Mã bản ghi xuất hàng                  |
+| pdId          | UUID         | Mã sản phẩm xuất (FK)                |
+| pdPrice       | Decimal      | Giá xuất                              |
+| pdQuantity    | Integer      | Số lượng xuất                         |
+| pdTotalPrice  | Decimal      | Tổng tiền = pdPrice * pdQuantity     |
+| userId        | UUID         | Người xuất (FK)                      |
+| date          | DateTime     | Ngày xuất hàng                        |
+
 
 7. Report(Báo cáo):
-| Trường      | Kiểu dữ liệu | Mô tả                         |
-|-------------|--------------|-------------------------------|
-| reportId    | UUID         | Mã báo cáo                    |
-| userId      | UUID         | Người tạo báo cáo (FK)        |
-| rpName      | String       | Tên báo cáo                   |
-| rpInfo      | Text         | Nội dung báo cáo              |
+| Trường   | Kiểu dữ liệu | Mô tả                     |
+|----------|--------------|---------------------------|
+| reportId | UUID         | Mã báo cáo                |
+| userId   | UUID         | Người tạo báo cáo (FK)    |
+| rpName   | String       | Tên báo cáo               |
+| rpInfo   | Text         | Nội dung báo cáo          |
+
 
 8. Customer:
-| Trường      | Kiểu dữ liệu | Mô tả                          |
-|-------------|--------------|--------------------------------|
-| customerId  | UUID         | Mã khách hàng                  |
-| name        | String       | Họ và tên khách hàng           |
-| phone       | String       | Số điện thoại                  |
-| address     | String       | Địa chỉ                        |
-| type        | String       | Loại khách (trực tiếp / online) |
+| Trường     | Kiểu dữ liệu | Mô tả                              |
+|------------|--------------|------------------------------------|
+| customerId | UUID         | Mã khách hàng                      |
+| name       | String       | Họ và tên khách hàng               |
+| phone      | String       | Số điện thoại                      |
+| address    | String       | Địa chỉ                            |
+| type       | String       | Loại khách: trực tiếp / online     |
+
 
 9.Order
-| Trường       | Kiểu dữ liệu | Mô tả                                    |
-|--------------|--------------|------------------------------------------|
-| orderId      | UUID         | Mã đơn hàng                              |
-| customerId   | UUID         | Khách đặt hàng (FK)                      |
-| productId    | UUID         | Sản phẩm trong đơn (FK)                  |
-| userId       | UUID         | Người bán xử lý đơn hàng (FK)            |
-| quantity     | Integer      | Số lượng đặt                             |
-| price        | Decimal      | Giá bán đơn vị                           |
-| totalPrice   | Decimal      | Thành tiền = quantity * price            |
-| status       | String       | Trạng thái: chưa xử lý / đang / đã xử lý |
-| createdDate  | DateTime     | Ngày tạo đơn                             |
+| Trường      | Kiểu dữ liệu | Mô tả                                      |
+|-------------|--------------|--------------------------------------------|
+| orderId     | UUID         | Mã đơn hàng                                |
+| customerId  | UUID         | Khách đặt hàng (FK)                        |
+| productId   | UUID         | Sản phẩm trong đơn (FK)                    |
+| userId      | UUID         | Người bán xử lý đơn hàng (FK)              |
+| quantity    | Integer      | Số lượng đặt                               |
+| price       | Decimal      | Giá bán đơn vị                             |
+| totalPrice  | Decimal      | Thành tiền = quantity * price              |
+| status      | String       | Trạng thái: chưa xử lý / đang / đã xử lý   |
+| createdDate | DateTime     | Ngày tạo đơn                               |
 
 III. CÔNG NGHỆ ĐÃ SỬ DỤNG:
 1. Frontend: Engine dựng HTML, tích hợp trực tiếp trong Spring Boot
