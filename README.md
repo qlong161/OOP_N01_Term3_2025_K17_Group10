@@ -359,6 +359,8 @@ Cập nhật lại tồn kho
 Trả về View hiển thị đơn mới và thông báo thành công
 
 VII. SƠ ĐỒ CLASS DIAGRAM
+
+
 ![Sơ đồ Class Diagram](https://github.com/user-attachments/assets/7dd3bc0b-8b56-4eea-a83b-9099b460a9c0)
 
 VII. LƯU ĐỒ THUẬT TOÁN CỦA CHỨC NĂNG CHÍNH 
