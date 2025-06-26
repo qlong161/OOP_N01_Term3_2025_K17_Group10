@@ -374,6 +374,8 @@ IX.CÁC THÀNH VIÊN TRONG NHÓM
 2. Bùi Việt Long
 3. Lê Đức Thương
 X. PHÂN CHIA CÔNG VIỆC
+
+
 | Thành viên            | Nhiệm vụ phụ trách                                                               |
 | --------------------- | -------------------------------------------------------------------------------- |
 | Nguyễn Hữu Quang Long | Viết phương thức lọc đơn hàng theo ngày với trạng thái `"Đã xử lý"`              |
