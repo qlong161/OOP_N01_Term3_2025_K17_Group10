@@ -14,6 +14,13 @@
 <div class="container mt-4">
     <h2 class="text-center text-primary mb-4">QUẢN LÝ KHÁCH HÀNG</h2>
 
+    <!-- Nút quay lại trang chủ -->
+    <div class="mb-3">
+        <a href="/" class="btn btn-outline-dark">
+            <i class="bi bi-arrow-left"></i> Quay lại trang chủ
+        </a>
+    </div>
+
     <!-- Form thêm khách hàng -->
     <form th:action="@{/customerlist/add}" method="post" class="border p-3 rounded mb-4 bg-light">
         <h5 class="text-success"><i class="bi bi-person-plus-fill"></i> Thêm khách hàng mới</h5>
@@ -36,7 +43,7 @@
         </div>
     </form>
 
-    <!-- Form chỉnh sửa khách hàng (nếu có) -->
+    <!-- Form chỉnh sửa khách hàng -->
     <div th:if="${editCustomer != null}" class="border p-3 rounded mb-4 bg-warning-subtle">
         <h5 class="text-warning"><i class="bi bi-pencil-fill"></i> Chỉnh sửa khách hàng</h5>
         <form th:action="@{/customerlist/update}" method="post">
@@ -60,7 +67,7 @@
         </form>
     </div>
 
-    <!-- Nếu không có khách hàng -->
+    <!-- Không có khách hàng -->
     <div th:if="${#lists.isEmpty(ListOfCustomer)}" class="alert alert-warning text-center">
         Không có khách hàng nào để hiển thị.
     </div>

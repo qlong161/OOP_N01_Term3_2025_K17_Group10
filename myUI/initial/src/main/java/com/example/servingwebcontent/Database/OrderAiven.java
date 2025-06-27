@@ -163,7 +163,7 @@ public class OrderAiven {
                  "FROM orders o " +
                  "JOIN order_item oi ON o.id = oi.order_id " +
                  "JOIN product p ON oi.product_id = p.id " +
-                 "WHERE o.user_id = ? AND o.status = 'đã xử lý'";
+                 "WHERE o.user_id = ? AND o.status = 'Completed'";
 
     try (
         Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -228,4 +228,29 @@ public class OrderAiven {
 
         return order;
     }
+
+    public double calculateTotalRevenueAllUsers() {
+    double total = 0;
+    String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
+                 "FROM orders o " +
+                 "JOIN order_item oi ON o.id = oi.order_id " +
+                 "JOIN product p ON oi.product_id = p.id " +
+                 "WHERE o.status = 'Completed'";
+
+    try (
+        Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        PreparedStatement stmt = conn.prepareStatement(sql)
+    ) {
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            total = rs.getDouble("revenue");
+        }
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi tính tổng doanh thu toàn bộ đơn hàng: " + e.getMessage());
+    }
+
+    return total;
+}
+
+
 }
