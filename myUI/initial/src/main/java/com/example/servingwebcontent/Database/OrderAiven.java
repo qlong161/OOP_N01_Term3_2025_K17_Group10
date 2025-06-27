@@ -71,47 +71,49 @@ public class OrderAiven {
 
     public List<Order> getOrdersByUserId(String userId) {
         List<Order> orders = new ArrayList<>();
-        String orderSQL = "SELECT * FROM orders WHERE user_id = ?";
-        String itemSQL = "SELECT * FROM order_item WHERE order_id = ?";
+        String sql = "SELECT o.id, o.customer_id, o.user_id, o.status, o.date, " +
+                    "oi.product_id, oi.quantity, p.name AS product_name, p.price, p.quantity AS product_quantity, " +
+                    "c.name AS customer_name, c.email, c.type " +
+                    "FROM orders o " +
+                    "LEFT JOIN order_item oi ON o.id = oi.order_id " +
+                    "LEFT JOIN product p ON oi.product_id = p.id " +
+                    "LEFT JOIN customer c ON o.customer_id = c.id " +
+                    "WHERE o.user_id = ?";
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            PreparedStatement orderStmt = conn.prepareStatement(orderSQL)
+            PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            orderStmt.setString(1, userId);
-            ResultSet rs = orderStmt.executeQuery();
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
 
-            CustomerAiven customerAiven = new CustomerAiven();
-            ProductAiven productAiven = new ProductAiven();
+            Map<String, Order> orderMap = new HashMap<>();
 
             while (rs.next()) {
                 String orderId = rs.getString("id");
-                String customerId = rs.getString("customer_id");
-                String status = rs.getString("status");
-                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                Order order = orderMap.get(orderId);
 
-                Customer customer = customerAiven.findById(customerId);
-                User user = new User(userId, "");
-                Order order = new Order(orderId, customer, user, status, date);
-
-                try (PreparedStatement itemStmt = conn.prepareStatement(itemSQL)) {
-                    itemStmt.setString(1, orderId);
-                    ResultSet itemRs = itemStmt.executeQuery();
-
-                    while (itemRs.next()) {
-                        String productId = itemRs.getString("product_id");
-                        int quantity = itemRs.getInt("quantity");
-                        Product product = productAiven.findById(productId);
-                        if (product != null) {
-                            order.addProduct(product, quantity);
-                        }
-                    }
+                if (order == null) {
+                    String customerId = rs.getString("customer_id");
+                    String status = rs.getString("status");
+                    LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                    Customer customer = new Customer(customerId, rs.getString("customer_name"), 
+                                                    rs.getString("email"), rs.getString("type"));
+                    User user = new User(userId, "");
+                    order = new Order(orderId, customer, user, status, date);
+                    orderMap.put(orderId, order);
+                    orders.add(order);
                 }
 
-                orders.add(order);
+                String productId = rs.getString("product_id");
+                if (productId != null) {
+                    Product product = new Product(productId, rs.getString("product_name"), 
+                                                 rs.getDouble("price"), rs.getInt("product_quantity"));
+                    int quantity = rs.getInt("quantity");
+                    order.addProduct(product, quantity);
+                }
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("❌ Lỗi khi lấy đơn hàng theo user: " + e.getMessage());
         }
 
@@ -158,71 +160,69 @@ public class OrderAiven {
     }
 
     public double calculateTotalRevenueByUserId(String userId) {
-    double total = 0;
-    String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
-                 "FROM orders o " +
-                 "JOIN order_item oi ON o.id = oi.order_id " +
-                 "JOIN product p ON oi.product_id = p.id " +
-                 "WHERE o.user_id = ? AND o.status = 'Completed'";
+        double total = 0;
+        String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
+                     "FROM orders o " +
+                     "JOIN order_item oi ON o.id = oi.order_id " +
+                     "JOIN product p ON oi.product_id = p.id " +
+                     "WHERE o.user_id = ? AND o.status = 'Completed'";
 
-    try (
-        Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-        PreparedStatement stmt = conn.prepareStatement(sql)
-    ) {
-        stmt.setString(1, userId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            total = rs.getDouble("revenue");
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                total = rs.getDouble("revenue");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Lỗi tính doanh thu: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.err.println("❌ Lỗi tính doanh thu: " + e.getMessage());
+
+        return total;
     }
 
-    return total;
-}
-
-
     public Order findById(String orderId) {
-        String orderSQL = "SELECT * FROM orders WHERE id = ?";
-        String itemSQL = "SELECT * FROM order_item WHERE order_id = ?";
+        String sql = "SELECT o.id, o.customer_id, o.user_id, o.status, o.date, " +
+                    "oi.product_id, oi.quantity, p.name AS product_name, p.price, p.quantity AS product_quantity, " +
+                    "c.name AS customer_name, c.email, c.type " +
+                    "FROM orders o " +
+                    "LEFT JOIN order_item oi ON o.id = oi.order_id " +
+                    "LEFT JOIN product p ON oi.product_id = p.id " +
+                    "LEFT JOIN customer c ON o.customer_id = c.id " +
+                    "WHERE o.id = ?";
+
         Order order = null;
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            PreparedStatement orderStmt = conn.prepareStatement(orderSQL)
+            PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            orderStmt.setString(1, orderId);
-            ResultSet rs = orderStmt.executeQuery();
+            stmt.setString(1, orderId);
+            ResultSet rs = stmt.executeQuery();
 
-            CustomerAiven customerAiven = new CustomerAiven();
-            ProductAiven productAiven = new ProductAiven();
+            while (rs.next()) {
+                if (order == null) {
+                    String customerId = rs.getString("customer_id");
+                    String userId = rs.getString("user_id");
+                    String status = rs.getString("status");
+                    LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                    Customer customer = new Customer(customerId, rs.getString("customer_name"), 
+                                                    rs.getString("email"), rs.getString("type"));
+                    User user = new User(userId, "");
+                    order = new Order(orderId, customer, user, status, date);
+                }
 
-            if (rs.next()) {
-                String customerId = rs.getString("customer_id");
-                String userId = rs.getString("user_id");
-                String status = rs.getString("status");
-                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
-
-                Customer customer = customerAiven.findById(customerId);
-                User user = new User(userId, "");
-                order = new Order(orderId, customer, user, status, date);
-
-                try (PreparedStatement itemStmt = conn.prepareStatement(itemSQL)) {
-                    itemStmt.setString(1, orderId);
-                    ResultSet itemRs = itemStmt.executeQuery();
-
-                    while (itemRs.next()) {
-                        String productId = itemRs.getString("product_id");
-                        int quantity = itemRs.getInt("quantity");
-                        Product product = productAiven.findById(productId);
-                        if (product != null) {
-                            order.addProduct(product, quantity);
-                        }
-                    }
+                String productId = rs.getString("product_id");
+                if (productId != null) {
+                    Product product = new Product(productId, rs.getString("product_name"), 
+                                                 rs.getDouble("price"), rs.getInt("product_quantity"));
+                    int quantity = rs.getInt("quantity");
+                    order.addProduct(product, quantity);
                 }
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("❌ Lỗi khi tìm đơn hàng theo ID: " + e.getMessage());
         }
 
@@ -230,27 +230,25 @@ public class OrderAiven {
     }
 
     public double calculateTotalRevenueAllUsers() {
-    double total = 0;
-    String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
-                 "FROM orders o " +
-                 "JOIN order_item oi ON o.id = oi.order_id " +
-                 "JOIN product p ON oi.product_id = p.id " +
-                 "WHERE o.status = 'Completed'";
+        double total = 0;
+        String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
+                     "FROM orders o " +
+                     "JOIN order_item oi ON o.id = oi.order_id " +
+                     "JOIN product p ON oi.product_id = p.id " +
+                     "WHERE o.status = 'Completed'";
 
-    try (
-        Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-        PreparedStatement stmt = conn.prepareStatement(sql)
-    ) {
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            total = rs.getDouble("revenue");
+        try (
+            Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                total = rs.getDouble("revenue");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Lỗi tính tổng doanh thu toàn bộ đơn hàng: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.err.println("❌ Lỗi tính tổng doanh thu toàn bộ đơn hàng: " + e.getMessage());
+
+        return total;
     }
-
-    return total;
-}
-
-
 }
