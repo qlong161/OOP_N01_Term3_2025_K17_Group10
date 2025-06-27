@@ -31,95 +31,52 @@ III. THIẾT KẾ CƠ SỞ DỮ LIỆU
 
 | Trường   | Kiểu dữ liệu | Mô tả                    |
 |----------|--------------|--------------------------|
-| userId   | UUID         | Định danh người dùng     |
-| username | String       | Tên đăng nhập            |
-| password | String       | Mật khẩu                 |
-| email    | String       | Email liên hệ            |
-| role     | String       | Vai trò (`admin`/`seller`) |
-
-   ### Token
-   
-| Trường   | Kiểu dữ liệu | Mô tả                        |
-|----------|--------------|------------------------------|
-| userId   | UUID         | Liên kết đến người dùng (FK) |
-| token    | String       | Token phiên đăng nhập        |
-| date     | Date         | Ngày tạo token               |
-
-
-   ###  Category(Danh mục)
-   
- | Trường     | Kiểu dữ liệu | Mô tả         |
-|------------|--------------|---------------|
-| categoryId | UUID         | Mã danh mục   |
-| name       | String       | Tên danh mục  |
+| id       | String       | Định danh người dùng     |
+| name     | String       | Tên đăng nhập            |
 
 
    ###  Product
    
 | Trường     | Kiểu dữ liệu | Mô tả                         |
 |------------|--------------|-------------------------------|
-| pdId       | UUID         | Mã sản phẩm                   |
-| pdName     | String       | Tên sản phẩm                  |
-| pdPrice    | Decimal      | Giá bán                       |
-| categoryId | UUID         | Liên kết danh mục (FK)        |
-| pdInfo     | Text         | Mô tả sản phẩm                |
-| pdQuantity | Integer      | Số lượng tồn kho              |
+| id         | String       | Mã sản phẩm                   |
+| name       | String       | Tên sản phẩm                  |
+| price      | Double       | Giá bán                       |
+| quantity   | Integer      | Số lượng tồn kho              |
 
-    ###  Import(Nhập hàng)
-    
-| Trường     | Kiểu dữ liệu | Mô tả                        |
-|------------|--------------|------------------------------|
-| ipId       | UUID         | Mã bản ghi nhập hàng         |
-| pdId       | UUID         | Mã sản phẩm nhập (FK)        |
-| pdPrice    | Decimal      | Giá nhập                     |
-| pdQuantity | Integer      | Số lượng nhập                |
-| userId     | UUID         | Người nhập (FK)              |
-| date       | DateTime     | Ngày nhập hàng               |
-
-    ###  Export(Xuất hàng)
-    
-| Trường        | Kiểu dữ liệu | Mô tả                                 |
-|---------------|--------------|---------------------------------------|
-| epId          | UUID         | Mã bản ghi xuất hàng                  |
-| pdId          | UUID         | Mã sản phẩm xuất (FK)                |
-| pdPrice       | Decimal      | Giá xuất                              |
-| pdQuantity    | Integer      | Số lượng xuất                         |
-| pdTotalPrice  | Decimal      | Tổng tiền = pdPrice * pdQuantity     |
-| userId        | UUID         | Người xuất (FK)                      |
-| date          | DateTime     | Ngày xuất hàng                        |
-
-    ###  Report(Báo cáo)
-    
-| Trường   | Kiểu dữ liệu | Mô tả                     |
-|----------|--------------|---------------------------|
-| reportId | UUID         | Mã báo cáo                |
-| userId   | UUID         | Người tạo báo cáo (FK)    |
-| rpName   | String       | Tên báo cáo               |
-| rpInfo   | Text         | Nội dung báo cáo          |
 
     ###  Customer
     
 | Trường     | Kiểu dữ liệu | Mô tả                              |
 |------------|--------------|------------------------------------|
-| customerId | UUID         | Mã khách hàng                      |
+| id         | String       | Mã khách hàng                      |
 | name       | String       | Họ và tên khách hàng               |
 | phone      | String       | Số điện thoại                      |
-| address    | String       | Địa chỉ                            |
-| type       | String       | Loại khách: trực tiếp / online     |
+| email      | String       | Địa chỉ email                      |
+| type       | String       | Loại khách: trực tiếp / từ xa      |
+
 
      ###  Order
      
 | Trường      | Kiểu dữ liệu | Mô tả                                      |
 |-------------|--------------|--------------------------------------------|
-| orderId     | UUID         | Mã đơn hàng                                |
-| customerId  | UUID         | Khách đặt hàng (FK)                        |
-| productId   | UUID         | Sản phẩm trong đơn (FK)                    |
-| userId      | UUID         | Người bán xử lý đơn hàng (FK)              |
+| id          | String       | Mã đơn hàng                                |
+| customer_id | String       | Khách đặt hàng (FK)                        |
+| user_id     | String       | Người bán xử lý đơn hàng (FK)              |
 | quantity    | Integer      | Số lượng đặt                               |
 | price       | Decimal      | Giá bán đơn vị                             |
 | totalPrice  | Decimal      | Thành tiền = quantity * price              |
 | status      | String       | Trạng thái: chưa xử lý / đang / đã xử lý   |
-| createdDate | DateTime     | Ngày tạo đơn                               |
+| Date        | DateTime     | Ngày tạo đơn                               |
+
+
+     ###  Order_items
+     
+| Trường      | Kiểu dữ liệu | Mô tả                                      |
+|-------------|--------------|--------------------------------------------|
+| Order_id    | String       | Mã đơn hàng (FK)                           |
+| product_id  | String       | Sản phẩm       (FK)                        |
+| quantity    | Integer      | Số lượng đặt                               |
 
 III. CÔNG NGHỆ ĐÃ SỬ DỤNG:
 1. Frontend: Engine dựng HTML, tích hợp trực tiếp trong Spring Boot
@@ -154,9 +111,6 @@ IV. CẤU TRÚC DỰ ÁN
 | `Customer`          | Lớp đại diện khách hàng: tên, loại khách (trực tiếp/online), liên hệ   |
 | `Order`             | Lớp quản lý đơn hàng: sản phẩm, số lượng, khách, trạng thái, tổng tiền |
 | `User`              | Người dùng hệ thống (người bán)                                        |
-| `Import` / `Export` | Quản lý việc nhập và xuất sản phẩm                                     |
-| `Report`            | Tổng hợp thống kê đơn hàng theo ngày / trạng thái                      |
-| `OrderStatus` Enum  | Trạng thái đơn hàng (CHUA\_XU\_LY, DANG\_XU\_LY, DA\_XU\_LY)           |
 
 3. Dòng xử lý đơn hàng:
 Ví dụ: Tạo một đơn hàng mới
@@ -172,12 +126,10 @@ User nhập thông tin → Controller nhận dữ liệu → gọi Service xử 
    
 | Mô-đun            | Chức năng chính                                  |
 | ----------------- | ------------------------------------------------ |
-| `Authentication`  | Ghi nhận người dùng (người bán)                  |
-| `ProductManager`  | CRUD sản phẩm, kiểm tra tồn kho                  |
+| `ProductAiven`    | CRUD sản phẩm, kiểm tra tồn kho                  |
 | `OrderManager`    | CRUD đơn hàng, lọc đơn hàng, cập nhật trạng thái |
 | `CustomerManager` | CRUD khách hàng, phân loại khách                 |
-| `Statistics`      | Tính tổng doanh thu theo ngày, lọc thống kê      |
-| `AlertSystem`     | Cảnh báo khi sản phẩm sắp hết hàng               |
+
 
 V. CẤU TRÚC THƯ MỤC
 
@@ -188,13 +140,28 @@ project-root/
 │
 ├── myUI/
 │   └── initial/
-│       ├── dashboard.html
-│       ├── product_form.html
-│       ├── order_list.html
-│       ├── customer_list.html
-│       ├── style.css
-│       ├── logo.png
-│       └── notes.txt
+|            ├── mvnw                          # Maven Wrapper script (Linux/Mac)
+|            ├── mvnw.cmd                      # Maven Wrapper script (Windows)
+|            ├── mvn/
+│               └── wrapper/
+│                   ├── maven-wrapper.jar     # Maven launcher
+│                   └── maven-wrapper.properties
+│
+|            ├── pom.xml                       # Tệp cấu hình Maven chính (dependencies, plugins)
+│
+|         └── src/                          # Cấu trúc Spring Boot chuẩn
+|             ├── main/
+│             ├── java/
+|             │   └── com/example/servingwebcontent/
+|             │       └── (các class Spring Boot: controller, model, service…)
+|             └── resources/
+|                ├── templates/        # Thymeleaf HTML
+|                ├── static/           # CSS, JS, ảnh tĩnh
+|                └── application.properties
+|    
+│       
+│       
+│       
 │
 ├── images/                        # Ảnh minh họa sơ đồ, giao diện, báo cáo
 │
@@ -237,30 +204,6 @@ project-root/
 │   │   └── UserListTest.java
 │   │
 │   └── README.md
-│
-├── mvnw                          # Maven Wrapper script (Linux/Mac)
-├── mvnw.cmd                      # Maven Wrapper script (Windows)
-├── mvn/
-│   └── wrapper/
-│       ├── maven-wrapper.jar     # Maven launcher
-│       └── maven-wrapper.properties
-│
-├── pom.xml                       # Tệp cấu hình Maven chính (dependencies, plugins)
-│
-└── src/                          # Cấu trúc Spring Boot chuẩn
-    ├── main/
-    │   ├── java/
-    │   │   └── com/example/servingwebcontent/
-    │   │       └── (các class Spring Boot: controller, model, service…)
-    │   └── resources/
-    │       ├── templates/        # Thymeleaf HTML
-    │       ├── static/           # CSS, JS, ảnh tĩnh
-    │       └── application.properties
-    │
-    └── test/
-        └── java/
-            └── com/example/servingwebcontent/
-                └── (JUnit test class)
 ```
 
 VI. MÔ HÌNH VÀ CHỨC NĂNG
