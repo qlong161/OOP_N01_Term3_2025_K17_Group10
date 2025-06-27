@@ -376,7 +376,29 @@ X. PHÂN CHIA CÔNG VIỆC
 
 XI.GIAO DIỆN
 
+Trang chủ
 
+![trangchu](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/trangchu.jpg)
+
+Quản lý người dùng
+
+![quanlynguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlynguoidung.jpg)
+
+Quản lý khách hàng
+
+![quanlykhachhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlykhachhang.jpg)
+
+Quản lý đơn hàng
+
+![quanlydonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlydonhang.jpg)
+
+Quản lý kho hàng
+
+![quanlykhohang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlykhohang.jpg)
+
+Tạo đơn hàng
+
+![taodonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/taodonhang.jpg)
 
 
 
