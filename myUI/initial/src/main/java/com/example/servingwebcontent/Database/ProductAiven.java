@@ -32,7 +32,6 @@ public class ProductAiven {
         return items;
     }
 
-    // ✅ Hàm mới: findAll() dành riêng cho order controller
     public List<Product> findAll() {
         return getAllProducts();
     }
@@ -139,7 +138,7 @@ public class ProductAiven {
         return items;
     }
 
-    // ✅ Hàm hỗ trợ để chuyển ResultSet thành Product
+    // Hàm hỗ trợ để chuyển ResultSet thành Product
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         return new Product(
             rs.getString("id"),

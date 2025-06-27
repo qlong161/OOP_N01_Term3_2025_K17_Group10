@@ -48,7 +48,7 @@ public class OrderController {
         return "order_user_list";
     }
 
-    // Thêm đơn hàng mới (dùng overload insertOrder của OrderAiven có tham số userId)
+    // Thêm đơn hàng mới 
     @PostMapping("/add")
 public String addOrder(@RequestParam("orderId") String orderId,
                        @RequestParam("customerId") String customerId,
@@ -56,7 +56,7 @@ public String addOrder(@RequestParam("orderId") String orderId,
                        @RequestParam Map<String, String> allParams,
                        Model model) {
 
-    // ✅ Kiểm tra trùng orderId
+    // Kiểm tra trùng orderId
     if (orderDB.findById(orderId) != null) {
         // Load lại data như showOrdersForUser
         List<Order> orders = orderDB.getOrdersByUserId(userId);
@@ -69,7 +69,7 @@ public String addOrder(@RequestParam("orderId") String orderId,
         model.addAttribute("products", productDB.findAll());
         model.addAttribute("customers", customerDB.getAllCustomers());
 
-        // ✅ Gửi lỗi ra view
+        // Gửi lỗi ra view
         model.addAttribute("errorOrderId", "Mã đơn hàng đã tồn tại. Vui lòng nhập mã khác.");
         return "order_user_list";
     }
