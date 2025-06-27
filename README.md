@@ -311,6 +311,9 @@ VII. LƯU ĐỒ THUẬT TOÁN CỦA CHỨC NĂNG CHÍNH
 
 VIII. CHỨC NĂNG PROJECT
 
+Menu
+
+![Menu](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/menu.jpg)
 
 IX.CÁC THÀNH VIÊN TRONG NHÓM
 1. Nguyễn Hữu Quang Long
