@@ -369,34 +369,34 @@ X. PHÂN CHIA CÔNG VIỆC
 
 | Thành viên            | Nhiệm vụ phụ trách                                                               |
 | --------------------- | -------------------------------------------------------------------------------- |
-| Nguyễn Hữu Quang Long | Viết phương thức lọc đơn hàng theo ngày với trạng thái `"Đã xử lý"`              |
-| Bùi Việt Long         | Viết phương thức tính tổng tiền từ danh sách đơn hàng đã lọc                     |
-| Lê Đức Thương         | Viết phương thức in danh sách đơn hàng và hoàn thiện kiểm thử chức năng tổng thể |
-| Cả nhóm               | Gọi các chức năng con để kết hợp thành chức năng chính của hệ thống              |
+| Nguyễn Hữu Quang Long | Thiết kế và phát triển class Order, User                                         |
+| Bùi Việt Long         | Thiết kế và phát triển class Customer                                            |
+| Lê Đức Thương         | Thiết kế vầ phát triển class Product                                             |
+| Cả nhóm               | Cùng nhau kiểm thử lỗi và hoàn thiện sản phẩm                                    |
 
 XI.GIAO DIỆN
 
-Trang chủ
+# Trang chủ
 
 ![trangchu](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/trangchu.jpg)
 
-Quản lý người dùng
+# Quản lý người dùng
 
 ![quanlynguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlynguoidung.jpg)
 
-Quản lý khách hàng
+# Quản lý khách hàng
 
 ![quanlykhachhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlykhachhang.jpg)
 
-Quản lý đơn hàng
+# Quản lý đơn hàng
 
 ![quanlydonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlydonhang.jpg)
 
-Quản lý kho hàng
+# Quản lý kho hàng
 
 ![quanlykhohang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlykhohang.jpg)
 
-Tạo đơn hàng
+# Tạo đơn hàng
 
 ![taodonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/taodonhang.jpg)
 
