@@ -44,41 +44,61 @@ public class OrderController {
         model.addAttribute("orders", orders);
         model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("products", productDB.findAll());
-        model.addAttribute("customers", customerDB.getAllCustomers()); // ✅ Sửa chỗ này
+        model.addAttribute("customers", customerDB.getAllCustomers());
         return "order_user_list";
     }
 
-    // Thêm đơn hàng mới
+    // Thêm đơn hàng mới (dùng overload insertOrder của OrderAiven có tham số userId)
     @PostMapping("/add")
-    public String addOrder(@RequestParam("orderId") String orderId,
-                           @RequestParam("customerId") String customerId,
-                           @RequestParam("userId") String userId,
-                           @RequestParam Map<String, String> allParams) {
+public String addOrder(@RequestParam("orderId") String orderId,
+                       @RequestParam("customerId") String customerId,
+                       @RequestParam("userId") String userId,
+                       @RequestParam Map<String, String> allParams,
+                       Model model) {
 
-        Customer customer = customerDB.findById(customerId);
-        if (customer == null) return "redirect:/order/user/" + userId;
-
+    // ✅ Kiểm tra trùng orderId
+    if (orderDB.findById(orderId) != null) {
+        // Load lại data như showOrdersForUser
+        List<Order> orders = orderDB.getOrdersByUserId(userId);
+        double totalRevenue = orderDB.calculateTotalRevenueByUserId(userId);
         User user = userDB.findById(userId);
-        Order order = new Order(orderId, customer, user, "New", LocalDateTime.now());
 
-        for (String key : allParams.keySet()) {
-            if (key.startsWith("product_")) {
-                String productId = key.substring("product_".length());
-                try {
-                    int quantity = Integer.parseInt(allParams.get(key));
-                    if (quantity > 0) {
-                        Product product = productDB.findById(productId);
-                        if (product != null) {
-                            order.addProduct(product, quantity);
-                        }
-                    }
-                } catch (NumberFormatException ignored) {}
-            }
-        }
+        model.addAttribute("user", user);
+        model.addAttribute("orders", orders);
+        model.addAttribute("totalRevenue", totalRevenue);
+        model.addAttribute("products", productDB.findAll());
+        model.addAttribute("customers", customerDB.getAllCustomers());
 
-        orderDB.insertOrder(order, userId);
-        return "redirect:/order/user/" + userId;
+        // ✅ Gửi lỗi ra view
+        model.addAttribute("errorOrderId", "Mã đơn hàng đã tồn tại. Vui lòng nhập mã khác.");
+        return "order_user_list";
     }
+
+    // Nếu không trùng -> tiến hành thêm
+    Customer customer = customerDB.findById(customerId);
+    if (customer == null) return "redirect:/order/user/" + userId;
+
+    Order order = new Order(orderId, customer, null, "New", LocalDateTime.now());
+
+    for (String key : allParams.keySet()) {
+        if (key.startsWith("product_")) {
+            String productId = key.substring("product_".length());
+            try {
+                int quantity = Integer.parseInt(allParams.get(key));
+                if (quantity > 0) {
+                    Product product = productDB.findById(productId);
+                    if (product != null) {
+                        order.addProduct(product, quantity);
+                    }
+                }
+            } catch (NumberFormatException ignored) {}
+        }
+    }
+
+    orderDB.insertOrder(order, userId);
+    return "redirect:/order/user/" + userId;
+}
+
 
     // Cập nhật trạng thái đơn hàng
     @PostMapping("/update")
@@ -113,7 +133,7 @@ public class OrderController {
         model.addAttribute("orders", filteredOrders);
         model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("products", productDB.findAll());
-        model.addAttribute("customers", customerDB.getAllCustomers()); // ✅ Sửa chỗ này
+        model.addAttribute("customers", customerDB.getAllCustomers());
         return "order_user_list";
     }
 }

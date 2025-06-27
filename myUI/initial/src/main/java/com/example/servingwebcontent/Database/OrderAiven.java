@@ -14,26 +14,27 @@ public class OrderAiven {
 
     public OrderAiven() {}
 
-    // ✅ PATCH: Overload để hỗ trợ truyền userId trực tiếp
     public void insertOrder(Order order, String userId) {
         if (order.getUser() == null || order.getUser().getId() == null) {
             order.setUser(new User(userId, ""));
         }
-        insertOrder(order); // Gọi lại hàm chính
+        insertOrder(order);
     }
 
-    // Thêm đơn hàng mới cho user
     public void insertOrder(Order order) {
         String insertOrderSQL = "INSERT INTO orders (id, customer_id, user_id, status, date) VALUES (?, ?, ?, ?, ?)";
         String insertItemSQL = "INSERT INTO order_item (order_id, product_id, quantity) VALUES (?, ?, ?)";
+        String updateStockSQL = "UPDATE product SET quantity = quantity - ? WHERE id = ?";
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             PreparedStatement orderStmt = conn.prepareStatement(insertOrderSQL);
-            PreparedStatement itemStmt = conn.prepareStatement(insertItemSQL)
+            PreparedStatement itemStmt = conn.prepareStatement(insertItemSQL);
+            PreparedStatement updateStockStmt = conn.prepareStatement(updateStockSQL)
         ) {
             conn.setAutoCommit(false);
 
+            // 1. Insert Order
             orderStmt.setString(1, order.getOrderId());
             orderStmt.setString(2, order.getCustomer().getId());
             orderStmt.setString(3, order.getUser().getId());
@@ -41,20 +42,28 @@ public class OrderAiven {
             orderStmt.setTimestamp(5, Timestamp.valueOf(order.getDate()));
             orderStmt.executeUpdate();
 
+            // 2. Insert Items + Update Stock
             for (Map.Entry<Product, Integer> entry : order.getItems().entrySet()) {
-                Product product = entry.getKey();
+                String productId = entry.getKey().getId();
                 int quantity = entry.getValue();
 
+                // insert order item
                 itemStmt.setString(1, order.getOrderId());
-                itemStmt.setString(2, product.getId());
+                itemStmt.setString(2, productId);
                 itemStmt.setInt(3, quantity);
                 itemStmt.addBatch();
+
+                // update stock
+                updateStockStmt.setInt(1, quantity);
+                updateStockStmt.setString(2, productId);
+                updateStockStmt.addBatch();
             }
+
             itemStmt.executeBatch();
+            updateStockStmt.executeBatch();
 
             conn.commit();
-            System.out.println("✔ Thêm đơn hàng thành công.");
-
+            System.out.println("✔ Thêm đơn hàng và cập nhật tồn kho thành công.");
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi thêm đơn hàng: " + e.getMessage());
         }
@@ -92,9 +101,10 @@ public class OrderAiven {
                     while (itemRs.next()) {
                         String productId = itemRs.getString("product_id");
                         int quantity = itemRs.getInt("quantity");
-
                         Product product = productAiven.findById(productId);
-                        order.addProduct(product, quantity);
+                        if (product != null) {
+                            order.addProduct(product, quantity);
+                        }
                     }
                 }
 
@@ -127,7 +137,6 @@ public class OrderAiven {
 
             conn.commit();
             System.out.println("✔ Xoá đơn hàng thành công.");
-
         } catch (Exception e) {
             System.err.println("❌ Lỗi xoá đơn hàng: " + e.getMessage());
         }
@@ -149,26 +158,74 @@ public class OrderAiven {
     }
 
     public double calculateTotalRevenueByUserId(String userId) {
-        double total = 0;
-        String sql = "SELECT SUM(p.price * oi.quantity) as revenue " +
-                     "FROM orders o " +
-                     "JOIN order_item oi ON o.id = oi.order_id " +
-                     "JOIN product p ON oi.product_id = p.id " +
-                     "WHERE o.user_id = ?";
+    double total = 0;
+    String sql = "SELECT SUM(p.price * oi.quantity) AS revenue " +
+                 "FROM orders o " +
+                 "JOIN order_item oi ON o.id = oi.order_id " +
+                 "JOIN product p ON oi.product_id = p.id " +
+                 "WHERE o.user_id = ? AND o.status = 'đã xử lý'";
+
+    try (
+        Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        PreparedStatement stmt = conn.prepareStatement(sql)
+    ) {
+        stmt.setString(1, userId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            total = rs.getDouble("revenue");
+        }
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi tính doanh thu: " + e.getMessage());
+    }
+
+    return total;
+}
+
+
+    public Order findById(String orderId) {
+        String orderSQL = "SELECT * FROM orders WHERE id = ?";
+        String itemSQL = "SELECT * FROM order_item WHERE order_id = ?";
+        Order order = null;
 
         try (
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            PreparedStatement stmt = conn.prepareStatement(sql)
+            PreparedStatement orderStmt = conn.prepareStatement(orderSQL)
         ) {
-            stmt.setString(1, userId);
-            ResultSet rs = stmt.executeQuery();
+            orderStmt.setString(1, orderId);
+            ResultSet rs = orderStmt.executeQuery();
+
+            CustomerAiven customerAiven = new CustomerAiven();
+            ProductAiven productAiven = new ProductAiven();
+
             if (rs.next()) {
-                total = rs.getDouble("revenue");
+                String customerId = rs.getString("customer_id");
+                String userId = rs.getString("user_id");
+                String status = rs.getString("status");
+                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+
+                Customer customer = customerAiven.findById(customerId);
+                User user = new User(userId, "");
+                order = new Order(orderId, customer, user, status, date);
+
+                try (PreparedStatement itemStmt = conn.prepareStatement(itemSQL)) {
+                    itemStmt.setString(1, orderId);
+                    ResultSet itemRs = itemStmt.executeQuery();
+
+                    while (itemRs.next()) {
+                        String productId = itemRs.getString("product_id");
+                        int quantity = itemRs.getInt("quantity");
+                        Product product = productAiven.findById(productId);
+                        if (product != null) {
+                            order.addProduct(product, quantity);
+                        }
+                    }
+                }
             }
+
         } catch (Exception e) {
-            System.err.println("❌ Lỗi tính doanh thu: " + e.getMessage());
+            System.err.println("❌ Lỗi khi tìm đơn hàng theo ID: " + e.getMessage());
         }
 
-        return total;
+        return order;
     }
 }

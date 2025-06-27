@@ -104,6 +104,13 @@
     <!-- Form thêm đơn hàng -->
     <div class="border p-4 rounded bg-light mt-4">
         <h5 class="text-success"><i class="bi bi-plus-circle"></i> Thêm đơn hàng mới</h5>
+
+    <!-- Hiển thị thông báo nếu trùng mã đơn hàng -->
+    <div th:if="${errorOrderId}" class="alert alert-danger">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <span th:text="${errorOrderId}">Mã đơn hàng đã tồn tại. Vui lòng nhập mã khác.</span>
+    </div>
+
         <form method="post" action="/order/add">
             <input type="hidden" name="userId" th:value="${user.id}" />
             <div class="row mb-3">
