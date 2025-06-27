@@ -315,6 +315,50 @@ Menu
 
 ![Menu](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/menu.jpg)
 
+Thêm người dùng
+
+![themguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/themnguoidug.jpg)
+
+Xóa người dùng
+
+![xoanguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/xoanguoidung.jpg)
+
+Sửa thông tin người dùng
+
+![suathongtinnguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/suathongtinnguoidung.jpg)
+
+Hiển thị danh sách người dùng
+
+![hienthidanhsachnguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/hienthidanhsachnguoidung.jpg)
+
+Quản lý đơn hàng người dùng
+
+![quanlydonhangnguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlydonhangnguoidung.jpg)
+
+Thêm đơn hàng
+
+![themdonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/themdonhang.jpg)
+
+Xóa đơn hàng
+
+![xoadonhang](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/xoadonhang.jpg)
+
+Quản lý đơn hàng người dùng
+
+![quanlydonhangnguoidung](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/quanlydonhangnguoidung.jpg)
+
+Hiển thị danh sách đơn hàng
+
+![hienthidanhsachdonhangg](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/hienthidanhsachdonhangg.jpg)
+
+In đơn hàng theo trạng thái
+
+![indonhangtheotrangthai](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/indonhangtheotrangthai.jpg)
+
+Hiện tổng doanh thu
+
+![hientongdoanhthu](https://raw.githubusercontent.com/qlong161/OOP_N01_Term3_2025_K17_Group10/refs/heads/main/Images/hientongdoanhthu.jpg)
+
 IX.CÁC THÀNH VIÊN TRONG NHÓM
 1. Nguyễn Hữu Quang Long
 2. Bùi Việt Long
