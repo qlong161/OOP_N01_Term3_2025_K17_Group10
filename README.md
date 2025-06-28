@@ -79,9 +79,7 @@ III. CÔNG NGHỆ ĐÃ SỬ DỤNG:
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 3. Database: CSDL quan hệ để lưu trữ đơn hàng, sản phẩm, khách hàng...
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-4. Testing: Dùng để kiểm thử đơn vị (unit test) trong Java
-![JUnit](https://img.shields.io/badge/JUnit-25A162?style=for-the-badge&logo=java&logoColor=white)
-5. Build Tool: Quản lý thư viện và biên dịch dự án
+4. Build Tool: Quản lý thư viện và biên dịch dự án
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
 
 IV. CẤU TRÚC DỰ ÁN
