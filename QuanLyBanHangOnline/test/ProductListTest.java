@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+import ObjectGeneral.Product;
+import ObjectList.ProductList;
+
 public class ProductListTest {
     private static Scanner sc = new Scanner(System.in);
     private static ProductList productList = new ProductList();

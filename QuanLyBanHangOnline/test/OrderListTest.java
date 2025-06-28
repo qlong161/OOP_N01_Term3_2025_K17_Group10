@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+import ObjectGeneral.Customer;
+import ObjectGeneral.Order;
+import ObjectGeneral.Product;
+import ObjectList.CustomerList;
+import ObjectList.OrderList;
+import ObjectList.ProductList;
+
 public class OrderListTest {
     private static CustomerList customerList = new CustomerList();
     private static ProductList productList = new ProductList();

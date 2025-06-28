@@ -1,3 +1,5 @@
+import ObjectGeneral.Product;
+
 public class TestProduct {
     public static void test() {
         try {

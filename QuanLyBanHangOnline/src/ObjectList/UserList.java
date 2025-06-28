@@ -1,5 +1,8 @@
+package ObjectList;
 import java.util.ArrayList;
 import java.util.List;
+
+import ObjectGeneral.User;
 
 public class UserList {
     private List<User> users = new ArrayList<>();

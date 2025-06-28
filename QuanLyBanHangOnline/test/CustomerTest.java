@@ -1,3 +1,5 @@
+import ObjectGeneral.Customer;
+
 public class CustomerTest {
     public static void test() {
         try {

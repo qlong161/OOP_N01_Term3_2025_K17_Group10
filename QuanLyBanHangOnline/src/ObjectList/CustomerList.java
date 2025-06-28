@@ -1,5 +1,8 @@
+package ObjectList;
 import java.util.HashMap;
 import java.util.Map;
+
+import ObjectGeneral.Customer;
 
 public class CustomerList {
     private Map<String, Customer> cl = new HashMap<>();

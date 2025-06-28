@@ -1,3 +1,5 @@
+package ObjectGeneral;
+import ObjectList.OrderList;
 public class User {
     private String maUser;
     private String tenUser;

@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+import ObjectGeneral.User;
+import ObjectList.CustomerList;
+import ObjectList.ProductList;
+import ObjectList.UserList;
+
 public class UserListTest {
     private static final UserList userList = new UserList();
     private static final CustomerList customerList = new CustomerList();

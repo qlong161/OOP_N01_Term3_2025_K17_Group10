@@ -1,6 +1,10 @@
+package ObjectList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import ObjectGeneral.Customer;
+import ObjectGeneral.Order;
 
 public class OrderList {
     private ArrayList<Order> ords = new ArrayList<>();
