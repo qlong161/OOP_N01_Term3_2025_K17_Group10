@@ -1,12 +1,6 @@
 # QUẢN LÝ BÁN HÀNG CHO TIỂU THƯƠNG NHỎ LẺ
 
 
-
-
-![Spring Boot + Java Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/512px-Spring_Framework_Logo_2018.svg.png)
-
-
-
 I. GIỚI THIỆU
 Ứng dụng hướng đến việc đơn giản hóa công tác quản lý cho các tiểu thương nhỏ lẻ:
 - Quản lý tồn kho
