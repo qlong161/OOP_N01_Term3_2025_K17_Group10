@@ -78,7 +78,7 @@ III. CÔNG NGHỆ ĐÃ SỬ DỤNG:
 2. Backend: Framework chính để phát triển ứng dụng web (theo kiến trúc MVC)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 3. Database: CSDL quan hệ để lưu trữ đơn hàng, sản phẩm, khách hàng...
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 4. Build Tool: Quản lý thư viện và biên dịch dự án
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
 
